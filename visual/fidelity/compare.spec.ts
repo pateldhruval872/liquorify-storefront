@@ -9,8 +9,11 @@ import {
 } from "@playwright/test";
 
 /**
- * The pilot's fidelity check (LIQ-010 §12.1): each story beside the same
- * component on the running storefront, in the same browser.
+ * The pilot's diagnostic comparison with the running storefront (LIQ-010
+ * §12.1): each story beside the same component on the running storefront, in
+ * the same browser. It gathers evidence for a person to review and passes
+ * whenever it can capture both sides, so a successful run alone does not
+ * establish that a story matches its screen.
  *
  * Before running, start at the revision under test:
  *   1. a Spree backend with a publishable key, a product listed on the key's
@@ -20,15 +23,18 @@ import {
  *   3. the built Storybook on port 6008
  *      (`node stories/scripts/serve.mjs storybook-static 6008`).
  *
- * Set `FIDELITY_PRODUCT` to the listed product's slug. For each case it saves
- * both images side by side, and the computed styles that differ between the
- * two, to `visual/fidelity/results/`. The data differs on purpose: the screen
- * shows the backend's product and the stories show invented ones.
+ * Set `FIDELITY_PRODUCT` to the listed product's slug, and `FIDELITY_REVISION`
+ * to the commit under test to record it in each file. For each case it saves
+ * both images side by side, and the computed styles of both sides with the
+ * differences between them, to `visual/fidelity/results/`. The data differs on
+ * purpose: the screen shows the backend's product and the stories show
+ * invented ones.
  */
 
 const STORYBOOK = "http://localhost:6008";
 const STOREFRONT = "http://localhost:3001";
 const product = process.env.FIDELITY_PRODUCT ?? "e2e-promo-product";
+const revision = process.env.FIDELITY_REVISION ?? null;
 const results = path.join(__dirname, "results/");
 const fontsFolder = path.join(__dirname, "../fonts");
 
@@ -391,6 +397,7 @@ test("tokens on the running storefront and in Storybook", async ({
     `${results}tokens/desktop.json`,
     JSON.stringify(
       {
+        revision,
         counts: { storefront: onScreen.length, storybook: inStory.length },
         differing: names
           .filter((name) => screen[name] !== story[name])
@@ -449,9 +456,11 @@ for (const item of cases) {
             id: item.id,
             story: item.story,
             mode: mode.name,
+            revision,
             screenWidth,
             storyWidth,
             ...compareStyles(screenStyles, storyStyles),
+            styles: { screen: screenStyles, story: storyStyles },
           },
           null,
           2,
