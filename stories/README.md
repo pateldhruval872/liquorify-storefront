@@ -41,3 +41,9 @@ No Spree server is needed: the server actions the providers call are replaced wi
 Reference images live in `visual/__screenshots__/<story id>/<mode>.png`. Modes are `mobile` (390 pixels) and `desktop` (1280 pixels), in light, plus `desktop-system-dark` for stories tagged `system-dark`. They change only in a pull request, where the owner reviews each image before merging. CI never writes or accepts one.
 
 To add or change references, build the Storybook, then either run `pnpm visual:update` with Docker, or download the `visual-failures` artifact from the pull request's Storybook run and run `pnpm visual:copy <folder>` after looking at the images. Commit the images, and list in the pull request which ones changed and why.
+
+`pnpm visual:update` rewrites only the images that fail the comparison, and the comparison tolerates small colour differences in each pixel. After a change to something every story shares, rewrite them all with `sh visual/in-image.sh --update-snapshots=all`.
+
+## Compare with the running storefront
+
+`visual/fidelity/compare.spec.ts` opens chosen stories beside the same components on the built storefront, and saves both images and every computed style that differs to `visual/fidelity/results/`. It needs a Spree backend, the built storefront and the built Storybook running; the steps are at the top of the file. Run it in the pinned image, as `visual/in-image.sh` does, with `--network host` and `--config visual/fidelity/playwright.config.ts`. It only reads the pages, and its results are evidence for a review, not references.

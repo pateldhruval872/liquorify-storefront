@@ -4,7 +4,11 @@ import { CartDrawer } from "../../src/components/cart/CartDrawer";
 import { useCart } from "../../src/contexts/CartContext";
 import { cartWithItems, emptyCart } from "../fixtures/cart";
 
-/** The drawer opens from the header's cart button; here it opens on mount. */
+/**
+ * The drawer opens from the header's cart button; here it opens on mount. As
+ * when a shopper opens it from the keyboard, focus moves to the close button
+ * and its focus ring shows. Opened with a click, the ring is not drawn.
+ */
 function OpenCartDrawer() {
   const { openCart } = useCart();
   useEffect(() => {
