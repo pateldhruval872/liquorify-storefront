@@ -13,7 +13,12 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Default: Story = { args: { children: "Add all to cart" } };
+
+export const Planted: Story = {
+  name: "Planted, no reference",
+  args: { variant: "outline" },
+};
 
 export const Outline: Story = { args: { variant: "outline" } };
 
