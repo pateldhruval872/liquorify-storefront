@@ -2,7 +2,7 @@
 
 ## Liquorify
 
-This repository is Liquorify's customer storefront, built on the Spree storefront. Shared Liquorify engineering documentation (the draft framework, project profile, baseline and backlog) lives in the backend repository at [`liquorify/README.md`](https://github.com/pateldhruval872/liquorify/blob/main/liquorify/README.md). Read it before Liquorify work. This file stays the rule set for this repository. This repository is private and the backend is public, so keep private storefront details out of the shared documentation.
+This repository is Liquorify's customer storefront, built on the Spree storefront. Shared Liquorify engineering documentation (the draft framework, project profile, baseline and backlog) lives in the backend repository at [`liquorify/README.md`](https://github.com/pateldhruval872/liquorify/blob/main/liquorify/README.md). Read it before Liquorify work. This file stays the rule set for this repository. This repository and the backend are both public (this one since 2026-10-21, which the owner chose to keep), so never commit credentials, personal data or machine paths to either.
 
 ## Project Overview
 
