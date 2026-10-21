@@ -42,7 +42,7 @@ Reference images live in `visual/__screenshots__/<story id>/<mode>.png`. Modes a
 
 To add or change references, build the Storybook, then either run `pnpm visual:update` with Docker, or download the `visual-failures` artifact from the pull request's Storybook run and run `pnpm visual:copy <folder>` after looking at the images. Commit the images, and list in the pull request which ones changed and why.
 
-`pnpm visual:update` rewrites only the images that fail the comparison, and the comparison tolerates small colour differences in each pixel. After a change to something every story shares, rewrite them all with `sh visual/in-image.sh --update-snapshots=all`.
+`pnpm visual:update` rewrites only the images that fail the comparison. The comparison counts a pixel whose colour moves by about 2 of 255 levels, and allows 25 such pixels in an image, the same setting as the backend's ([the measurements](https://github.com/pateldhruval872/liquorify/blob/main/liquorify/verification/2026-10-21-fb-19-screenshot-tolerance.md), once [#6](https://github.com/pateldhruval872/liquorify/pull/6) merges). A change smaller than that passes without rewriting any image. After a change to something every story shares, rewrite them all with `sh visual/in-image.sh --update-snapshots=all`.
 
 ## Compare with the running storefront
 
