@@ -1,0 +1,1482 @@
+{
+  "generatedFrom": "liquorify/LIQ-009-spree-component-and-token-inventory.md",
+  "inventoryVersion": "0.3-draft",
+  "components": [
+    {
+      "id": "CMP-SF-P-01",
+      "system": "storefront",
+      "name": "alert-dialog",
+      "file": "src/components/ui/alert-dialog.tsx"
+    },
+    {
+      "id": "CMP-SF-P-02",
+      "system": "storefront",
+      "name": "alert",
+      "file": "src/components/ui/alert.tsx"
+    },
+    {
+      "id": "CMP-SF-P-03",
+      "system": "storefront",
+      "name": "badge",
+      "file": "src/components/ui/badge.tsx"
+    },
+    {
+      "id": "CMP-SF-P-04",
+      "system": "storefront",
+      "name": "button",
+      "file": "src/components/ui/button.tsx"
+    },
+    {
+      "id": "CMP-SF-P-05",
+      "system": "storefront",
+      "name": "card",
+      "file": "src/components/ui/card.tsx"
+    },
+    {
+      "id": "CMP-SF-P-06",
+      "system": "storefront",
+      "name": "category-image",
+      "file": "src/components/ui/category-image.tsx"
+    },
+    {
+      "id": "CMP-SF-P-07",
+      "system": "storefront",
+      "name": "checkbox",
+      "file": "src/components/ui/checkbox.tsx"
+    },
+    {
+      "id": "CMP-SF-P-08",
+      "system": "storefront",
+      "name": "dialog",
+      "file": "src/components/ui/dialog.tsx"
+    },
+    {
+      "id": "CMP-SF-P-09",
+      "system": "storefront",
+      "name": "dropdown-menu",
+      "file": "src/components/ui/dropdown-menu.tsx"
+    },
+    {
+      "id": "CMP-SF-P-10",
+      "system": "storefront",
+      "name": "field",
+      "file": "src/components/ui/field.tsx"
+    },
+    {
+      "id": "CMP-SF-P-11",
+      "system": "storefront",
+      "name": "input-group",
+      "file": "src/components/ui/input-group.tsx"
+    },
+    {
+      "id": "CMP-SF-P-12",
+      "system": "storefront",
+      "name": "input",
+      "file": "src/components/ui/input.tsx"
+    },
+    {
+      "id": "CMP-SF-P-13",
+      "system": "storefront",
+      "name": "label",
+      "file": "src/components/ui/label.tsx"
+    },
+    {
+      "id": "CMP-SF-P-14",
+      "system": "storefront",
+      "name": "native-select",
+      "file": "src/components/ui/native-select.tsx"
+    },
+    {
+      "id": "CMP-SF-P-15",
+      "system": "storefront",
+      "name": "popover",
+      "file": "src/components/ui/popover.tsx"
+    },
+    {
+      "id": "CMP-SF-P-16",
+      "system": "storefront",
+      "name": "product-image",
+      "file": "src/components/ui/product-image.tsx"
+    },
+    {
+      "id": "CMP-SF-P-17",
+      "system": "storefront",
+      "name": "quantity-picker",
+      "file": "src/components/ui/quantity-picker.tsx"
+    },
+    {
+      "id": "CMP-SF-P-18",
+      "system": "storefront",
+      "name": "radio-group",
+      "file": "src/components/ui/radio-group.tsx"
+    },
+    {
+      "id": "CMP-SF-P-19",
+      "system": "storefront",
+      "name": "separator",
+      "file": "src/components/ui/separator.tsx"
+    },
+    {
+      "id": "CMP-SF-P-20",
+      "system": "storefront",
+      "name": "sheet",
+      "file": "src/components/ui/sheet.tsx"
+    },
+    {
+      "id": "CMP-SF-P-21",
+      "system": "storefront",
+      "name": "sonner",
+      "file": "src/components/ui/sonner.tsx"
+    },
+    {
+      "id": "CMP-SF-P-22",
+      "system": "storefront",
+      "name": "textarea",
+      "file": "src/components/ui/textarea.tsx"
+    },
+    {
+      "id": "CMP-SF-G-01",
+      "system": "storefront",
+      "name": "AccountShell",
+      "file": "src/components/account/AccountShell.tsx"
+    },
+    {
+      "id": "CMP-SF-G-01",
+      "system": "storefront",
+      "name": "AuthenticatedAccountShell",
+      "file": "src/components/account/AuthenticatedAccountShell.tsx"
+    },
+    {
+      "id": "CMP-SF-G-01",
+      "system": "storefront",
+      "name": "CreditCardList",
+      "file": "src/components/account/CreditCardList.tsx"
+    },
+    {
+      "id": "CMP-SF-G-01",
+      "system": "storefront",
+      "name": "GiftCardList",
+      "file": "src/components/account/GiftCardList.tsx"
+    },
+    {
+      "id": "CMP-SF-G-01",
+      "system": "storefront",
+      "name": "OrderDetail",
+      "file": "src/components/account/OrderDetail.tsx"
+    },
+    {
+      "id": "CMP-SF-G-01",
+      "system": "storefront",
+      "name": "OrderList",
+      "file": "src/components/account/OrderList.tsx"
+    },
+    {
+      "id": "CMP-SF-G-02",
+      "system": "storefront",
+      "name": "AddressManagement",
+      "file": "src/components/addresses/AddressManagement.tsx"
+    },
+    {
+      "id": "CMP-SF-G-03",
+      "system": "storefront",
+      "name": "CartDrawer",
+      "file": "src/components/cart/CartDrawer.tsx"
+    },
+    {
+      "id": "CMP-SF-G-03",
+      "system": "storefront",
+      "name": "QuantityPickerField",
+      "file": "src/components/cart/QuantityPickerField.tsx"
+    },
+    {
+      "id": "CMP-SF-G-04",
+      "system": "storefront",
+      "name": "AddressEditModal",
+      "file": "src/components/checkout/AddressEditModal.tsx"
+    },
+    {
+      "id": "CMP-SF-G-04",
+      "system": "storefront",
+      "name": "AddressFormFields",
+      "file": "src/components/checkout/AddressFormFields.tsx"
+    },
+    {
+      "id": "CMP-SF-G-04",
+      "system": "storefront",
+      "name": "AddressSection",
+      "file": "src/components/checkout/AddressSection.tsx"
+    },
+    {
+      "id": "CMP-SF-G-04",
+      "system": "storefront",
+      "name": "AddressSelector",
+      "file": "src/components/checkout/AddressSelector.tsx"
+    },
+    {
+      "id": "CMP-SF-G-04",
+      "system": "storefront",
+      "name": "AdyenPaymentForm",
+      "file": "src/components/checkout/AdyenPaymentForm.tsx"
+    },
+    {
+      "id": "CMP-SF-G-04",
+      "system": "storefront",
+      "name": "CouponCode",
+      "file": "src/components/checkout/CouponCode.tsx"
+    },
+    {
+      "id": "CMP-SF-G-04",
+      "system": "storefront",
+      "name": "DeliveryMethodSection",
+      "file": "src/components/checkout/DeliveryMethodSection.tsx"
+    },
+    {
+      "id": "CMP-SF-G-04",
+      "system": "storefront",
+      "name": "ExpressCheckoutButton",
+      "file": "src/components/checkout/ExpressCheckoutButton.tsx"
+    },
+    {
+      "id": "CMP-SF-G-04",
+      "system": "storefront",
+      "name": "PayPalPaymentForm",
+      "file": "src/components/checkout/PayPalPaymentForm.tsx"
+    },
+    {
+      "id": "CMP-SF-G-04",
+      "system": "storefront",
+      "name": "PaymentSection",
+      "file": "src/components/checkout/PaymentSection.tsx"
+    },
+    {
+      "id": "CMP-SF-G-04",
+      "system": "storefront",
+      "name": "StripePaymentForm",
+      "file": "src/components/checkout/StripePaymentForm.tsx"
+    },
+    {
+      "id": "CMP-SF-G-04",
+      "system": "storefront",
+      "name": "Summary",
+      "file": "src/components/checkout/Summary.tsx"
+    },
+    {
+      "id": "CMP-SF-G-05",
+      "system": "storefront",
+      "name": "FeaturedProductsSection",
+      "file": "src/components/home/FeaturedProductsSection.tsx"
+    },
+    {
+      "id": "CMP-SF-G-05",
+      "system": "storefront",
+      "name": "HeroSection",
+      "file": "src/components/home/HeroSection.tsx"
+    },
+    {
+      "id": "CMP-SF-G-05",
+      "system": "storefront",
+      "name": "WholesaleSection",
+      "file": "src/components/home/WholesaleSection.tsx"
+    },
+    {
+      "id": "CMP-SF-G-06",
+      "system": "storefront",
+      "name": "CartButton",
+      "file": "src/components/layout/CartButton.tsx"
+    },
+    {
+      "id": "CMP-SF-G-06",
+      "system": "storefront",
+      "name": "CurrentYear",
+      "file": "src/components/layout/CurrentYear.tsx"
+    },
+    {
+      "id": "CMP-SF-G-06",
+      "system": "storefront",
+      "name": "DocumentShell",
+      "file": "src/components/layout/DocumentShell.tsx"
+    },
+    {
+      "id": "CMP-SF-G-06",
+      "system": "storefront",
+      "name": "Footer",
+      "file": "src/components/layout/Footer.tsx"
+    },
+    {
+      "id": "CMP-SF-G-06",
+      "system": "storefront",
+      "name": "Header",
+      "file": "src/components/layout/Header.tsx"
+    },
+    {
+      "id": "CMP-SF-G-06",
+      "system": "storefront",
+      "name": "MobileMenu",
+      "file": "src/components/layout/MobileMenu.tsx"
+    },
+    {
+      "id": "CMP-SF-G-06",
+      "system": "storefront",
+      "name": "RegionPreferences",
+      "file": "src/components/layout/RegionPreferences.tsx"
+    },
+    {
+      "id": "CMP-SF-G-06",
+      "system": "storefront",
+      "name": "SearchToggle",
+      "file": "src/components/layout/SearchToggle.tsx"
+    },
+    {
+      "id": "CMP-SF-G-07",
+      "system": "storefront",
+      "name": "Breadcrumbs",
+      "file": "src/components/navigation/Breadcrumbs.tsx"
+    },
+    {
+      "id": "CMP-SF-G-08",
+      "system": "storefront",
+      "name": "AddressBlock",
+      "file": "src/components/order/AddressBlock.tsx"
+    },
+    {
+      "id": "CMP-SF-G-08",
+      "system": "storefront",
+      "name": "FulfillmentBlock",
+      "file": "src/components/order/FulfillmentBlock.tsx"
+    },
+    {
+      "id": "CMP-SF-G-08",
+      "system": "storefront",
+      "name": "LineItemCard",
+      "file": "src/components/order/LineItemCard.tsx"
+    },
+    {
+      "id": "CMP-SF-G-08",
+      "system": "storefront",
+      "name": "OrderTotals",
+      "file": "src/components/order/OrderTotals.tsx"
+    },
+    {
+      "id": "CMP-SF-G-08",
+      "system": "storefront",
+      "name": "PaymentInfo",
+      "file": "src/components/order/PaymentInfo.tsx"
+    },
+    {
+      "id": "CMP-SF-G-09",
+      "system": "storefront",
+      "name": "PolicyConsent",
+      "file": "src/components/policy/PolicyConsent.tsx"
+    },
+    {
+      "id": "CMP-SF-G-10",
+      "system": "storefront",
+      "name": "FeaturedProducts",
+      "file": "src/components/products/FeaturedProducts.tsx"
+    },
+    {
+      "id": "CMP-SF-G-10",
+      "system": "storefront",
+      "name": "HiddenPricePrompt",
+      "file": "src/components/products/HiddenPricePrompt.tsx"
+    },
+    {
+      "id": "CMP-SF-G-10",
+      "system": "storefront",
+      "name": "InfiniteProductList",
+      "file": "src/components/products/InfiniteProductList.tsx"
+    },
+    {
+      "id": "CMP-SF-G-10",
+      "system": "storefront",
+      "name": "ListingAnalytics",
+      "file": "src/components/products/ListingAnalytics.tsx"
+    },
+    {
+      "id": "CMP-SF-G-10",
+      "system": "storefront",
+      "name": "ListingFilterBar",
+      "file": "src/components/products/ListingFilterBar.tsx"
+    },
+    {
+      "id": "CMP-SF-G-10",
+      "system": "storefront",
+      "name": "MediaGallery",
+      "file": "src/components/products/MediaGallery.tsx"
+    },
+    {
+      "id": "CMP-SF-G-10",
+      "system": "storefront",
+      "name": "MediaLightbox",
+      "file": "src/components/products/MediaLightbox.tsx"
+    },
+    {
+      "id": "CMP-SF-G-10",
+      "system": "storefront",
+      "name": "ProductCard",
+      "file": "src/components/products/ProductCard.tsx"
+    },
+    {
+      "id": "CMP-SF-G-10",
+      "system": "storefront",
+      "name": "ProductCardSkeleton",
+      "file": "src/components/products/ProductCardSkeleton.tsx"
+    },
+    {
+      "id": "CMP-SF-G-10",
+      "system": "storefront",
+      "name": "ProductCarousel",
+      "file": "src/components/products/ProductCarousel.tsx"
+    },
+    {
+      "id": "CMP-SF-G-10",
+      "system": "storefront",
+      "name": "ProductCustomFields",
+      "file": "src/components/products/ProductCustomFields.tsx"
+    },
+    {
+      "id": "CMP-SF-G-10",
+      "system": "storefront",
+      "name": "ProductGrid",
+      "file": "src/components/products/ProductGrid.tsx"
+    },
+    {
+      "id": "CMP-SF-G-10",
+      "system": "storefront",
+      "name": "ProductGridSkeleton",
+      "file": "src/components/products/ProductGridSkeleton.tsx"
+    },
+    {
+      "id": "CMP-SF-G-10",
+      "system": "storefront",
+      "name": "ProductListing",
+      "file": "src/components/products/ProductListing.tsx"
+    },
+    {
+      "id": "CMP-SF-G-10",
+      "system": "storefront",
+      "name": "ProductListingSkeleton",
+      "file": "src/components/products/ProductListingSkeleton.tsx"
+    },
+    {
+      "id": "CMP-SF-G-10",
+      "system": "storefront",
+      "name": "VariantPicker",
+      "file": "src/components/products/VariantPicker.tsx"
+    },
+    {
+      "id": "CMP-SF-G-10",
+      "system": "storefront",
+      "name": "AvailabilityDropdownContent",
+      "file": "src/components/products/filters/AvailabilityDropdownContent.tsx"
+    },
+    {
+      "id": "CMP-SF-G-10",
+      "system": "storefront",
+      "name": "FilterBarSkeleton",
+      "file": "src/components/products/filters/FilterBarSkeleton.tsx"
+    },
+    {
+      "id": "CMP-SF-G-10",
+      "system": "storefront",
+      "name": "FilterChips",
+      "file": "src/components/products/filters/FilterChips.tsx"
+    },
+    {
+      "id": "CMP-SF-G-10",
+      "system": "storefront",
+      "name": "FilterDropdown",
+      "file": "src/components/products/filters/FilterDropdown.tsx"
+    },
+    {
+      "id": "CMP-SF-G-10",
+      "system": "storefront",
+      "name": "MobileFilterDrawer",
+      "file": "src/components/products/filters/MobileFilterDrawer.tsx"
+    },
+    {
+      "id": "CMP-SF-G-10",
+      "system": "storefront",
+      "name": "OptionDropdownContent",
+      "file": "src/components/products/filters/OptionDropdownContent.tsx"
+    },
+    {
+      "id": "CMP-SF-G-10",
+      "system": "storefront",
+      "name": "PriceDropdownContent",
+      "file": "src/components/products/filters/PriceDropdownContent.tsx"
+    },
+    {
+      "id": "CMP-SF-G-10",
+      "system": "storefront",
+      "name": "ProductFilters",
+      "file": "src/components/products/filters/ProductFilters.tsx"
+    },
+    {
+      "id": "CMP-SF-G-10",
+      "system": "storefront",
+      "name": "SortDropdownContent",
+      "file": "src/components/products/filters/SortDropdownContent.tsx"
+    },
+    {
+      "id": "CMP-SF-G-11",
+      "system": "storefront",
+      "name": "SearchBar",
+      "file": "src/components/search/SearchBar.tsx"
+    },
+    {
+      "id": "CMP-SF-G-12",
+      "system": "storefront",
+      "name": "JsonLd",
+      "file": "src/components/seo/JsonLd.tsx"
+    },
+    {
+      "id": "CMP-SF-PG-01",
+      "system": "storefront",
+      "name": "CheckoutPageContent",
+      "file": "src/app/[country]/[locale]/(checkout)/checkout/[id]/CheckoutPageContent.tsx"
+    },
+    {
+      "id": "CMP-SF-PG-02",
+      "system": "storefront",
+      "name": "CheckoutSidebar",
+      "file": "src/app/[country]/[locale]/(checkout)/checkout/[id]/CheckoutSidebar.tsx"
+    },
+    {
+      "id": "CMP-SF-PG-03",
+      "system": "storefront",
+      "name": "CategoryBanner",
+      "file": "src/app/[country]/[locale]/(storefront)/c/[...permalink]/CategoryBanner.tsx"
+    },
+    {
+      "id": "CMP-SF-PG-04",
+      "system": "storefront",
+      "name": "ProductDetails",
+      "file": "src/app/[country]/[locale]/(storefront)/products/[slug]/ProductDetails.tsx"
+    },
+    {
+      "id": "CMP-SF-PG-05",
+      "system": "storefront",
+      "name": "WholesaleApplicationPending",
+      "file": "src/app/[country]/[locale]/(wholesale)/wholesale/_components/WholesaleApplicationPending.tsx"
+    },
+    {
+      "id": "CMP-SF-PG-06",
+      "system": "storefront",
+      "name": "WholesaleGate",
+      "file": "src/app/[country]/[locale]/(wholesale)/wholesale/_components/WholesaleGate.tsx"
+    },
+    {
+      "id": "CMP-SF-PG-07",
+      "system": "storefront",
+      "name": "WholesaleGuestBrowse",
+      "file": "src/app/[country]/[locale]/(wholesale)/wholesale/_components/WholesaleGuestBrowse.tsx"
+    },
+    {
+      "id": "CMP-SF-PG-08",
+      "system": "storefront",
+      "name": "WholesaleHeader",
+      "file": "src/app/[country]/[locale]/(wholesale)/wholesale/_components/WholesaleHeader.tsx"
+    },
+    {
+      "id": "CMP-SF-PG-09",
+      "system": "storefront",
+      "name": "WholesaleSignInWall",
+      "file": "src/app/[country]/[locale]/(wholesale)/wholesale/_components/WholesaleSignInWall.tsx"
+    },
+    {
+      "id": "CMP-SF-PG-10",
+      "system": "storefront",
+      "name": "WholesaleCartView",
+      "file": "src/app/[country]/[locale]/(wholesale)/wholesale/cart/WholesaleCartView.tsx"
+    },
+    {
+      "id": "CMP-SF-PG-11",
+      "system": "storefront",
+      "name": "QuickOrderView",
+      "file": "src/app/[country]/[locale]/(wholesale)/wholesale/quick-order/QuickOrderView.tsx"
+    },
+    {
+      "id": "CMP-SF-PG-12",
+      "system": "storefront",
+      "name": "SkuCombobox",
+      "file": "src/app/[country]/[locale]/(wholesale)/wholesale/quick-order/SkuCombobox.tsx"
+    },
+    {
+      "id": "CMP-SF-PG-13",
+      "system": "storefront",
+      "name": "global-error",
+      "file": "src/app/global-error.tsx"
+    }
+  ],
+  "tokens": [
+    {
+      "id": "TK-SF-001",
+      "system": "storefront",
+      "name": "--background",
+      "family": "Surface",
+      "light": "oklch(1 0 0)",
+      "dark": "oklch(0.145 0 0)"
+    },
+    {
+      "id": "TK-SF-002",
+      "system": "storefront",
+      "name": "--foreground",
+      "family": "Surface",
+      "light": "oklch(0.145 0 0)",
+      "dark": "oklch(0.985 0 0)"
+    },
+    {
+      "id": "TK-SF-003",
+      "system": "storefront",
+      "name": "--card",
+      "family": "Surface",
+      "light": "oklch(1 0 0)",
+      "dark": "oklch(0.205 0 0)"
+    },
+    {
+      "id": "TK-SF-004",
+      "system": "storefront",
+      "name": "--card-foreground",
+      "family": "Surface",
+      "light": "oklch(0.145 0 0)",
+      "dark": "oklch(0.985 0 0)"
+    },
+    {
+      "id": "TK-SF-005",
+      "system": "storefront",
+      "name": "--popover",
+      "family": "Surface",
+      "light": "oklch(1 0 0)",
+      "dark": "oklch(0.205 0 0)"
+    },
+    {
+      "id": "TK-SF-006",
+      "system": "storefront",
+      "name": "--popover-foreground",
+      "family": "Surface",
+      "light": "oklch(0.145 0 0)",
+      "dark": "oklch(0.985 0 0)"
+    },
+    {
+      "id": "TK-SF-007",
+      "system": "storefront",
+      "name": "--primary",
+      "family": "Primary",
+      "light": "oklch(0.205 0 0)",
+      "dark": "oklch(0.87 0 0)"
+    },
+    {
+      "id": "TK-SF-008",
+      "system": "storefront",
+      "name": "--primary-foreground",
+      "family": "Primary",
+      "light": "oklch(0.985 0 0)",
+      "dark": "oklch(0.205 0 0)"
+    },
+    {
+      "id": "TK-SF-009",
+      "system": "storefront",
+      "name": "--secondary",
+      "family": "Secondary",
+      "light": "oklch(0.97 0 0)",
+      "dark": "oklch(0.269 0 0)"
+    },
+    {
+      "id": "TK-SF-010",
+      "system": "storefront",
+      "name": "--secondary-foreground",
+      "family": "Secondary",
+      "light": "oklch(0.205 0 0)",
+      "dark": "oklch(0.985 0 0)"
+    },
+    {
+      "id": "TK-SF-011",
+      "system": "storefront",
+      "name": "--muted",
+      "family": "Muted",
+      "light": "oklch(0.97 0 0)",
+      "dark": "oklch(0.269 0 0)"
+    },
+    {
+      "id": "TK-SF-012",
+      "system": "storefront",
+      "name": "--muted-foreground",
+      "family": "Muted",
+      "light": "oklch(0.556 0 0)",
+      "dark": "oklch(0.708 0 0)"
+    },
+    {
+      "id": "TK-SF-013",
+      "system": "storefront",
+      "name": "--accent",
+      "family": "Accent",
+      "light": "oklch(0.97 0 0)",
+      "dark": "oklch(0.371 0 0)"
+    },
+    {
+      "id": "TK-SF-014",
+      "system": "storefront",
+      "name": "--accent-foreground",
+      "family": "Accent",
+      "light": "oklch(0.205 0 0)",
+      "dark": "oklch(0.985 0 0)"
+    },
+    {
+      "id": "TK-SF-015",
+      "system": "storefront",
+      "name": "--destructive",
+      "family": "Destructive",
+      "light": "oklch(0.58 0.22 27)",
+      "dark": "oklch(0.704 0.191 22.216)"
+    },
+    {
+      "id": "TK-SF-016",
+      "system": "storefront",
+      "name": "--border",
+      "family": "Border",
+      "light": "oklch(0.922 0 0)",
+      "dark": "oklch(1 0 0 / 10%)"
+    },
+    {
+      "id": "TK-SF-017",
+      "system": "storefront",
+      "name": "--input",
+      "family": "Control",
+      "light": "oklch(0.922 0 0)",
+      "dark": "oklch(1 0 0 / 15%)"
+    },
+    {
+      "id": "TK-SF-018",
+      "system": "storefront",
+      "name": "--ring",
+      "family": "Focus",
+      "light": "oklch(0.708 0 0)",
+      "dark": "oklch(0.556 0 0)"
+    },
+    {
+      "id": "TK-SF-019",
+      "system": "storefront",
+      "name": "--chart-1",
+      "family": "Chart",
+      "light": "oklch(0.809 0.105 251.813)",
+      "dark": "oklch(0.809 0.105 251.813)"
+    },
+    {
+      "id": "TK-SF-020",
+      "system": "storefront",
+      "name": "--chart-2",
+      "family": "Chart",
+      "light": "oklch(0.623 0.214 259.815)",
+      "dark": "oklch(0.623 0.214 259.815)"
+    },
+    {
+      "id": "TK-SF-021",
+      "system": "storefront",
+      "name": "--chart-3",
+      "family": "Chart",
+      "light": "oklch(0.546 0.245 262.881)",
+      "dark": "oklch(0.546 0.245 262.881)"
+    },
+    {
+      "id": "TK-SF-022",
+      "system": "storefront",
+      "name": "--chart-4",
+      "family": "Chart",
+      "light": "oklch(0.488 0.243 264.376)",
+      "dark": "oklch(0.488 0.243 264.376)"
+    },
+    {
+      "id": "TK-SF-023",
+      "system": "storefront",
+      "name": "--chart-5",
+      "family": "Chart",
+      "light": "oklch(0.424 0.199 265.638)",
+      "dark": "oklch(0.424 0.199 265.638)"
+    },
+    {
+      "id": "TK-SF-024",
+      "system": "storefront",
+      "name": "--radius",
+      "family": "Radius",
+      "light": "0.625rem",
+      "dark": "Same as light"
+    },
+    {
+      "id": "TK-SF-025",
+      "system": "storefront",
+      "name": "--sidebar",
+      "family": "Sidebar",
+      "light": "oklch(0.985 0 0)",
+      "dark": "oklch(0.205 0 0)"
+    },
+    {
+      "id": "TK-SF-026",
+      "system": "storefront",
+      "name": "--sidebar-foreground",
+      "family": "Sidebar",
+      "light": "oklch(0.145 0 0)",
+      "dark": "oklch(0.985 0 0)"
+    },
+    {
+      "id": "TK-SF-027",
+      "system": "storefront",
+      "name": "--sidebar-primary",
+      "family": "Sidebar",
+      "light": "oklch(0.205 0 0)",
+      "dark": "oklch(0.488 0.243 264.376)"
+    },
+    {
+      "id": "TK-SF-028",
+      "system": "storefront",
+      "name": "--sidebar-primary-foreground",
+      "family": "Sidebar",
+      "light": "oklch(0.985 0 0)",
+      "dark": "oklch(0.985 0 0)"
+    },
+    {
+      "id": "TK-SF-029",
+      "system": "storefront",
+      "name": "--sidebar-accent",
+      "family": "Sidebar",
+      "light": "oklch(0.97 0 0)",
+      "dark": "oklch(0.269 0 0)"
+    },
+    {
+      "id": "TK-SF-030",
+      "system": "storefront",
+      "name": "--sidebar-accent-foreground",
+      "family": "Sidebar",
+      "light": "oklch(0.205 0 0)",
+      "dark": "oklch(0.985 0 0)"
+    },
+    {
+      "id": "TK-SF-031",
+      "system": "storefront",
+      "name": "--sidebar-border",
+      "family": "Sidebar",
+      "light": "oklch(0.922 0 0)",
+      "dark": "oklch(1 0 0 / 10%)"
+    },
+    {
+      "id": "TK-SF-032",
+      "system": "storefront",
+      "name": "--sidebar-ring",
+      "family": "Sidebar",
+      "light": "oklch(0.708 0 0)",
+      "dark": "oklch(0.556 0 0)"
+    },
+    {
+      "id": "TK-SF-T-01",
+      "system": "storefront",
+      "name": "--font-sans",
+      "value": "var(--font-geist)"
+    },
+    {
+      "id": "TK-SF-T-02",
+      "system": "storefront",
+      "name": "--animate-slide-in-right",
+      "value": "slide-in-right 0.3s ease-out"
+    },
+    {
+      "id": "TK-SF-T-03",
+      "system": "storefront",
+      "name": "--animate-slide-in-left",
+      "value": "slide-in-left 0.3s ease-out"
+    },
+    {
+      "id": "TK-SF-T-04",
+      "system": "storefront",
+      "name": "--animate-hamburger-top-open",
+      "value": "hamburger-top-open 0.35s ease-in-out forwards"
+    },
+    {
+      "id": "TK-SF-T-05",
+      "system": "storefront",
+      "name": "--animate-hamburger-top-close",
+      "value": "hamburger-top-close 0.35s ease-in-out forwards"
+    },
+    {
+      "id": "TK-SF-T-06",
+      "system": "storefront",
+      "name": "--animate-hamburger-mid-open",
+      "value": "hamburger-mid-open 0.15s ease-in-out forwards"
+    },
+    {
+      "id": "TK-SF-T-07",
+      "system": "storefront",
+      "name": "--animate-hamburger-mid-close",
+      "value": "hamburger-mid-close 0.15s ease-in-out forwards"
+    },
+    {
+      "id": "TK-SF-T-08",
+      "system": "storefront",
+      "name": "--animate-hamburger-bottom-open",
+      "value": "hamburger-bottom-open 0.35s ease-in-out forwards"
+    },
+    {
+      "id": "TK-SF-T-09",
+      "system": "storefront",
+      "name": "--animate-hamburger-bottom-close",
+      "value": "hamburger-bottom-close 0.35s ease-in-out forwards"
+    },
+    {
+      "id": "TK-SF-T-10",
+      "system": "storefront",
+      "name": "--color-primary-50",
+      "value": "#eff6ff"
+    },
+    {
+      "id": "TK-SF-T-11",
+      "system": "storefront",
+      "name": "--color-primary-100",
+      "value": "#dbeafe"
+    },
+    {
+      "id": "TK-SF-T-12",
+      "system": "storefront",
+      "name": "--color-primary-200",
+      "value": "#bfdbfe"
+    },
+    {
+      "id": "TK-SF-T-13",
+      "system": "storefront",
+      "name": "--color-primary-300",
+      "value": "#93c5fd"
+    },
+    {
+      "id": "TK-SF-T-14",
+      "system": "storefront",
+      "name": "--color-primary-400",
+      "value": "#60a5fa"
+    },
+    {
+      "id": "TK-SF-T-15",
+      "system": "storefront",
+      "name": "--color-primary-500",
+      "value": "#0077ff"
+    },
+    {
+      "id": "TK-SF-T-16",
+      "system": "storefront",
+      "name": "--color-primary-600",
+      "value": "#0066dd"
+    },
+    {
+      "id": "TK-SF-T-17",
+      "system": "storefront",
+      "name": "--color-primary-700",
+      "value": "#0055bb"
+    },
+    {
+      "id": "TK-SF-T-18",
+      "system": "storefront",
+      "name": "--color-primary-800",
+      "value": "#004499"
+    },
+    {
+      "id": "TK-SF-T-19",
+      "system": "storefront",
+      "name": "--color-primary-900",
+      "value": "#003377"
+    },
+    {
+      "id": "TK-SF-T-20",
+      "system": "storefront",
+      "name": "--color-primary-950",
+      "value": "#001d4d"
+    },
+    {
+      "id": "TK-SF-T-21",
+      "system": "storefront",
+      "name": "--radius-sm",
+      "value": "calc(var(--radius) * 0.6)"
+    },
+    {
+      "id": "TK-SF-T-22",
+      "system": "storefront",
+      "name": "--radius-md",
+      "value": "calc(var(--radius) * 0.8)"
+    },
+    {
+      "id": "TK-SF-T-23",
+      "system": "storefront",
+      "name": "--radius-lg",
+      "value": "var(--radius)"
+    },
+    {
+      "id": "TK-SF-T-24",
+      "system": "storefront",
+      "name": "--radius-xl",
+      "value": "calc(var(--radius) * 1.4)"
+    },
+    {
+      "id": "TK-SF-T-25",
+      "system": "storefront",
+      "name": "--radius-2xl",
+      "value": "calc(var(--radius) * 1.8)"
+    },
+    {
+      "id": "TK-SF-T-26",
+      "system": "storefront",
+      "name": "--radius-3xl",
+      "value": "calc(var(--radius) * 2.2)"
+    },
+    {
+      "id": "TK-SF-T-27",
+      "system": "storefront",
+      "name": "--radius-4xl",
+      "value": "calc(var(--radius) * 2.6)"
+    },
+    {
+      "id": "TK-SF-A",
+      "system": "storefront",
+      "name": "--color-background",
+      "family": "Colour utility alias"
+    },
+    {
+      "id": "TK-SF-A",
+      "system": "storefront",
+      "name": "--color-foreground",
+      "family": "Colour utility alias"
+    },
+    {
+      "id": "TK-SF-A",
+      "system": "storefront",
+      "name": "--color-sidebar-ring",
+      "family": "Colour utility alias"
+    },
+    {
+      "id": "TK-SF-A",
+      "system": "storefront",
+      "name": "--color-sidebar-border",
+      "family": "Colour utility alias"
+    },
+    {
+      "id": "TK-SF-A",
+      "system": "storefront",
+      "name": "--color-sidebar-accent-foreground",
+      "family": "Colour utility alias"
+    },
+    {
+      "id": "TK-SF-A",
+      "system": "storefront",
+      "name": "--color-sidebar-accent",
+      "family": "Colour utility alias"
+    },
+    {
+      "id": "TK-SF-A",
+      "system": "storefront",
+      "name": "--color-sidebar-primary-foreground",
+      "family": "Colour utility alias"
+    },
+    {
+      "id": "TK-SF-A",
+      "system": "storefront",
+      "name": "--color-sidebar-primary",
+      "family": "Colour utility alias"
+    },
+    {
+      "id": "TK-SF-A",
+      "system": "storefront",
+      "name": "--color-sidebar-foreground",
+      "family": "Colour utility alias"
+    },
+    {
+      "id": "TK-SF-A",
+      "system": "storefront",
+      "name": "--color-sidebar",
+      "family": "Colour utility alias"
+    },
+    {
+      "id": "TK-SF-A",
+      "system": "storefront",
+      "name": "--color-chart-5",
+      "family": "Colour utility alias"
+    },
+    {
+      "id": "TK-SF-A",
+      "system": "storefront",
+      "name": "--color-chart-4",
+      "family": "Colour utility alias"
+    },
+    {
+      "id": "TK-SF-A",
+      "system": "storefront",
+      "name": "--color-chart-3",
+      "family": "Colour utility alias"
+    },
+    {
+      "id": "TK-SF-A",
+      "system": "storefront",
+      "name": "--color-chart-2",
+      "family": "Colour utility alias"
+    },
+    {
+      "id": "TK-SF-A",
+      "system": "storefront",
+      "name": "--color-chart-1",
+      "family": "Colour utility alias"
+    },
+    {
+      "id": "TK-SF-A",
+      "system": "storefront",
+      "name": "--color-ring",
+      "family": "Colour utility alias"
+    },
+    {
+      "id": "TK-SF-A",
+      "system": "storefront",
+      "name": "--color-input",
+      "family": "Colour utility alias"
+    },
+    {
+      "id": "TK-SF-A",
+      "system": "storefront",
+      "name": "--color-border",
+      "family": "Colour utility alias"
+    },
+    {
+      "id": "TK-SF-A",
+      "system": "storefront",
+      "name": "--color-destructive",
+      "family": "Colour utility alias"
+    },
+    {
+      "id": "TK-SF-A",
+      "system": "storefront",
+      "name": "--color-accent-foreground",
+      "family": "Colour utility alias"
+    },
+    {
+      "id": "TK-SF-A",
+      "system": "storefront",
+      "name": "--color-accent",
+      "family": "Colour utility alias"
+    },
+    {
+      "id": "TK-SF-A",
+      "system": "storefront",
+      "name": "--color-muted-foreground",
+      "family": "Colour utility alias"
+    },
+    {
+      "id": "TK-SF-A",
+      "system": "storefront",
+      "name": "--color-muted",
+      "family": "Colour utility alias"
+    },
+    {
+      "id": "TK-SF-A",
+      "system": "storefront",
+      "name": "--color-secondary-foreground",
+      "family": "Colour utility alias"
+    },
+    {
+      "id": "TK-SF-A",
+      "system": "storefront",
+      "name": "--color-secondary",
+      "family": "Colour utility alias"
+    },
+    {
+      "id": "TK-SF-A",
+      "system": "storefront",
+      "name": "--color-primary-foreground",
+      "family": "Colour utility alias"
+    },
+    {
+      "id": "TK-SF-A",
+      "system": "storefront",
+      "name": "--color-primary",
+      "family": "Colour utility alias"
+    },
+    {
+      "id": "TK-SF-A",
+      "system": "storefront",
+      "name": "--color-popover-foreground",
+      "family": "Colour utility alias"
+    },
+    {
+      "id": "TK-SF-A",
+      "system": "storefront",
+      "name": "--color-popover",
+      "family": "Colour utility alias"
+    },
+    {
+      "id": "TK-SF-A",
+      "system": "storefront",
+      "name": "--color-card-foreground",
+      "family": "Colour utility alias"
+    },
+    {
+      "id": "TK-SF-A",
+      "system": "storefront",
+      "name": "--color-card",
+      "family": "Colour utility alias"
+    },
+    {
+      "id": "TK-TW-S",
+      "system": "storefront",
+      "name": "--color-red-50",
+      "family": "Tailwind palette"
+    },
+    {
+      "id": "TK-TW-S",
+      "system": "storefront",
+      "name": "--color-red-100",
+      "family": "Tailwind palette"
+    },
+    {
+      "id": "TK-TW-S",
+      "system": "storefront",
+      "name": "--color-red-300",
+      "family": "Tailwind palette"
+    },
+    {
+      "id": "TK-TW-S",
+      "system": "storefront",
+      "name": "--color-red-500",
+      "family": "Tailwind palette"
+    },
+    {
+      "id": "TK-TW-S",
+      "system": "storefront",
+      "name": "--color-red-600",
+      "family": "Tailwind palette"
+    },
+    {
+      "id": "TK-TW-S",
+      "system": "storefront",
+      "name": "--color-red-700",
+      "family": "Tailwind palette"
+    },
+    {
+      "id": "TK-TW-S",
+      "system": "storefront",
+      "name": "--color-red-800",
+      "family": "Tailwind palette"
+    },
+    {
+      "id": "TK-TW-S",
+      "system": "storefront",
+      "name": "--color-amber-700",
+      "family": "Tailwind palette"
+    },
+    {
+      "id": "TK-TW-S",
+      "system": "storefront",
+      "name": "--color-yellow-100",
+      "family": "Tailwind palette"
+    },
+    {
+      "id": "TK-TW-S",
+      "system": "storefront",
+      "name": "--color-yellow-800",
+      "family": "Tailwind palette"
+    },
+    {
+      "id": "TK-TW-S",
+      "system": "storefront",
+      "name": "--color-green-100",
+      "family": "Tailwind palette"
+    },
+    {
+      "id": "TK-TW-S",
+      "system": "storefront",
+      "name": "--color-green-500",
+      "family": "Tailwind palette"
+    },
+    {
+      "id": "TK-TW-S",
+      "system": "storefront",
+      "name": "--color-green-600",
+      "family": "Tailwind palette"
+    },
+    {
+      "id": "TK-TW-S",
+      "system": "storefront",
+      "name": "--color-green-700",
+      "family": "Tailwind palette"
+    },
+    {
+      "id": "TK-TW-S",
+      "system": "storefront",
+      "name": "--color-green-800",
+      "family": "Tailwind palette"
+    },
+    {
+      "id": "TK-TW-S",
+      "system": "storefront",
+      "name": "--color-blue-50",
+      "family": "Tailwind palette"
+    },
+    {
+      "id": "TK-TW-S",
+      "system": "storefront",
+      "name": "--color-blue-100",
+      "family": "Tailwind palette"
+    },
+    {
+      "id": "TK-TW-S",
+      "system": "storefront",
+      "name": "--color-blue-800",
+      "family": "Tailwind palette"
+    },
+    {
+      "id": "TK-TW-S",
+      "system": "storefront",
+      "name": "--color-slate-50",
+      "family": "Tailwind palette"
+    },
+    {
+      "id": "TK-TW-S",
+      "system": "storefront",
+      "name": "--color-slate-100",
+      "family": "Tailwind palette"
+    },
+    {
+      "id": "TK-TW-S",
+      "system": "storefront",
+      "name": "--color-slate-200",
+      "family": "Tailwind palette"
+    },
+    {
+      "id": "TK-TW-S",
+      "system": "storefront",
+      "name": "--color-slate-300",
+      "family": "Tailwind palette"
+    },
+    {
+      "id": "TK-TW-S",
+      "system": "storefront",
+      "name": "--color-slate-400",
+      "family": "Tailwind palette"
+    },
+    {
+      "id": "TK-TW-S",
+      "system": "storefront",
+      "name": "--color-slate-500",
+      "family": "Tailwind palette"
+    },
+    {
+      "id": "TK-TW-S",
+      "system": "storefront",
+      "name": "--color-slate-600",
+      "family": "Tailwind palette"
+    },
+    {
+      "id": "TK-TW-S",
+      "system": "storefront",
+      "name": "--color-slate-700",
+      "family": "Tailwind palette"
+    },
+    {
+      "id": "TK-TW-S",
+      "system": "storefront",
+      "name": "--color-slate-800",
+      "family": "Tailwind palette"
+    },
+    {
+      "id": "TK-TW-S",
+      "system": "storefront",
+      "name": "--color-slate-900",
+      "family": "Tailwind palette"
+    },
+    {
+      "id": "TK-TW-S",
+      "system": "storefront",
+      "name": "--color-gray-50",
+      "family": "Tailwind palette"
+    },
+    {
+      "id": "TK-TW-S",
+      "system": "storefront",
+      "name": "--color-gray-100",
+      "family": "Tailwind palette"
+    },
+    {
+      "id": "TK-TW-S",
+      "system": "storefront",
+      "name": "--color-gray-200",
+      "family": "Tailwind palette"
+    },
+    {
+      "id": "TK-TW-S",
+      "system": "storefront",
+      "name": "--color-gray-300",
+      "family": "Tailwind palette"
+    },
+    {
+      "id": "TK-TW-S",
+      "system": "storefront",
+      "name": "--color-gray-400",
+      "family": "Tailwind palette"
+    },
+    {
+      "id": "TK-TW-S",
+      "system": "storefront",
+      "name": "--color-gray-500",
+      "family": "Tailwind palette"
+    },
+    {
+      "id": "TK-TW-S",
+      "system": "storefront",
+      "name": "--color-gray-600",
+      "family": "Tailwind palette"
+    },
+    {
+      "id": "TK-TW-S",
+      "system": "storefront",
+      "name": "--color-gray-700",
+      "family": "Tailwind palette"
+    },
+    {
+      "id": "TK-TW-S",
+      "system": "storefront",
+      "name": "--color-gray-800",
+      "family": "Tailwind palette"
+    },
+    {
+      "id": "TK-TW-S",
+      "system": "storefront",
+      "name": "--color-gray-900",
+      "family": "Tailwind palette"
+    },
+    {
+      "id": "TK-TW-S",
+      "system": "storefront",
+      "name": "--color-neutral-200",
+      "family": "Tailwind palette"
+    },
+    {
+      "id": "TK-TW-S",
+      "system": "storefront",
+      "name": "--color-neutral-300",
+      "family": "Tailwind palette"
+    },
+    {
+      "id": "TK-TW-S",
+      "system": "storefront",
+      "name": "--color-neutral-400",
+      "family": "Tailwind palette"
+    },
+    {
+      "id": "TK-TW-S",
+      "system": "storefront",
+      "name": "--color-neutral-800",
+      "family": "Tailwind palette"
+    },
+    {
+      "id": "TK-TW-S",
+      "system": "storefront",
+      "name": "--color-black",
+      "family": "Tailwind palette"
+    },
+    {
+      "id": "TK-TW-S",
+      "system": "storefront",
+      "name": "--color-white",
+      "family": "Tailwind palette"
+    }
+  ]
+}
