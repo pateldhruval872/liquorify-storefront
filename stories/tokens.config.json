@@ -1,0 +1,20 @@
+{
+  "idList": "inventory/ids.json",
+  "outputs": [
+    {
+      "system": "storefront",
+      "file": "tokens/storefront.tokens.json",
+      "stylesheet": "../src/app/globals.css",
+      "source": "src/app/globals.css",
+      "scan": ["../src"],
+      "paletteId": "TK-TW-S",
+      "externals": {
+        "--font-geist": {
+          "type": "fontFamily",
+          "value": ["Geist"],
+          "note": "Set at run time by Next.js's font loader (next/font/google, Geist), not declared in the stylesheet"
+        }
+      }
+    }
+  ]
+}

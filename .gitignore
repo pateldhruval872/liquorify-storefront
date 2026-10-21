@@ -51,3 +51,8 @@ next-env.d.ts
 # claude code
 .claude/
 
+# Liquorify Storybook and visual check output
+/storybook-static/
+/visual/report/
+/visual/results/
+/visual/fidelity/results/

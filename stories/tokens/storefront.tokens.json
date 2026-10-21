@@ -1,0 +1,3273 @@
+{
+  "Surface": {
+    "background": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          1,
+          1,
+          1
+        ],
+        "alpha": 1,
+        "hex": "#ffffff"
+      },
+      "$description": "TK-SF-001 · src/app/globals.css:181",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-001",
+          "source": "src/app/globals.css:181",
+          "css": {
+            "light": "oklch(1 0 0)",
+            "dark": "oklch(0.145 0 0)"
+          },
+          "form": "oklch",
+          "modes": {
+            "dark": {
+              "colorSpace": "srgb",
+              "components": [
+                0.0394,
+                0.0394,
+                0.0394
+              ],
+              "alpha": 1,
+              "hex": "#0a0a0a"
+            }
+          }
+        }
+      }
+    },
+    "foreground": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.0394,
+          0.0394,
+          0.0394
+        ],
+        "alpha": 1,
+        "hex": "#0a0a0a"
+      },
+      "$description": "TK-SF-002 · src/app/globals.css:182",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-002",
+          "source": "src/app/globals.css:182",
+          "css": {
+            "light": "oklch(0.145 0 0)",
+            "dark": "oklch(0.985 0 0)"
+          },
+          "form": "oklch",
+          "modes": {
+            "dark": {
+              "colorSpace": "srgb",
+              "components": [
+                0.9803,
+                0.9803,
+                0.9803
+              ],
+              "alpha": 1,
+              "hex": "#fafafa"
+            }
+          }
+        }
+      }
+    },
+    "card": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          1,
+          1,
+          1
+        ],
+        "alpha": 1,
+        "hex": "#ffffff"
+      },
+      "$description": "TK-SF-003 · src/app/globals.css:183",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-003",
+          "source": "src/app/globals.css:183",
+          "css": {
+            "light": "oklch(1 0 0)",
+            "dark": "oklch(0.205 0 0)"
+          },
+          "form": "oklch",
+          "modes": {
+            "dark": {
+              "colorSpace": "srgb",
+              "components": [
+                0.0905,
+                0.0905,
+                0.0905
+              ],
+              "alpha": 1,
+              "hex": "#171717"
+            }
+          }
+        }
+      }
+    },
+    "card-foreground": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.0394,
+          0.0394,
+          0.0394
+        ],
+        "alpha": 1,
+        "hex": "#0a0a0a"
+      },
+      "$description": "TK-SF-004 · src/app/globals.css:184",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-004",
+          "source": "src/app/globals.css:184",
+          "css": {
+            "light": "oklch(0.145 0 0)",
+            "dark": "oklch(0.985 0 0)"
+          },
+          "form": "oklch",
+          "modes": {
+            "dark": {
+              "colorSpace": "srgb",
+              "components": [
+                0.9803,
+                0.9803,
+                0.9803
+              ],
+              "alpha": 1,
+              "hex": "#fafafa"
+            }
+          }
+        }
+      }
+    },
+    "popover": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          1,
+          1,
+          1
+        ],
+        "alpha": 1,
+        "hex": "#ffffff"
+      },
+      "$description": "TK-SF-005 · src/app/globals.css:185",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-005",
+          "source": "src/app/globals.css:185",
+          "css": {
+            "light": "oklch(1 0 0)",
+            "dark": "oklch(0.205 0 0)"
+          },
+          "form": "oklch",
+          "modes": {
+            "dark": {
+              "colorSpace": "srgb",
+              "components": [
+                0.0905,
+                0.0905,
+                0.0905
+              ],
+              "alpha": 1,
+              "hex": "#171717"
+            }
+          }
+        }
+      }
+    },
+    "popover-foreground": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.0394,
+          0.0394,
+          0.0394
+        ],
+        "alpha": 1,
+        "hex": "#0a0a0a"
+      },
+      "$description": "TK-SF-006 · src/app/globals.css:186",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-006",
+          "source": "src/app/globals.css:186",
+          "css": {
+            "light": "oklch(0.145 0 0)",
+            "dark": "oklch(0.985 0 0)"
+          },
+          "form": "oklch",
+          "modes": {
+            "dark": {
+              "colorSpace": "srgb",
+              "components": [
+                0.9803,
+                0.9803,
+                0.9803
+              ],
+              "alpha": 1,
+              "hex": "#fafafa"
+            }
+          }
+        }
+      }
+    }
+  },
+  "Primary": {
+    "primary": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.0905,
+          0.0905,
+          0.0905
+        ],
+        "alpha": 1,
+        "hex": "#171717"
+      },
+      "$description": "TK-SF-007 · src/app/globals.css:187",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-007",
+          "source": "src/app/globals.css:187",
+          "css": {
+            "light": "oklch(0.205 0 0)",
+            "dark": "oklch(0.87 0 0)"
+          },
+          "form": "oklch",
+          "modes": {
+            "dark": {
+              "colorSpace": "srgb",
+              "components": [
+                0.8314,
+                0.8314,
+                0.8314
+              ],
+              "alpha": 1,
+              "hex": "#d4d4d4"
+            }
+          }
+        }
+      }
+    },
+    "primary-foreground": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.9803,
+          0.9803,
+          0.9803
+        ],
+        "alpha": 1,
+        "hex": "#fafafa"
+      },
+      "$description": "TK-SF-008 · src/app/globals.css:188",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-008",
+          "source": "src/app/globals.css:188",
+          "css": {
+            "light": "oklch(0.985 0 0)",
+            "dark": "oklch(0.205 0 0)"
+          },
+          "form": "oklch",
+          "modes": {
+            "dark": {
+              "colorSpace": "srgb",
+              "components": [
+                0.0905,
+                0.0905,
+                0.0905
+              ],
+              "alpha": 1,
+              "hex": "#171717"
+            }
+          }
+        }
+      }
+    }
+  },
+  "Secondary": {
+    "secondary": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.9606,
+          0.9606,
+          0.9606
+        ],
+        "alpha": 1,
+        "hex": "#f5f5f5"
+      },
+      "$description": "TK-SF-009 · src/app/globals.css:189",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-009",
+          "source": "src/app/globals.css:189",
+          "css": {
+            "light": "oklch(0.97 0 0)",
+            "dark": "oklch(0.269 0 0)"
+          },
+          "form": "oklch",
+          "modes": {
+            "dark": {
+              "colorSpace": "srgb",
+              "components": [
+                0.1494,
+                0.1494,
+                0.1494
+              ],
+              "alpha": 1,
+              "hex": "#262626"
+            }
+          }
+        }
+      }
+    },
+    "secondary-foreground": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.0905,
+          0.0905,
+          0.0905
+        ],
+        "alpha": 1,
+        "hex": "#171717"
+      },
+      "$description": "TK-SF-010 · src/app/globals.css:190",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-010",
+          "source": "src/app/globals.css:190",
+          "css": {
+            "light": "oklch(0.205 0 0)",
+            "dark": "oklch(0.985 0 0)"
+          },
+          "form": "oklch",
+          "modes": {
+            "dark": {
+              "colorSpace": "srgb",
+              "components": [
+                0.9803,
+                0.9803,
+                0.9803
+              ],
+              "alpha": 1,
+              "hex": "#fafafa"
+            }
+          }
+        }
+      }
+    }
+  },
+  "Muted": {
+    "muted": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.9606,
+          0.9606,
+          0.9606
+        ],
+        "alpha": 1,
+        "hex": "#f5f5f5"
+      },
+      "$description": "TK-SF-011 · src/app/globals.css:191",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-011",
+          "source": "src/app/globals.css:191",
+          "css": {
+            "light": "oklch(0.97 0 0)",
+            "dark": "oklch(0.269 0 0)"
+          },
+          "form": "oklch",
+          "modes": {
+            "dark": {
+              "colorSpace": "srgb",
+              "components": [
+                0.1494,
+                0.1494,
+                0.1494
+              ],
+              "alpha": 1,
+              "hex": "#262626"
+            }
+          }
+        }
+      }
+    },
+    "muted-foreground": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.4515,
+          0.4515,
+          0.4515
+        ],
+        "alpha": 1,
+        "hex": "#737373"
+      },
+      "$description": "TK-SF-012 · src/app/globals.css:192",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-012",
+          "source": "src/app/globals.css:192",
+          "css": {
+            "light": "oklch(0.556 0 0)",
+            "dark": "oklch(0.708 0 0)"
+          },
+          "form": "oklch",
+          "modes": {
+            "dark": {
+              "colorSpace": "srgb",
+              "components": [
+                0.6302,
+                0.6302,
+                0.6302
+              ],
+              "alpha": 1,
+              "hex": "#a1a1a1"
+            }
+          }
+        }
+      }
+    }
+  },
+  "Accent": {
+    "accent": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.9606,
+          0.9606,
+          0.9606
+        ],
+        "alpha": 1,
+        "hex": "#f5f5f5"
+      },
+      "$description": "TK-SF-013 · src/app/globals.css:193",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-013",
+          "source": "src/app/globals.css:193",
+          "css": {
+            "light": "oklch(0.97 0 0)",
+            "dark": "oklch(0.371 0 0)"
+          },
+          "form": "oklch",
+          "modes": {
+            "dark": {
+              "colorSpace": "srgb",
+              "components": [
+                0.2505,
+                0.2505,
+                0.2505
+              ],
+              "alpha": 1,
+              "hex": "#404040"
+            }
+          }
+        }
+      }
+    },
+    "accent-foreground": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.0905,
+          0.0905,
+          0.0905
+        ],
+        "alpha": 1,
+        "hex": "#171717"
+      },
+      "$description": "TK-SF-014 · src/app/globals.css:194",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-014",
+          "source": "src/app/globals.css:194",
+          "css": {
+            "light": "oklch(0.205 0 0)",
+            "dark": "oklch(0.985 0 0)"
+          },
+          "form": "oklch",
+          "modes": {
+            "dark": {
+              "colorSpace": "srgb",
+              "components": [
+                0.9803,
+                0.9803,
+                0.9803
+              ],
+              "alpha": 1,
+              "hex": "#fafafa"
+            }
+          }
+        }
+      }
+    }
+  },
+  "Destructive": {
+    "destructive": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.8742,
+          0.1327,
+          0.1467
+        ],
+        "alpha": 1,
+        "hex": "#df2225"
+      },
+      "$description": "TK-SF-015 · src/app/globals.css:195",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-015",
+          "source": "src/app/globals.css:195",
+          "css": {
+            "light": "oklch(0.58 0.22 27)",
+            "dark": "oklch(0.704 0.191 22.216)"
+          },
+          "form": "oklch",
+          "modes": {
+            "dark": {
+              "colorSpace": "srgb",
+              "components": [
+                1,
+                0.3912,
+                0.4039
+              ],
+              "alpha": 1,
+              "hex": "#ff6467"
+            }
+          },
+          "clippedToSrgbDark": 0.0056
+        }
+      }
+    }
+  },
+  "Border": {
+    "border": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.8982,
+          0.8982,
+          0.8982
+        ],
+        "alpha": 1,
+        "hex": "#e5e5e5"
+      },
+      "$description": "TK-SF-016 · src/app/globals.css:196",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-016",
+          "source": "src/app/globals.css:196",
+          "css": {
+            "light": "oklch(0.922 0 0)",
+            "dark": "oklch(1 0 0 / 10%)"
+          },
+          "form": "oklch",
+          "modes": {
+            "dark": {
+              "colorSpace": "srgb",
+              "components": [
+                1,
+                1,
+                1
+              ],
+              "alpha": 0.1,
+              "hex": "#ffffff1a"
+            }
+          }
+        }
+      }
+    }
+  },
+  "Control": {
+    "input": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.8982,
+          0.8982,
+          0.8982
+        ],
+        "alpha": 1,
+        "hex": "#e5e5e5"
+      },
+      "$description": "TK-SF-017 · src/app/globals.css:197",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-017",
+          "source": "src/app/globals.css:197",
+          "css": {
+            "light": "oklch(0.922 0 0)",
+            "dark": "oklch(1 0 0 / 15%)"
+          },
+          "form": "oklch",
+          "modes": {
+            "dark": {
+              "colorSpace": "srgb",
+              "components": [
+                1,
+                1,
+                1
+              ],
+              "alpha": 0.15,
+              "hex": "#ffffff26"
+            }
+          }
+        }
+      }
+    }
+  },
+  "Focus": {
+    "ring": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.6302,
+          0.6302,
+          0.6302
+        ],
+        "alpha": 1,
+        "hex": "#a1a1a1"
+      },
+      "$description": "TK-SF-018 · src/app/globals.css:198",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-018",
+          "source": "src/app/globals.css:198",
+          "css": {
+            "light": "oklch(0.708 0 0)",
+            "dark": "oklch(0.556 0 0)"
+          },
+          "form": "oklch",
+          "modes": {
+            "dark": {
+              "colorSpace": "srgb",
+              "components": [
+                0.4515,
+                0.4515,
+                0.4515
+              ],
+              "alpha": 1,
+              "hex": "#737373"
+            }
+          }
+        }
+      }
+    }
+  },
+  "Chart": {
+    "chart-1": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.5566,
+          0.7732,
+          1
+        ],
+        "alpha": 1,
+        "hex": "#8ec5ff"
+      },
+      "$description": "TK-SF-019 · src/app/globals.css:199",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-019",
+          "source": "src/app/globals.css:199",
+          "css": {
+            "light": "oklch(0.809 0.105 251.813)",
+            "dark": "oklch(0.809 0.105 251.813)"
+          },
+          "form": "oklch",
+          "modes": {
+            "dark": {
+              "colorSpace": "srgb",
+              "components": [
+                0.5566,
+                0.7732,
+                1
+              ],
+              "alpha": 1,
+              "hex": "#8ec5ff"
+            }
+          },
+          "clippedToSrgb": 0.0146,
+          "clippedToSrgbDark": 0.0146
+        }
+      }
+    },
+    "chart-2": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.1693,
+          0.498,
+          1
+        ],
+        "alpha": 1,
+        "hex": "#2b7fff"
+      },
+      "$description": "TK-SF-020 · src/app/globals.css:200",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-020",
+          "source": "src/app/globals.css:200",
+          "css": {
+            "light": "oklch(0.623 0.214 259.815)",
+            "dark": "oklch(0.623 0.214 259.815)"
+          },
+          "form": "oklch",
+          "modes": {
+            "dark": {
+              "colorSpace": "srgb",
+              "components": [
+                0.1693,
+                0.498,
+                1
+              ],
+              "alpha": 1,
+              "hex": "#2b7fff"
+            }
+          },
+          "clippedToSrgb": 0.0228,
+          "clippedToSrgbDark": 0.0228
+        }
+      }
+    },
+    "chart-3": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.0836,
+          0.3644,
+          0.9863
+        ],
+        "alpha": 1,
+        "hex": "#155dfc"
+      },
+      "$description": "TK-SF-021 · src/app/globals.css:201",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-021",
+          "source": "src/app/globals.css:201",
+          "css": {
+            "light": "oklch(0.546 0.245 262.881)",
+            "dark": "oklch(0.546 0.245 262.881)"
+          },
+          "form": "oklch",
+          "modes": {
+            "dark": {
+              "colorSpace": "srgb",
+              "components": [
+                0.0836,
+                0.3644,
+                0.9863
+              ],
+              "alpha": 1,
+              "hex": "#155dfc"
+            }
+          }
+        }
+      }
+    },
+    "chart-4": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.0779,
+          0.2791,
+          0.9018
+        ],
+        "alpha": 1,
+        "hex": "#1447e6"
+      },
+      "$description": "TK-SF-022 · src/app/globals.css:202",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-022",
+          "source": "src/app/globals.css:202",
+          "css": {
+            "light": "oklch(0.488 0.243 264.376)",
+            "dark": "oklch(0.488 0.243 264.376)"
+          },
+          "form": "oklch",
+          "modes": {
+            "dark": {
+              "colorSpace": "srgb",
+              "components": [
+                0.0779,
+                0.2791,
+                0.9018
+              ],
+              "alpha": 1,
+              "hex": "#1447e6"
+            }
+          }
+        }
+      }
+    },
+    "chart-5": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.0998,
+          0.2338,
+          0.7229
+        ],
+        "alpha": 1,
+        "hex": "#193cb8"
+      },
+      "$description": "TK-SF-023 · src/app/globals.css:203",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-023",
+          "source": "src/app/globals.css:203",
+          "css": {
+            "light": "oklch(0.424 0.199 265.638)",
+            "dark": "oklch(0.424 0.199 265.638)"
+          },
+          "form": "oklch",
+          "modes": {
+            "dark": {
+              "colorSpace": "srgb",
+              "components": [
+                0.0998,
+                0.2338,
+                0.7229
+              ],
+              "alpha": 1,
+              "hex": "#193cb8"
+            }
+          }
+        }
+      }
+    }
+  },
+  "Radius": {
+    "radius": {
+      "$type": "dimension",
+      "$value": {
+        "value": 0.625,
+        "unit": "rem"
+      },
+      "$description": "TK-SF-024 · src/app/globals.css:204",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-024",
+          "source": "src/app/globals.css:204",
+          "css": {
+            "light": "0.625rem"
+          },
+          "form": "length",
+          "pixels": 10
+        }
+      }
+    },
+    "radius-sm": {
+      "$type": "dimension",
+      "$value": {
+        "value": 6,
+        "unit": "px"
+      },
+      "$description": "TK-SF-T-21 · src/app/globals.css:61",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-T-21",
+          "source": "src/app/globals.css:61",
+          "css": {
+            "light": "calc(var(--radius) * 0.6)"
+          },
+          "form": "calc",
+          "derived": "calc(var(--radius) * 0.6)"
+        }
+      }
+    },
+    "radius-md": {
+      "$type": "dimension",
+      "$value": {
+        "value": 8,
+        "unit": "px"
+      },
+      "$description": "TK-SF-T-22 · src/app/globals.css:62",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-T-22",
+          "source": "src/app/globals.css:62",
+          "css": {
+            "light": "calc(var(--radius) * 0.8)"
+          },
+          "form": "calc",
+          "derived": "calc(var(--radius) * 0.8)"
+        }
+      }
+    },
+    "radius-lg": {
+      "$type": "dimension",
+      "$value": "{Radius.radius}",
+      "$description": "TK-SF-T-23 · src/app/globals.css:63",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-T-23",
+          "source": "src/app/globals.css:63",
+          "css": {
+            "light": "var(--radius)"
+          },
+          "form": "reference"
+        }
+      }
+    },
+    "radius-xl": {
+      "$type": "dimension",
+      "$value": {
+        "value": 14,
+        "unit": "px"
+      },
+      "$description": "TK-SF-T-24 · src/app/globals.css:64",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-T-24",
+          "source": "src/app/globals.css:64",
+          "css": {
+            "light": "calc(var(--radius) * 1.4)"
+          },
+          "form": "calc",
+          "derived": "calc(var(--radius) * 1.4)"
+        }
+      }
+    },
+    "radius-2xl": {
+      "$type": "dimension",
+      "$value": {
+        "value": 18,
+        "unit": "px"
+      },
+      "$description": "TK-SF-T-25 · src/app/globals.css:65",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-T-25",
+          "source": "src/app/globals.css:65",
+          "css": {
+            "light": "calc(var(--radius) * 1.8)"
+          },
+          "form": "calc",
+          "derived": "calc(var(--radius) * 1.8)"
+        }
+      }
+    },
+    "radius-3xl": {
+      "$type": "dimension",
+      "$value": {
+        "value": 22,
+        "unit": "px"
+      },
+      "$description": "TK-SF-T-26 · src/app/globals.css:66",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-T-26",
+          "source": "src/app/globals.css:66",
+          "css": {
+            "light": "calc(var(--radius) * 2.2)"
+          },
+          "form": "calc",
+          "derived": "calc(var(--radius) * 2.2)"
+        }
+      }
+    },
+    "radius-4xl": {
+      "$type": "dimension",
+      "$value": {
+        "value": 26,
+        "unit": "px"
+      },
+      "$description": "TK-SF-T-27 · src/app/globals.css:67",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-T-27",
+          "source": "src/app/globals.css:67",
+          "css": {
+            "light": "calc(var(--radius) * 2.6)"
+          },
+          "form": "calc",
+          "derived": "calc(var(--radius) * 2.6)"
+        }
+      }
+    }
+  },
+  "Sidebar": {
+    "sidebar": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.9803,
+          0.9803,
+          0.9803
+        ],
+        "alpha": 1,
+        "hex": "#fafafa"
+      },
+      "$description": "TK-SF-025 · src/app/globals.css:205",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-025",
+          "source": "src/app/globals.css:205",
+          "css": {
+            "light": "oklch(0.985 0 0)",
+            "dark": "oklch(0.205 0 0)"
+          },
+          "form": "oklch",
+          "modes": {
+            "dark": {
+              "colorSpace": "srgb",
+              "components": [
+                0.0905,
+                0.0905,
+                0.0905
+              ],
+              "alpha": 1,
+              "hex": "#171717"
+            }
+          }
+        }
+      }
+    },
+    "sidebar-foreground": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.0394,
+          0.0394,
+          0.0394
+        ],
+        "alpha": 1,
+        "hex": "#0a0a0a"
+      },
+      "$description": "TK-SF-026 · src/app/globals.css:206",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-026",
+          "source": "src/app/globals.css:206",
+          "css": {
+            "light": "oklch(0.145 0 0)",
+            "dark": "oklch(0.985 0 0)"
+          },
+          "form": "oklch",
+          "modes": {
+            "dark": {
+              "colorSpace": "srgb",
+              "components": [
+                0.9803,
+                0.9803,
+                0.9803
+              ],
+              "alpha": 1,
+              "hex": "#fafafa"
+            }
+          }
+        }
+      }
+    },
+    "sidebar-primary": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.0905,
+          0.0905,
+          0.0905
+        ],
+        "alpha": 1,
+        "hex": "#171717"
+      },
+      "$description": "TK-SF-027 · src/app/globals.css:207",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-027",
+          "source": "src/app/globals.css:207",
+          "css": {
+            "light": "oklch(0.205 0 0)",
+            "dark": "oklch(0.488 0.243 264.376)"
+          },
+          "form": "oklch",
+          "modes": {
+            "dark": {
+              "colorSpace": "srgb",
+              "components": [
+                0.0779,
+                0.2791,
+                0.9018
+              ],
+              "alpha": 1,
+              "hex": "#1447e6"
+            }
+          }
+        }
+      }
+    },
+    "sidebar-primary-foreground": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.9803,
+          0.9803,
+          0.9803
+        ],
+        "alpha": 1,
+        "hex": "#fafafa"
+      },
+      "$description": "TK-SF-028 · src/app/globals.css:208",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-028",
+          "source": "src/app/globals.css:208",
+          "css": {
+            "light": "oklch(0.985 0 0)",
+            "dark": "oklch(0.985 0 0)"
+          },
+          "form": "oklch",
+          "modes": {
+            "dark": {
+              "colorSpace": "srgb",
+              "components": [
+                0.9803,
+                0.9803,
+                0.9803
+              ],
+              "alpha": 1,
+              "hex": "#fafafa"
+            }
+          }
+        }
+      }
+    },
+    "sidebar-accent": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.9606,
+          0.9606,
+          0.9606
+        ],
+        "alpha": 1,
+        "hex": "#f5f5f5"
+      },
+      "$description": "TK-SF-029 · src/app/globals.css:209",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-029",
+          "source": "src/app/globals.css:209",
+          "css": {
+            "light": "oklch(0.97 0 0)",
+            "dark": "oklch(0.269 0 0)"
+          },
+          "form": "oklch",
+          "modes": {
+            "dark": {
+              "colorSpace": "srgb",
+              "components": [
+                0.1494,
+                0.1494,
+                0.1494
+              ],
+              "alpha": 1,
+              "hex": "#262626"
+            }
+          }
+        }
+      }
+    },
+    "sidebar-accent-foreground": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.0905,
+          0.0905,
+          0.0905
+        ],
+        "alpha": 1,
+        "hex": "#171717"
+      },
+      "$description": "TK-SF-030 · src/app/globals.css:210",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-030",
+          "source": "src/app/globals.css:210",
+          "css": {
+            "light": "oklch(0.205 0 0)",
+            "dark": "oklch(0.985 0 0)"
+          },
+          "form": "oklch",
+          "modes": {
+            "dark": {
+              "colorSpace": "srgb",
+              "components": [
+                0.9803,
+                0.9803,
+                0.9803
+              ],
+              "alpha": 1,
+              "hex": "#fafafa"
+            }
+          }
+        }
+      }
+    },
+    "sidebar-border": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.8982,
+          0.8982,
+          0.8982
+        ],
+        "alpha": 1,
+        "hex": "#e5e5e5"
+      },
+      "$description": "TK-SF-031 · src/app/globals.css:211",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-031",
+          "source": "src/app/globals.css:211",
+          "css": {
+            "light": "oklch(0.922 0 0)",
+            "dark": "oklch(1 0 0 / 10%)"
+          },
+          "form": "oklch",
+          "modes": {
+            "dark": {
+              "colorSpace": "srgb",
+              "components": [
+                1,
+                1,
+                1
+              ],
+              "alpha": 0.1,
+              "hex": "#ffffff1a"
+            }
+          }
+        }
+      }
+    },
+    "sidebar-ring": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.6302,
+          0.6302,
+          0.6302
+        ],
+        "alpha": 1,
+        "hex": "#a1a1a1"
+      },
+      "$description": "TK-SF-032 · src/app/globals.css:212",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-032",
+          "source": "src/app/globals.css:212",
+          "css": {
+            "light": "oklch(0.708 0 0)",
+            "dark": "oklch(0.556 0 0)"
+          },
+          "form": "oklch",
+          "modes": {
+            "dark": {
+              "colorSpace": "srgb",
+              "components": [
+                0.4515,
+                0.4515,
+                0.4515
+              ],
+              "alpha": 1,
+              "hex": "#737373"
+            }
+          }
+        }
+      }
+    }
+  },
+  "Font": {
+    "font-sans": {
+      "$type": "fontFamily",
+      "$value": [
+        "Geist"
+      ],
+      "$description": "TK-SF-T-01 · src/app/globals.css:11",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-T-01",
+          "source": "src/app/globals.css:11",
+          "css": {
+            "light": "var(--font-geist)"
+          },
+          "form": "external",
+          "note": "Set at run time by Next.js's font loader (next/font/google, Geist), not declared in the stylesheet"
+        }
+      }
+    }
+  },
+  "Animation": {
+    "animate-slide-in-right": {
+      "$value": "slide-in-right 0.3s ease-out",
+      "$description": "TK-SF-T-02 · src/app/globals.css:12",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-T-02",
+          "source": "src/app/globals.css:12",
+          "css": {
+            "light": "slide-in-right 0.3s ease-out"
+          },
+          "form": "animation",
+          "representable": false
+        }
+      }
+    },
+    "animate-slide-in-left": {
+      "$value": "slide-in-left 0.3s ease-out",
+      "$description": "TK-SF-T-03 · src/app/globals.css:13",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-T-03",
+          "source": "src/app/globals.css:13",
+          "css": {
+            "light": "slide-in-left 0.3s ease-out"
+          },
+          "form": "animation",
+          "representable": false
+        }
+      }
+    },
+    "animate-hamburger-top-open": {
+      "$value": "hamburger-top-open 0.35s ease-in-out forwards",
+      "$description": "TK-SF-T-04 · src/app/globals.css:14",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-T-04",
+          "source": "src/app/globals.css:14",
+          "css": {
+            "light": "hamburger-top-open 0.35s ease-in-out forwards"
+          },
+          "form": "animation",
+          "representable": false
+        }
+      }
+    },
+    "animate-hamburger-top-close": {
+      "$value": "hamburger-top-close 0.35s ease-in-out forwards",
+      "$description": "TK-SF-T-05 · src/app/globals.css:15",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-T-05",
+          "source": "src/app/globals.css:15",
+          "css": {
+            "light": "hamburger-top-close 0.35s ease-in-out forwards"
+          },
+          "form": "animation",
+          "representable": false
+        }
+      }
+    },
+    "animate-hamburger-mid-open": {
+      "$value": "hamburger-mid-open 0.15s ease-in-out forwards",
+      "$description": "TK-SF-T-06 · src/app/globals.css:16",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-T-06",
+          "source": "src/app/globals.css:16",
+          "css": {
+            "light": "hamburger-mid-open 0.15s ease-in-out forwards"
+          },
+          "form": "animation",
+          "representable": false
+        }
+      }
+    },
+    "animate-hamburger-mid-close": {
+      "$value": "hamburger-mid-close 0.15s ease-in-out forwards",
+      "$description": "TK-SF-T-07 · src/app/globals.css:17",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-T-07",
+          "source": "src/app/globals.css:17",
+          "css": {
+            "light": "hamburger-mid-close 0.15s ease-in-out forwards"
+          },
+          "form": "animation",
+          "representable": false
+        }
+      }
+    },
+    "animate-hamburger-bottom-open": {
+      "$value": "hamburger-bottom-open 0.35s ease-in-out forwards",
+      "$description": "TK-SF-T-08 · src/app/globals.css:18",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-T-08",
+          "source": "src/app/globals.css:18",
+          "css": {
+            "light": "hamburger-bottom-open 0.35s ease-in-out forwards"
+          },
+          "form": "animation",
+          "representable": false
+        }
+      }
+    },
+    "animate-hamburger-bottom-close": {
+      "$value": "hamburger-bottom-close 0.35s ease-in-out forwards",
+      "$description": "TK-SF-T-09 · src/app/globals.css:19",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-T-09",
+          "source": "src/app/globals.css:19",
+          "css": {
+            "light": "hamburger-bottom-close 0.35s ease-in-out forwards"
+          },
+          "form": "animation",
+          "representable": false
+        }
+      }
+    }
+  },
+  "Primary scale": {
+    "color-primary-50": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.9373,
+          0.9647,
+          1
+        ],
+        "alpha": 1,
+        "hex": "#eff6ff"
+      },
+      "$description": "TK-SF-T-10 · src/app/globals.css:21",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-T-10",
+          "source": "src/app/globals.css:21",
+          "css": {
+            "light": "#eff6ff"
+          },
+          "form": "hex"
+        }
+      }
+    },
+    "color-primary-100": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.8588,
+          0.9176,
+          0.9961
+        ],
+        "alpha": 1,
+        "hex": "#dbeafe"
+      },
+      "$description": "TK-SF-T-11 · src/app/globals.css:22",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-T-11",
+          "source": "src/app/globals.css:22",
+          "css": {
+            "light": "#dbeafe"
+          },
+          "form": "hex"
+        }
+      }
+    },
+    "color-primary-200": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.749,
+          0.8588,
+          0.9961
+        ],
+        "alpha": 1,
+        "hex": "#bfdbfe"
+      },
+      "$description": "TK-SF-T-12 · src/app/globals.css:23",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-T-12",
+          "source": "src/app/globals.css:23",
+          "css": {
+            "light": "#bfdbfe"
+          },
+          "form": "hex"
+        }
+      }
+    },
+    "color-primary-300": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.5765,
+          0.7725,
+          0.9922
+        ],
+        "alpha": 1,
+        "hex": "#93c5fd"
+      },
+      "$description": "TK-SF-T-13 · src/app/globals.css:24",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-T-13",
+          "source": "src/app/globals.css:24",
+          "css": {
+            "light": "#93c5fd"
+          },
+          "form": "hex"
+        }
+      }
+    },
+    "color-primary-400": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.3765,
+          0.6471,
+          0.9804
+        ],
+        "alpha": 1,
+        "hex": "#60a5fa"
+      },
+      "$description": "TK-SF-T-14 · src/app/globals.css:25",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-T-14",
+          "source": "src/app/globals.css:25",
+          "css": {
+            "light": "#60a5fa"
+          },
+          "form": "hex"
+        }
+      }
+    },
+    "color-primary-500": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0,
+          0.4667,
+          1
+        ],
+        "alpha": 1,
+        "hex": "#0077ff"
+      },
+      "$description": "TK-SF-T-15 · src/app/globals.css:26",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-T-15",
+          "source": "src/app/globals.css:26",
+          "css": {
+            "light": "#0077ff"
+          },
+          "form": "hex"
+        }
+      }
+    },
+    "color-primary-600": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0,
+          0.4,
+          0.8667
+        ],
+        "alpha": 1,
+        "hex": "#0066dd"
+      },
+      "$description": "TK-SF-T-16 · src/app/globals.css:27",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-T-16",
+          "source": "src/app/globals.css:27",
+          "css": {
+            "light": "#0066dd"
+          },
+          "form": "hex"
+        }
+      }
+    },
+    "color-primary-700": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0,
+          0.3333,
+          0.7333
+        ],
+        "alpha": 1,
+        "hex": "#0055bb"
+      },
+      "$description": "TK-SF-T-17 · src/app/globals.css:28",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-T-17",
+          "source": "src/app/globals.css:28",
+          "css": {
+            "light": "#0055bb"
+          },
+          "form": "hex"
+        }
+      }
+    },
+    "color-primary-800": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0,
+          0.2667,
+          0.6
+        ],
+        "alpha": 1,
+        "hex": "#004499"
+      },
+      "$description": "TK-SF-T-18 · src/app/globals.css:29",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-T-18",
+          "source": "src/app/globals.css:29",
+          "css": {
+            "light": "#004499"
+          },
+          "form": "hex"
+        }
+      }
+    },
+    "color-primary-900": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0,
+          0.2,
+          0.4667
+        ],
+        "alpha": 1,
+        "hex": "#003377"
+      },
+      "$description": "TK-SF-T-19 · src/app/globals.css:30",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-T-19",
+          "source": "src/app/globals.css:30",
+          "css": {
+            "light": "#003377"
+          },
+          "form": "hex"
+        }
+      }
+    },
+    "color-primary-950": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0,
+          0.1137,
+          0.302
+        ],
+        "alpha": 1,
+        "hex": "#001d4d"
+      },
+      "$description": "TK-SF-T-20 · src/app/globals.css:31",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-T-20",
+          "source": "src/app/globals.css:31",
+          "css": {
+            "light": "#001d4d"
+          },
+          "form": "hex"
+        }
+      }
+    }
+  },
+  "Colour utility alias": {
+    "color-background": {
+      "$type": "color",
+      "$value": "{Surface.background}",
+      "$description": "TK-SF-A · src/app/globals.css:9",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-A",
+          "source": "src/app/globals.css:9",
+          "css": {
+            "light": "var(--background)"
+          },
+          "form": "reference"
+        }
+      }
+    },
+    "color-foreground": {
+      "$type": "color",
+      "$value": "{Surface.foreground}",
+      "$description": "TK-SF-A · src/app/globals.css:10",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-A",
+          "source": "src/app/globals.css:10",
+          "css": {
+            "light": "var(--foreground)"
+          },
+          "form": "reference"
+        }
+      }
+    },
+    "color-sidebar-ring": {
+      "$type": "color",
+      "$value": "{Sidebar.sidebar-ring}",
+      "$description": "TK-SF-A · src/app/globals.css:32",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-A",
+          "source": "src/app/globals.css:32",
+          "css": {
+            "light": "var(--sidebar-ring)"
+          },
+          "form": "reference"
+        }
+      }
+    },
+    "color-sidebar-border": {
+      "$type": "color",
+      "$value": "{Sidebar.sidebar-border}",
+      "$description": "TK-SF-A · src/app/globals.css:33",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-A",
+          "source": "src/app/globals.css:33",
+          "css": {
+            "light": "var(--sidebar-border)"
+          },
+          "form": "reference"
+        }
+      }
+    },
+    "color-sidebar-accent-foreground": {
+      "$type": "color",
+      "$value": "{Sidebar.sidebar-accent-foreground}",
+      "$description": "TK-SF-A · src/app/globals.css:34",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-A",
+          "source": "src/app/globals.css:34",
+          "css": {
+            "light": "var(--sidebar-accent-foreground)"
+          },
+          "form": "reference"
+        }
+      }
+    },
+    "color-sidebar-accent": {
+      "$type": "color",
+      "$value": "{Sidebar.sidebar-accent}",
+      "$description": "TK-SF-A · src/app/globals.css:35",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-A",
+          "source": "src/app/globals.css:35",
+          "css": {
+            "light": "var(--sidebar-accent)"
+          },
+          "form": "reference"
+        }
+      }
+    },
+    "color-sidebar-primary-foreground": {
+      "$type": "color",
+      "$value": "{Sidebar.sidebar-primary-foreground}",
+      "$description": "TK-SF-A · src/app/globals.css:36",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-A",
+          "source": "src/app/globals.css:36",
+          "css": {
+            "light": "var(--sidebar-primary-foreground)"
+          },
+          "form": "reference"
+        }
+      }
+    },
+    "color-sidebar-primary": {
+      "$type": "color",
+      "$value": "{Sidebar.sidebar-primary}",
+      "$description": "TK-SF-A · src/app/globals.css:37",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-A",
+          "source": "src/app/globals.css:37",
+          "css": {
+            "light": "var(--sidebar-primary)"
+          },
+          "form": "reference"
+        }
+      }
+    },
+    "color-sidebar-foreground": {
+      "$type": "color",
+      "$value": "{Sidebar.sidebar-foreground}",
+      "$description": "TK-SF-A · src/app/globals.css:38",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-A",
+          "source": "src/app/globals.css:38",
+          "css": {
+            "light": "var(--sidebar-foreground)"
+          },
+          "form": "reference"
+        }
+      }
+    },
+    "color-sidebar": {
+      "$type": "color",
+      "$value": "{Sidebar.sidebar}",
+      "$description": "TK-SF-A · src/app/globals.css:39",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-A",
+          "source": "src/app/globals.css:39",
+          "css": {
+            "light": "var(--sidebar)"
+          },
+          "form": "reference"
+        }
+      }
+    },
+    "color-chart-5": {
+      "$type": "color",
+      "$value": "{Chart.chart-5}",
+      "$description": "TK-SF-A · src/app/globals.css:40",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-A",
+          "source": "src/app/globals.css:40",
+          "css": {
+            "light": "var(--chart-5)"
+          },
+          "form": "reference"
+        }
+      }
+    },
+    "color-chart-4": {
+      "$type": "color",
+      "$value": "{Chart.chart-4}",
+      "$description": "TK-SF-A · src/app/globals.css:41",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-A",
+          "source": "src/app/globals.css:41",
+          "css": {
+            "light": "var(--chart-4)"
+          },
+          "form": "reference"
+        }
+      }
+    },
+    "color-chart-3": {
+      "$type": "color",
+      "$value": "{Chart.chart-3}",
+      "$description": "TK-SF-A · src/app/globals.css:42",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-A",
+          "source": "src/app/globals.css:42",
+          "css": {
+            "light": "var(--chart-3)"
+          },
+          "form": "reference"
+        }
+      }
+    },
+    "color-chart-2": {
+      "$type": "color",
+      "$value": "{Chart.chart-2}",
+      "$description": "TK-SF-A · src/app/globals.css:43",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-A",
+          "source": "src/app/globals.css:43",
+          "css": {
+            "light": "var(--chart-2)"
+          },
+          "form": "reference"
+        }
+      }
+    },
+    "color-chart-1": {
+      "$type": "color",
+      "$value": "{Chart.chart-1}",
+      "$description": "TK-SF-A · src/app/globals.css:44",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-A",
+          "source": "src/app/globals.css:44",
+          "css": {
+            "light": "var(--chart-1)"
+          },
+          "form": "reference"
+        }
+      }
+    },
+    "color-ring": {
+      "$type": "color",
+      "$value": "{Focus.ring}",
+      "$description": "TK-SF-A · src/app/globals.css:45",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-A",
+          "source": "src/app/globals.css:45",
+          "css": {
+            "light": "var(--ring)"
+          },
+          "form": "reference"
+        }
+      }
+    },
+    "color-input": {
+      "$type": "color",
+      "$value": "{Control.input}",
+      "$description": "TK-SF-A · src/app/globals.css:46",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-A",
+          "source": "src/app/globals.css:46",
+          "css": {
+            "light": "var(--input)"
+          },
+          "form": "reference"
+        }
+      }
+    },
+    "color-border": {
+      "$type": "color",
+      "$value": "{Border.border}",
+      "$description": "TK-SF-A · src/app/globals.css:47",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-A",
+          "source": "src/app/globals.css:47",
+          "css": {
+            "light": "var(--border)"
+          },
+          "form": "reference"
+        }
+      }
+    },
+    "color-destructive": {
+      "$type": "color",
+      "$value": "{Destructive.destructive}",
+      "$description": "TK-SF-A · src/app/globals.css:48",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-A",
+          "source": "src/app/globals.css:48",
+          "css": {
+            "light": "var(--destructive)"
+          },
+          "form": "reference"
+        }
+      }
+    },
+    "color-accent-foreground": {
+      "$type": "color",
+      "$value": "{Accent.accent-foreground}",
+      "$description": "TK-SF-A · src/app/globals.css:49",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-A",
+          "source": "src/app/globals.css:49",
+          "css": {
+            "light": "var(--accent-foreground)"
+          },
+          "form": "reference"
+        }
+      }
+    },
+    "color-accent": {
+      "$type": "color",
+      "$value": "{Accent.accent}",
+      "$description": "TK-SF-A · src/app/globals.css:50",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-A",
+          "source": "src/app/globals.css:50",
+          "css": {
+            "light": "var(--accent)"
+          },
+          "form": "reference"
+        }
+      }
+    },
+    "color-muted-foreground": {
+      "$type": "color",
+      "$value": "{Muted.muted-foreground}",
+      "$description": "TK-SF-A · src/app/globals.css:51",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-A",
+          "source": "src/app/globals.css:51",
+          "css": {
+            "light": "var(--muted-foreground)"
+          },
+          "form": "reference"
+        }
+      }
+    },
+    "color-muted": {
+      "$type": "color",
+      "$value": "{Muted.muted}",
+      "$description": "TK-SF-A · src/app/globals.css:52",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-A",
+          "source": "src/app/globals.css:52",
+          "css": {
+            "light": "var(--muted)"
+          },
+          "form": "reference"
+        }
+      }
+    },
+    "color-secondary-foreground": {
+      "$type": "color",
+      "$value": "{Secondary.secondary-foreground}",
+      "$description": "TK-SF-A · src/app/globals.css:53",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-A",
+          "source": "src/app/globals.css:53",
+          "css": {
+            "light": "var(--secondary-foreground)"
+          },
+          "form": "reference"
+        }
+      }
+    },
+    "color-secondary": {
+      "$type": "color",
+      "$value": "{Secondary.secondary}",
+      "$description": "TK-SF-A · src/app/globals.css:54",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-A",
+          "source": "src/app/globals.css:54",
+          "css": {
+            "light": "var(--secondary)"
+          },
+          "form": "reference"
+        }
+      }
+    },
+    "color-primary-foreground": {
+      "$type": "color",
+      "$value": "{Primary.primary-foreground}",
+      "$description": "TK-SF-A · src/app/globals.css:55",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-A",
+          "source": "src/app/globals.css:55",
+          "css": {
+            "light": "var(--primary-foreground)"
+          },
+          "form": "reference"
+        }
+      }
+    },
+    "color-primary": {
+      "$type": "color",
+      "$value": "{Primary.primary}",
+      "$description": "TK-SF-A · src/app/globals.css:56",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-A",
+          "source": "src/app/globals.css:56",
+          "css": {
+            "light": "var(--primary)"
+          },
+          "form": "reference"
+        }
+      }
+    },
+    "color-popover-foreground": {
+      "$type": "color",
+      "$value": "{Surface.popover-foreground}",
+      "$description": "TK-SF-A · src/app/globals.css:57",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-A",
+          "source": "src/app/globals.css:57",
+          "css": {
+            "light": "var(--popover-foreground)"
+          },
+          "form": "reference"
+        }
+      }
+    },
+    "color-popover": {
+      "$type": "color",
+      "$value": "{Surface.popover}",
+      "$description": "TK-SF-A · src/app/globals.css:58",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-A",
+          "source": "src/app/globals.css:58",
+          "css": {
+            "light": "var(--popover)"
+          },
+          "form": "reference"
+        }
+      }
+    },
+    "color-card-foreground": {
+      "$type": "color",
+      "$value": "{Surface.card-foreground}",
+      "$description": "TK-SF-A · src/app/globals.css:59",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-A",
+          "source": "src/app/globals.css:59",
+          "css": {
+            "light": "var(--card-foreground)"
+          },
+          "form": "reference"
+        }
+      }
+    },
+    "color-card": {
+      "$type": "color",
+      "$value": "{Surface.card}",
+      "$description": "TK-SF-A · src/app/globals.css:60",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-SF-A",
+          "source": "src/app/globals.css:60",
+          "css": {
+            "light": "var(--card)"
+          },
+          "form": "reference"
+        }
+      }
+    }
+  },
+  "Tailwind palette": {
+    "color-red-50": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.9968,
+          0.9496,
+          0.9496
+        ],
+        "alpha": 1,
+        "hex": "#fef2f2"
+      },
+      "$description": "TK-TW-S · tailwindcss/theme.css",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-TW-S",
+          "source": "tailwindcss/theme.css",
+          "css": {
+            "light": "oklch(97.1% 0.013 17.38)"
+          },
+          "form": "oklch"
+        }
+      }
+    },
+    "color-red-100": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.9993,
+          0.8856,
+          0.8857
+        ],
+        "alpha": 1,
+        "hex": "#ffe2e2"
+      },
+      "$description": "TK-TW-S · tailwindcss/theme.css",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-TW-S",
+          "source": "tailwindcss/theme.css",
+          "css": {
+            "light": "oklch(93.6% 0.032 17.717)"
+          },
+          "form": "oklch"
+        }
+      }
+    },
+    "color-red-300": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          1,
+          0.6347,
+          0.6364
+        ],
+        "alpha": 1,
+        "hex": "#ffa2a2"
+      },
+      "$description": "TK-TW-S · tailwindcss/theme.css",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-TW-S",
+          "source": "tailwindcss/theme.css",
+          "css": {
+            "light": "oklch(80.8% 0.114 19.571)"
+          },
+          "form": "oklch",
+          "clippedToSrgb": 0.0097
+        }
+      }
+    },
+    "color-red-500": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.9827,
+          0.1718,
+          0.2131
+        ],
+        "alpha": 1,
+        "hex": "#fb2c36"
+      },
+      "$description": "TK-TW-S · tailwindcss/theme.css",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-TW-S",
+          "source": "tailwindcss/theme.css",
+          "css": {
+            "light": "oklch(63.7% 0.237 25.331)"
+          },
+          "form": "oklch"
+        }
+      }
+    },
+    "color-red-600": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.9065,
+          0,
+          0.0422
+        ],
+        "alpha": 1,
+        "hex": "#e7000b"
+      },
+      "$description": "TK-TW-S · tailwindcss/theme.css",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-TW-S",
+          "source": "tailwindcss/theme.css",
+          "css": {
+            "light": "oklch(57.7% 0.245 27.325)"
+          },
+          "form": "oklch",
+          "clippedToSrgb": 0.0959
+        }
+      }
+    },
+    "color-red-700": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.7569,
+          0,
+          0.0288
+        ],
+        "alpha": 1,
+        "hex": "#c10007"
+      },
+      "$description": "TK-TW-S · tailwindcss/theme.css",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-TW-S",
+          "source": "tailwindcss/theme.css",
+          "css": {
+            "light": "oklch(50.5% 0.213 27.518)"
+          },
+          "form": "oklch",
+          "clippedToSrgb": 0.0624
+        }
+      }
+    },
+    "color-red-800": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.6222,
+          0.0288,
+          0.0689
+        ],
+        "alpha": 1,
+        "hex": "#9f0712"
+      },
+      "$description": "TK-TW-S · tailwindcss/theme.css",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-TW-S",
+          "source": "tailwindcss/theme.css",
+          "css": {
+            "light": "oklch(44.4% 0.177 26.899)"
+          },
+          "form": "oklch"
+        }
+      }
+    },
+    "color-amber-700": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.7318,
+          0.301,
+          0
+        ],
+        "alpha": 1,
+        "hex": "#bb4d00"
+      },
+      "$description": "TK-TW-S · tailwindcss/theme.css",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-TW-S",
+          "source": "tailwindcss/theme.css",
+          "css": {
+            "light": "oklch(55.5% 0.163 48.998)"
+          },
+          "form": "oklch",
+          "clippedToSrgb": 0.1038
+        }
+      }
+    },
+    "color-yellow-100": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.997,
+          0.9768,
+          0.7597
+        ],
+        "alpha": 1,
+        "hex": "#fef9c2"
+      },
+      "$description": "TK-TW-S · tailwindcss/theme.css",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-TW-S",
+          "source": "tailwindcss/theme.css",
+          "css": {
+            "light": "oklch(97.3% 0.071 103.193)"
+          },
+          "form": "oklch"
+        }
+      }
+    },
+    "color-yellow-800": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.5359,
+          0.2927,
+          0
+        ],
+        "alpha": 1,
+        "hex": "#894b00"
+      },
+      "$description": "TK-TW-S · tailwindcss/theme.css",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-TW-S",
+          "source": "tailwindcss/theme.css",
+          "css": {
+            "light": "oklch(47.6% 0.114 61.907)"
+          },
+          "form": "oklch",
+          "clippedToSrgb": 0.0377
+        }
+      }
+    },
+    "color-green-100": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.8609,
+          0.9882,
+          0.9047
+        ],
+        "alpha": 1,
+        "hex": "#dcfce7"
+      },
+      "$description": "TK-TW-S · tailwindcss/theme.css",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-TW-S",
+          "source": "tailwindcss/theme.css",
+          "css": {
+            "light": "oklch(96.2% 0.044 156.743)"
+          },
+          "form": "oklch"
+        }
+      }
+    },
+    "color-green-500": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0,
+          0.7872,
+          0.3156
+        ],
+        "alpha": 1,
+        "hex": "#00c950"
+      },
+      "$description": "TK-TW-S · tailwindcss/theme.css",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-TW-S",
+          "source": "tailwindcss/theme.css",
+          "css": {
+            "light": "oklch(72.3% 0.219 149.579)"
+          },
+          "form": "oklch",
+          "clippedToSrgb": 0.1941
+        }
+      }
+    },
+    "color-green-600": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0,
+          0.6513,
+          0.242
+        ],
+        "alpha": 1,
+        "hex": "#00a63e"
+      },
+      "$description": "TK-TW-S · tailwindcss/theme.css",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-TW-S",
+          "source": "tailwindcss/theme.css",
+          "css": {
+            "light": "oklch(62.7% 0.194 149.214)"
+          },
+          "form": "oklch",
+          "clippedToSrgb": 0.166
+        }
+      }
+    },
+    "color-green-700": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0,
+          0.51,
+          0.2098
+        ],
+        "alpha": 1,
+        "hex": "#008236"
+      },
+      "$description": "TK-TW-S · tailwindcss/theme.css",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-TW-S",
+          "source": "tailwindcss/theme.css",
+          "css": {
+            "light": "oklch(52.7% 0.154 150.069)"
+          },
+          "form": "oklch",
+          "clippedToSrgb": 0.0904
+        }
+      }
+    },
+    "color-green-800": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.0058,
+          0.4015,
+          0.1886
+        ],
+        "alpha": 1,
+        "hex": "#016630"
+      },
+      "$description": "TK-TW-S · tailwindcss/theme.css",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-TW-S",
+          "source": "tailwindcss/theme.css",
+          "css": {
+            "light": "oklch(44.8% 0.119 151.328)"
+          },
+          "form": "oklch"
+        }
+      }
+    },
+    "color-blue-50": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.9369,
+          0.964,
+          0.9989
+        ],
+        "alpha": 1,
+        "hex": "#eff6ff"
+      },
+      "$description": "TK-TW-S · tailwindcss/theme.css",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-TW-S",
+          "source": "tailwindcss/theme.css",
+          "css": {
+            "light": "oklch(97% 0.014 254.604)"
+          },
+          "form": "oklch"
+        }
+      }
+    },
+    "color-blue-100": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.8582,
+          0.9178,
+          0.9973
+        ],
+        "alpha": 1,
+        "hex": "#dbeafe"
+      },
+      "$description": "TK-TW-S · tailwindcss/theme.css",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-TW-S",
+          "source": "tailwindcss/theme.css",
+          "css": {
+            "light": "oklch(93.2% 0.032 255.585)"
+          },
+          "form": "oklch"
+        }
+      }
+    },
+    "color-blue-800": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.0998,
+          0.2338,
+          0.7229
+        ],
+        "alpha": 1,
+        "hex": "#193cb8"
+      },
+      "$description": "TK-TW-S · tailwindcss/theme.css",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-TW-S",
+          "source": "tailwindcss/theme.css",
+          "css": {
+            "light": "oklch(42.4% 0.199 265.638)"
+          },
+          "form": "oklch"
+        }
+      }
+    },
+    "color-slate-50": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.9731,
+          0.98,
+          0.9869
+        ],
+        "alpha": 1,
+        "hex": "#f8fafc"
+      },
+      "$description": "TK-TW-S · tailwindcss/theme.css",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-TW-S",
+          "source": "tailwindcss/theme.css",
+          "css": {
+            "light": "oklch(98.4% 0.003 247.858)"
+          },
+          "form": "oklch"
+        }
+      }
+    },
+    "color-slate-100": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.9445,
+          0.9605,
+          0.9765
+        ],
+        "alpha": 1,
+        "hex": "#f1f5f9"
+      },
+      "$description": "TK-TW-S · tailwindcss/theme.css",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-TW-S",
+          "source": "tailwindcss/theme.css",
+          "css": {
+            "light": "oklch(96.8% 0.007 247.896)"
+          },
+          "form": "oklch"
+        }
+      }
+    },
+    "color-slate-200": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.886,
+          0.9102,
+          0.9425
+        ],
+        "alpha": 1,
+        "hex": "#e2e8f0"
+      },
+      "$description": "TK-TW-S · tailwindcss/theme.css",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-TW-S",
+          "source": "tailwindcss/theme.css",
+          "css": {
+            "light": "oklch(92.9% 0.013 255.508)"
+          },
+          "form": "oklch"
+        }
+      }
+    },
+    "color-slate-300": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.7923,
+          0.8358,
+          0.888
+        ],
+        "alpha": 1,
+        "hex": "#cad5e2"
+      },
+      "$description": "TK-TW-S · tailwindcss/theme.css",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-TW-S",
+          "source": "tailwindcss/theme.css",
+          "css": {
+            "light": "oklch(86.9% 0.022 252.894)"
+          },
+          "form": "oklch"
+        }
+      }
+    },
+    "color-slate-400": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.5648,
+          0.6317,
+          0.7252
+        ],
+        "alpha": 1,
+        "hex": "#90a1b9"
+      },
+      "$description": "TK-TW-S · tailwindcss/theme.css",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-TW-S",
+          "source": "tailwindcss/theme.css",
+          "css": {
+            "light": "oklch(70.4% 0.04 256.788)"
+          },
+          "form": "oklch"
+        }
+      }
+    },
+    "color-slate-500": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.3839,
+          0.4548,
+          0.5567
+        ],
+        "alpha": 1,
+        "hex": "#62748e"
+      },
+      "$description": "TK-TW-S · tailwindcss/theme.css",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-TW-S",
+          "source": "tailwindcss/theme.css",
+          "css": {
+            "light": "oklch(55.4% 0.046 257.417)"
+          },
+          "form": "oklch"
+        }
+      }
+    },
+    "color-slate-600": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.271,
+          0.3341,
+          0.4242
+        ],
+        "alpha": 1,
+        "hex": "#45556c"
+      },
+      "$description": "TK-TW-S · tailwindcss/theme.css",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-TW-S",
+          "source": "tailwindcss/theme.css",
+          "css": {
+            "light": "oklch(44.6% 0.043 257.281)"
+          },
+          "form": "oklch"
+        }
+      }
+    },
+    "color-slate-700": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.1935,
+          0.2553,
+          0.3435
+        ],
+        "alpha": 1,
+        "hex": "#314158"
+      },
+      "$description": "TK-TW-S · tailwindcss/theme.css",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-TW-S",
+          "source": "tailwindcss/theme.css",
+          "css": {
+            "light": "oklch(37.2% 0.044 257.287)"
+          },
+          "form": "oklch"
+        }
+      }
+    },
+    "color-slate-800": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.1121,
+          0.16,
+          0.2387
+        ],
+        "alpha": 1,
+        "hex": "#1d293d"
+      },
+      "$description": "TK-TW-S · tailwindcss/theme.css",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-TW-S",
+          "source": "tailwindcss/theme.css",
+          "css": {
+            "light": "oklch(27.9% 0.041 260.031)"
+          },
+          "form": "oklch"
+        }
+      }
+    },
+    "color-slate-900": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.0572,
+          0.09,
+          0.1688
+        ],
+        "alpha": 1,
+        "hex": "#0f172b"
+      },
+      "$description": "TK-TW-S · tailwindcss/theme.css",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-TW-S",
+          "source": "tailwindcss/theme.css",
+          "css": {
+            "light": "oklch(20.8% 0.042 265.755)"
+          },
+          "form": "oklch"
+        }
+      }
+    },
+    "color-gray-50": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.9764,
+          0.981,
+          0.9856
+        ],
+        "alpha": 1,
+        "hex": "#f9fafb"
+      },
+      "$description": "TK-TW-S · tailwindcss/theme.css",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-TW-S",
+          "source": "tailwindcss/theme.css",
+          "css": {
+            "light": "oklch(98.5% 0.002 247.839)"
+          },
+          "form": "oklch"
+        }
+      }
+    },
+    "color-gray-100": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.9528,
+          0.9569,
+          0.9651
+        ],
+        "alpha": 1,
+        "hex": "#f3f4f6"
+      },
+      "$description": "TK-TW-S · tailwindcss/theme.css",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-TW-S",
+          "source": "tailwindcss/theme.css",
+          "css": {
+            "light": "oklch(96.7% 0.003 264.542)"
+          },
+          "form": "oklch"
+        }
+      }
+    },
+    "color-gray-200": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.8983,
+          0.9064,
+          0.9226
+        ],
+        "alpha": 1,
+        "hex": "#e5e7eb"
+      },
+      "$description": "TK-TW-S · tailwindcss/theme.css",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-TW-S",
+          "source": "tailwindcss/theme.css",
+          "css": {
+            "light": "oklch(92.8% 0.006 264.531)"
+          },
+          "form": "oklch"
+        }
+      }
+    },
+    "color-gray-300": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.819,
+          0.8358,
+          0.861
+        ],
+        "alpha": 1,
+        "hex": "#d1d5dc"
+      },
+      "$description": "TK-TW-S · tailwindcss/theme.css",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-TW-S",
+          "source": "tailwindcss/theme.css",
+          "css": {
+            "light": "oklch(87.2% 0.01 258.338)"
+          },
+          "form": "oklch"
+        }
+      }
+    },
+    "color-gray-400": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.6,
+          0.6314,
+          0.6852
+        ],
+        "alpha": 1,
+        "hex": "#99a1af"
+      },
+      "$description": "TK-TW-S · tailwindcss/theme.css",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-TW-S",
+          "source": "tailwindcss/theme.css",
+          "css": {
+            "light": "oklch(70.7% 0.022 261.325)"
+          },
+          "form": "oklch"
+        }
+      }
+    },
+    "color-gray-500": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.4155,
+          0.4471,
+          0.5105
+        ],
+        "alpha": 1,
+        "hex": "#6a7282"
+      },
+      "$description": "TK-TW-S · tailwindcss/theme.css",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-TW-S",
+          "source": "tailwindcss/theme.css",
+          "css": {
+            "light": "oklch(55.1% 0.027 264.364)"
+          },
+          "form": "oklch"
+        }
+      }
+    },
+    "color-gray-600": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.2888,
+          0.3335,
+          0.3961
+        ],
+        "alpha": 1,
+        "hex": "#4a5565"
+      },
+      "$description": "TK-TW-S · tailwindcss/theme.css",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-TW-S",
+          "source": "tailwindcss/theme.css",
+          "css": {
+            "light": "oklch(44.6% 0.03 256.802)"
+          },
+          "form": "oklch"
+        }
+      }
+    },
+    "color-gray-700": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.2115,
+          0.255,
+          0.3247
+        ],
+        "alpha": 1,
+        "hex": "#364153"
+      },
+      "$description": "TK-TW-S · tailwindcss/theme.css",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-TW-S",
+          "source": "tailwindcss/theme.css",
+          "css": {
+            "light": "oklch(37.3% 0.034 259.733)"
+          },
+          "form": "oklch"
+        }
+      }
+    },
+    "color-gray-800": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.117,
+          0.1608,
+          0.222
+        ],
+        "alpha": 1,
+        "hex": "#1e2939"
+      },
+      "$description": "TK-TW-S · tailwindcss/theme.css",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-TW-S",
+          "source": "tailwindcss/theme.css",
+          "css": {
+            "light": "oklch(27.8% 0.033 256.848)"
+          },
+          "form": "oklch"
+        }
+      }
+    },
+    "color-gray-900": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.0645,
+          0.0937,
+          0.1568
+        ],
+        "alpha": 1,
+        "hex": "#101828"
+      },
+      "$description": "TK-TW-S · tailwindcss/theme.css",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-TW-S",
+          "source": "tailwindcss/theme.css",
+          "css": {
+            "light": "oklch(21% 0.034 264.665)"
+          },
+          "form": "oklch"
+        }
+      }
+    },
+    "color-neutral-200": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.8982,
+          0.8982,
+          0.8982
+        ],
+        "alpha": 1,
+        "hex": "#e5e5e5"
+      },
+      "$description": "TK-TW-S · tailwindcss/theme.css",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-TW-S",
+          "source": "tailwindcss/theme.css",
+          "css": {
+            "light": "oklch(92.2% 0 0)"
+          },
+          "form": "oklch"
+        }
+      }
+    },
+    "color-neutral-300": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.8314,
+          0.8314,
+          0.8314
+        ],
+        "alpha": 1,
+        "hex": "#d4d4d4"
+      },
+      "$description": "TK-TW-S · tailwindcss/theme.css",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-TW-S",
+          "source": "tailwindcss/theme.css",
+          "css": {
+            "light": "oklch(87% 0 0)"
+          },
+          "form": "oklch"
+        }
+      }
+    },
+    "color-neutral-400": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.6302,
+          0.6302,
+          0.6302
+        ],
+        "alpha": 1,
+        "hex": "#a1a1a1"
+      },
+      "$description": "TK-TW-S · tailwindcss/theme.css",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-TW-S",
+          "source": "tailwindcss/theme.css",
+          "css": {
+            "light": "oklch(70.8% 0 0)"
+          },
+          "form": "oklch"
+        }
+      }
+    },
+    "color-neutral-800": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.1494,
+          0.1494,
+          0.1494
+        ],
+        "alpha": 1,
+        "hex": "#262626"
+      },
+      "$description": "TK-TW-S · tailwindcss/theme.css",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-TW-S",
+          "source": "tailwindcss/theme.css",
+          "css": {
+            "light": "oklch(26.9% 0 0)"
+          },
+          "form": "oklch"
+        }
+      }
+    },
+    "color-black": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0,
+          0,
+          0
+        ],
+        "alpha": 1,
+        "hex": "#000000"
+      },
+      "$description": "TK-TW-S · tailwindcss/theme.css",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-TW-S",
+          "source": "tailwindcss/theme.css",
+          "css": {
+            "light": "#000"
+          },
+          "form": "hex"
+        }
+      }
+    },
+    "color-white": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          1,
+          1,
+          1
+        ],
+        "alpha": 1,
+        "hex": "#ffffff"
+      },
+      "$description": "TK-TW-S · tailwindcss/theme.css",
+      "$extensions": {
+        "org.liquorify": {
+          "id": "TK-TW-S",
+          "source": "tailwindcss/theme.css",
+          "css": {
+            "light": "#fff"
+          },
+          "form": "hex"
+        }
+      }
+    }
+  },
+  "$extensions": {
+    "org.liquorify": {
+      "tailwindcss": "4.3.0",
+      "idList": "0.3-draft"
+    }
+  }
+}
