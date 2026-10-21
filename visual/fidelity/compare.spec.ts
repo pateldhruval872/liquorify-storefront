@@ -78,43 +78,53 @@ declare global {
  * The built storefront's stylesheet writes colours in another colour space
  * than Storybook's, so each colour is compared as the pixel it paints.
  */
-async function collectStyles(target: Locator): Promise<Styles> {
-  return target.evaluate((root, names) => {
-    const context = document
-      .createElement("canvas")
-      .getContext("2d", { willReadFrequently: true });
-    const painted = (value: string) => {
-      if (!context || !/(rgb|lab|lch|oklab|oklch|color)\(/.test(value)) {
-        return value;
-      }
-      return value.replace(
-        /(?:rgba?|lab|lch|oklab|oklch|color)\([^()]*\)/g,
-        (colour) => {
-          context.clearRect(0, 0, 1, 1);
-          context.fillStyle = colour;
-          context.fillRect(0, 0, 1, 1);
-          return `rgba(${context.getImageData(0, 0, 1, 1).data.join(", ")})`;
-        },
-      );
-    };
-    const styles: Record<string, Record<string, string>> = {};
-    const visit = (element: Element) => {
-      const key = [
-        element.tagName.toLowerCase(),
-        element.getAttribute("data-slot") ?? "",
-        element.getAttribute("class") ?? "",
-      ].join("|");
-      if (!styles[key]) {
-        const computed = getComputedStyle(element);
-        styles[key] = Object.fromEntries(
-          names.map((name) => [name, painted(computed.getPropertyValue(name))]),
+async function collectStyles(
+  target: Locator,
+  names = properties,
+  deep = true,
+): Promise<Styles> {
+  return target.evaluate(
+    (root, { names, deep }) => {
+      const context = document
+        .createElement("canvas")
+        .getContext("2d", { willReadFrequently: true });
+      const painted = (value: string) => {
+        if (!context || !/(rgb|lab|lch|oklab|oklch|color)\(/.test(value)) {
+          return value;
+        }
+        return value.replace(
+          /(?:rgba?|lab|lch|oklab|oklch|color)\([^()]*\)/g,
+          (colour) => {
+            context.clearRect(0, 0, 1, 1);
+            context.fillStyle = colour;
+            context.fillRect(0, 0, 1, 1);
+            return `rgba(${context.getImageData(0, 0, 1, 1).data.join(", ")})`;
+          },
         );
-      }
-      for (const child of element.children) visit(child);
-    };
-    visit(root);
-    return styles;
-  }, properties);
+      };
+      const styles: Record<string, Record<string, string>> = {};
+      const visit = (element: Element) => {
+        const key = [
+          element.tagName.toLowerCase(),
+          element.getAttribute("data-slot") ?? "",
+          element.getAttribute("class") ?? "",
+        ].join("|");
+        if (!styles[key]) {
+          const computed = getComputedStyle(element);
+          styles[key] = Object.fromEntries(
+            names.map((name) => [
+              name,
+              painted(computed.getPropertyValue(name)),
+            ]),
+          );
+        }
+        if (deep) for (const child of element.children) visit(child);
+      };
+      visit(root);
+      return styles;
+    },
+    { names, deep },
+  );
 }
 
 function compareStyles(screen: Styles, story: Styles) {
@@ -350,6 +360,53 @@ async function newPage(browser: Browser, mode: Mode) {
   });
   return page;
 }
+
+/** The custom properties the page's root element defines: the tokens. */
+async function tokenNames(page: Page): Promise<string[]> {
+  return page.evaluate(() =>
+    Array.from(getComputedStyle(document.documentElement)).filter((name) =>
+      name.startsWith("--"),
+    ),
+  );
+}
+
+test("tokens on the running storefront and in Storybook", async ({
+  browser,
+}) => {
+  const page = await newPage(browser, desktop);
+  await storefrontPage(page, "");
+  const storyPage = await newPage(browser, desktop);
+  await openStory(storyPage, "storefront-ui-button--default");
+
+  const onScreen = await tokenNames(page);
+  const inStory = await tokenNames(storyPage);
+  const names = [...new Set([...onScreen, ...inStory])];
+  const root = async (target: Page) =>
+    Object.values(await collectStyles(target.locator("html"), names, false))[0];
+  const screen = await root(page);
+  const story = await root(storyPage);
+
+  mkdirSync(`${results}tokens/`, { recursive: true });
+  writeFileSync(
+    `${results}tokens/desktop.json`,
+    JSON.stringify(
+      {
+        counts: { storefront: onScreen.length, storybook: inStory.length },
+        differing: names
+          .filter((name) => screen[name] !== story[name])
+          .map((name) => ({
+            name,
+            screen: onScreen.includes(name) ? screen[name] : null,
+            story: inStory.includes(name) ? story[name] : null,
+          })),
+      },
+      null,
+      2,
+    ),
+  );
+  await page.close();
+  await storyPage.close();
+});
 
 for (const item of cases) {
   for (const mode of item.modes) {
