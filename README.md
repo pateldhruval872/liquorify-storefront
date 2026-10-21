@@ -1,3 +1,5 @@
+> **Liquorify:** this repository is Liquorify's customer storefront, built on the Spree storefront. Shared Liquorify engineering documentation lives in the backend repository at [`liquorify/README.md`](https://github.com/pateldhruval872/liquorify/blob/main/liquorify/README.md); rules for this repository stay in `CLAUDE.md`. The rest of this file is upstream's README.
+
 [![MIT License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Next.js 16](https://img.shields.io/badge/Next.js-16-black)](https://nextjs.org)
 [![React 19](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)](https://react.dev)
