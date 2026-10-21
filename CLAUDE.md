@@ -1,5 +1,9 @@
 # Claude Code Rules for Next.js Spree Storefront
 
+## Liquorify
+
+This repository is Liquorify's customer storefront, built on the Spree storefront. Shared Liquorify engineering documentation (the draft framework, project profile, baseline and backlog) lives in the backend repository at [`liquorify/README.md`](https://github.com/pateldhruval872/liquorify/blob/main/liquorify/README.md). Read it before Liquorify work. This file stays the rule set for this repository. This repository is private and the backend is public, so keep private storefront details out of the shared documentation.
+
 ## Project Overview
 
 This is a headless e-commerce storefront built with Next.js 16 and React 19, using the Spree Commerce API v3 via `@spree/sdk`.
