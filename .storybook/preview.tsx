@@ -7,7 +7,10 @@ import { mockServerActions } from "../stories/mocks/server-actions";
 
 // Server actions and server-only modules are replaced for every story; each
 // story gives them fixtures through mockServerActions.
+sb.mock(import("../src/lib/data/addresses.ts"));
 sb.mock(import("../src/lib/data/cart.ts"));
+sb.mock(import("../src/lib/data/countries.ts"));
+sb.mock(import("../src/lib/data/credit-cards.ts"));
 sb.mock(import("../src/lib/data/customer.ts"));
 sb.mock(import("next-intl/server"));
 

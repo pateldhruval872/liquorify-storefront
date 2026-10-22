@@ -1,6 +1,6 @@
 import type { Cart, LineItem } from "@spree/sdk";
 
-function lineItem(
+export function lineItem(
   fields: Partial<LineItem> &
     Pick<
       LineItem,

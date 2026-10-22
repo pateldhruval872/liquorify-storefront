@@ -1,12 +1,13 @@
 import { defineConfig } from "@playwright/test";
 
 /**
- * Compares the pilot's stories with the same components on the running
- * storefront. Start the storefront and Storybook first (see compare.spec.ts).
+ * Compares stories with the same components on the running storefront
+ * (compare.spec.ts), and captures the running screens in each state
+ * (screens.spec.ts). Start the servers each file names first.
  */
 export default defineConfig({
   testDir: ".",
-  testMatch: "compare.spec.ts",
+  testMatch: ["compare.spec.ts", "screens.spec.ts"],
   outputDir: "./results/test-output",
   workers: 1,
   timeout: 180_000,
