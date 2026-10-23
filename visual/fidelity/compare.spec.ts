@@ -7,6 +7,8 @@ import {
   type Page,
   test,
 } from "@playwright/test";
+import { signIn } from "../../e2e/support";
+import { readAccounts } from "./accounts";
 
 /**
  * The pilot's diagnostic comparison with the running storefront (LIQ-010
@@ -22,6 +24,9 @@ import {
  *      `SPREE_API_URL` and `SPREE_PUBLISHABLE_KEY` pointing at that backend;
  *   3. the built Storybook on port 6008
  *      (`node stories/scripts/serve.mjs storybook-static 6008`).
+ *
+ * The account cases open the screens as the test customer `screens.spec.ts`
+ * describes, so they also need `FIDELITY_ACCOUNTS`.
  *
  * Set `FIDELITY_PRODUCT` to the listed product's slug, and `FIDELITY_REVISION`
  * to the commit under test to record it in each file. For each case it saves
@@ -229,6 +234,36 @@ async function signUp(page: Page) {
   await page.waitForURL(/\/account(?!\/register)/);
 }
 
+/** Signs the test customer in and opens one of their account pages. */
+async function customerPage(page: Page, path: string) {
+  const { customer } = readAccounts();
+  await storefrontPage(page, "/account");
+  await signIn(page, customer.email, customer.password);
+  await expect(
+    page.getByRole("heading", { name: "Account Overview" }),
+  ).toBeVisible({ timeout: 30_000 });
+  if (path) await storefrontPage(page, path);
+  // Signing in leaves the pointer where the button was, over the next page.
+  await page.mouse.move(0, 0);
+}
+
+/** The account column a page's story sits in (`stories/decorators/account-column.tsx`). */
+const accountColumn = (page: Page) =>
+  page.locator("#storybook-root div.flex-1.min-w-0");
+
+/** The test customer's shipped order. */
+const shippedOrder = (page: Page) =>
+  customerPage(page, `/account/orders/${readAccounts().orders.shipped}`);
+
+/** Opens the address editor for the customer's studio address. */
+async function editStudioAddress(page: Page) {
+  await customerPage(page, "/account/addresses");
+  await page
+    .locator("div.rounded-xl", { hasText: "2200 Mission Street" })
+    .getByRole("button", { name: "Edit" })
+    .click();
+}
+
 interface Mode {
   name: string;
   width: number;
@@ -353,6 +388,252 @@ const cases: Case[] = [
       return toast(page);
     },
     inStory: toast,
+  },
+  // Storefront shopper accounts. Three primitives appear on the account
+  // screens only inside one component, so each is compared within it: the
+  // label (CMP-SF-P-13) within the field (P-10), the checkbox (P-07), which
+  // the consent gives a top margin, within the policy consent (G-09), and the
+  // dialog (P-08), whose default story adds a header and close button no
+  // account screen has, within the address editor (G-04).
+  {
+    id: "CMP-SF-P-05",
+    name: "card-sign-in",
+    story: "storefront-ui-card--default",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await storefrontPage(page, "/account");
+      return page.locator('[data-slot="card"]').first();
+    },
+    inStory: (page) => page.locator('[data-slot="card"]').first(),
+  },
+  {
+    id: "CMP-SF-P-10",
+    name: "field-sign-in",
+    story: "storefront-ui-field--default",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await storefrontPage(page, "/account");
+      return page.locator('[data-slot="field"]').first();
+    },
+    inStory: (page) => page.locator('[data-slot="field"]').first(),
+  },
+  {
+    id: "CMP-SF-P-12",
+    name: "input-sign-in",
+    story: "storefront-ui-input--default",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await storefrontPage(page, "/account");
+      return page.locator('[data-slot="input"]').first();
+    },
+    inStory: (page) => page.locator('[data-slot="input"]').first(),
+  },
+  {
+    id: "CMP-SF-P-02",
+    name: "alert-wrong-password",
+    story: "storefront-ui-alert--destructive",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await storefrontPage(page, "/account");
+      await signIn(page, readAccounts().customer.email, "not-the-password");
+      return page.locator('[data-slot="alert"]');
+    },
+    inStory: (page) => page.locator('[data-slot="alert"]'),
+  },
+  {
+    id: "CMP-SF-G-09",
+    name: "policy-consent-register",
+    story: "storefront-policy-policy-consent--unchecked",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await storefrontPage(page, "/account/register");
+      return page
+        .locator("div", { has: page.locator('[data-slot="checkbox"]') })
+        .last();
+    },
+    inStory: (page) =>
+      page
+        .locator("div", { has: page.locator('[data-slot="checkbox"]') })
+        .last(),
+  },
+  {
+    id: "CMP-SF-G-01",
+    name: "account-shell",
+    story: "storefront-account-account-shell--overview",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await customerPage(page, "");
+      return page.locator("div.container", {
+        has: page.getByRole("complementary"),
+      });
+    },
+    inStory: (page) =>
+      page.locator("div.container", { has: page.getByRole("complementary") }),
+  },
+  {
+    id: "CMP-SF-G-01",
+    name: "order-list",
+    story: "storefront-account-order-list--orders-listed",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await customerPage(page, "/account/orders");
+      return page.locator("div.rounded-xl", { has: page.locator("table") });
+    },
+    inStory: (page) =>
+      page.locator("div.rounded-xl", { has: page.locator("table") }),
+  },
+  {
+    id: "CMP-SF-G-01",
+    name: "order-detail-shipped",
+    story: "storefront-account-order-detail--shipped",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await shippedOrder(page);
+      return page
+        .locator("div", {
+          has: page.getByRole("link", { name: "Back to orders" }),
+        })
+        .last();
+    },
+    inStory: (page) =>
+      page
+        .locator("div", {
+          has: page.getByRole("link", { name: "Back to orders" }),
+        })
+        .last(),
+  },
+  {
+    id: "CMP-SF-G-01",
+    name: "gift-card-list",
+    story: "storefront-account-gift-card-list--every-state",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await customerPage(page, "/account/gift-cards");
+      return page
+        .getByRole("heading", { level: 1, name: "Gift Cards" })
+        .locator("..");
+    },
+    inStory: accountColumn,
+  },
+  {
+    id: "CMP-SF-G-08",
+    name: "fulfillment-block-shipped",
+    story: "storefront-order-fulfillment-block--shipped",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await shippedOrder(page);
+      return page
+        .locator("div.rounded-xl", { hasText: "Shipping Method" })
+        .first();
+    },
+    inStory: (page) => page.locator("#storybook-root div.rounded-xl").first(),
+  },
+  {
+    id: "CMP-SF-G-08",
+    name: "address-block",
+    story: "storefront-order-address-block--full",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await shippedOrder(page);
+      return page.locator('div[class*="space-y-0.5"]').first();
+    },
+    inStory: (page) => page.locator('div[class*="space-y-0.5"]').first(),
+  },
+  {
+    id: "CMP-SF-G-08",
+    name: "line-item-card",
+    story: "storefront-order-line-item-card--without-image",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await shippedOrder(page);
+      return page.locator("div.flex.gap-4", { hasText: "Order again" }).first();
+    },
+    inStory: (page) =>
+      page.locator("div.flex.gap-4", { hasText: "Order again" }).first(),
+  },
+  {
+    id: "CMP-SF-P-16",
+    name: "product-image-none",
+    story: "storefront-ui-product-image--no-image",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await shippedOrder(page);
+      return page.locator("div.absolute.inset-0.bg-gray-100").first();
+    },
+    inStory: (page) => page.locator("div.absolute.inset-0.bg-gray-100").first(),
+  },
+  {
+    id: "CMP-SF-G-08",
+    name: "payment-info-other-method",
+    story: "storefront-order-payment-info--other-method",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await shippedOrder(page);
+      return page.locator("div.mb-3 > :first-child").first();
+    },
+    inStory: (page) => page.locator("#storybook-root > *").first(),
+  },
+  {
+    id: "CMP-SF-G-08",
+    name: "order-totals",
+    story: "storefront-order-order-totals--default",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await shippedOrder(page);
+      return page.locator("div.space-y-2", { hasText: "Subtotal" }).last();
+    },
+    inStory: (page) =>
+      page.locator("div.space-y-2", { hasText: "Subtotal" }).last(),
+  },
+  {
+    id: "CMP-SF-G-02",
+    name: "address-management",
+    story: "storefront-addresses-address-management--addresses-listed",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await customerPage(page, "/account/addresses");
+      return page
+        .getByRole("heading", { level: 1, name: "Addresses" })
+        .locator("../..");
+    },
+    inStory: accountColumn,
+  },
+  {
+    id: "CMP-SF-G-04",
+    name: "address-edit-modal-editing",
+    story: "storefront-checkout-address-edit-modal--editing",
+    modes: [desktop, mobile],
+    viewport: true,
+    screen: async (page) => {
+      await editStudioAddress(page);
+      return page.locator('[data-slot="dialog-content"]');
+    },
+    inStory: (page) => page.locator('[data-slot="dialog-content"]'),
+  },
+  {
+    id: "CMP-SF-P-14",
+    name: "native-select-country",
+    story: "storefront-ui-native-select--focused",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await editStudioAddress(page);
+      return page.locator('[data-slot="native-select-wrapper"]').first();
+    },
+    inStory: (page) =>
+      page.locator('[data-slot="native-select-wrapper"]').first(),
+  },
+  {
+    id: "CMP-SF-P-01",
+    name: "alert-dialog-delete-address",
+    story: "storefront-ui-alert-dialog--default",
+    modes: [desktop, mobile],
+    viewport: true,
+    screen: async (page) => {
+      await customerPage(page, "/account/addresses");
+      await page.getByRole("button", { name: "Delete" }).first().click();
+      return page.locator('[data-slot="alert-dialog-content"]');
+    },
+    inStory: (page) => page.locator('[data-slot="alert-dialog-content"]'),
   },
 ];
 

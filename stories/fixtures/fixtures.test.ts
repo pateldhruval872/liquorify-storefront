@@ -1,5 +1,34 @@
-import { CartSchema, MarketSchema } from "@spree/sdk/zod";
+import {
+  AddressSchema,
+  CartSchema,
+  CountrySchema,
+  CreditCardSchema,
+  CustomerSchema,
+  GiftCardSchema,
+  MarketSchema,
+  OrderSchema,
+} from "@spree/sdk/zod";
 import { describe, expect, it } from "vitest";
+import {
+  accountOrders,
+  activeGiftCard,
+  amexCard,
+  canceledGiftCard,
+  customer,
+  customerWithoutName,
+  expiredGiftCard,
+  homeAddress,
+  mastercardCard,
+  minimalAddress,
+  orderWithEveryTotal,
+  orderWithoutFulfillments,
+  partiallyUsedGiftCard,
+  redeemedGiftCard,
+  studioAddress,
+  unitedKingdom,
+  unitedStatesWithStates,
+  visaCard,
+} from "./account";
 import { cartWithItems, emptyCart } from "./cart";
 import { unitedStates } from "./markets";
 
@@ -12,6 +41,26 @@ interface Schema {
 const fixtures: [string, Schema, unknown[]][] = [
   ["carts", CartSchema, [cartWithItems, emptyCart]],
   ["markets", MarketSchema, [unitedStates]],
+  ["addresses", AddressSchema, [homeAddress, studioAddress, minimalAddress]],
+  ["countries", CountrySchema, [unitedStatesWithStates, unitedKingdom]],
+  ["customers", CustomerSchema, [customer, customerWithoutName]],
+  ["credit cards", CreditCardSchema, [visaCard, mastercardCard, amexCard]],
+  [
+    "gift cards",
+    GiftCardSchema,
+    [
+      activeGiftCard,
+      partiallyUsedGiftCard,
+      redeemedGiftCard,
+      canceledGiftCard,
+      expiredGiftCard,
+    ],
+  ],
+  [
+    "orders",
+    OrderSchema,
+    [...accountOrders, orderWithoutFulfillments, orderWithEveryTotal],
+  ],
 ];
 
 describe("fixtures match the SDK schemas", () => {
