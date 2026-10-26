@@ -4,7 +4,8 @@ import { QuantityPickerField } from "../../src/components/cart/QuantityPickerFie
 
 /**
  * The quantity picker with the storefront's own labels, as the product page
- * uses it. The cart's use of it stays with batch 9.
+ * uses it, where the Add to Cart button beside it sets its height. The cart's
+ * use of it stays with batch 9.
  */
 const meta = {
   title: "Storefront/Cart/Quantity picker field",
@@ -14,7 +15,7 @@ const meta = {
   render: function Render(args) {
     const [quantity, setQuantity] = useState(args.quantity);
     return (
-      <div className="inline-flex">
+      <div className="inline-flex h-13">
         <QuantityPickerField
           {...args}
           quantity={quantity}
