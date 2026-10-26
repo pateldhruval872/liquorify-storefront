@@ -22,6 +22,9 @@ const fontsFolder = path.join(__dirname, "fonts");
 
 declare global {
   interface Window {
+    __STORYBOOK_ADDONS_CHANNEL__?: {
+      last(eventName: string): { message?: string }[] | undefined;
+    };
     __STORYBOOK_PREVIEW__?: {
       currentRender?: {
         phase?: string;
@@ -110,6 +113,15 @@ for (const story of stories) {
       expect(phase, "the story rendered without an error").not.toMatch(
         /errored|aborted/,
       );
+      // A failing play function still ends the render as finished, so its
+      // error is read from the last one Storybook announced.
+      const playError = await page.evaluate(
+        () =>
+          window.__STORYBOOK_ADDONS_CHANNEL__?.last(
+            "playFunctionThrewException",
+          )?.[0]?.message,
+      );
+      expect(playError, "the story's play function passed").toBeUndefined();
       await page.evaluate(() => document.fonts.ready);
       await page.waitForLoadState("networkidle");
 

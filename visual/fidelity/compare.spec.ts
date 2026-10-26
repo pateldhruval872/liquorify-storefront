@@ -1,4 +1,5 @@
 import { existsSync, mkdirSync, writeFileSync } from "node:fs";
+import type { Server } from "node:http";
 import path from "node:path";
 import {
   type Browser,
@@ -9,6 +10,7 @@ import {
 } from "@playwright/test";
 import { signIn } from "../../e2e/support";
 import { readAccounts } from "./accounts";
+import { proxy, startProxy } from "./proxy";
 
 /**
  * The pilot's diagnostic comparison with the running storefront (LIQ-010
@@ -27,6 +29,10 @@ import { readAccounts } from "./accounts";
  *
  * The account cases open the screens as the test customer `screens.spec.ts`
  * describes, so they also need `FIDELITY_ACCOUNTS`.
+ *
+ * The shop cases follow `shop-screens.spec.ts`: a case that needs the
+ * storefront set up another way names the set-up, and runs only when
+ * `FIDELITY_SHOP_SETUP` names it too; the other cases run when it is unset.
  *
  * Set `FIDELITY_PRODUCT` to the listed product's slug, and `FIDELITY_REVISION`
  * to the commit under test to record it in each file. For each case it saves
@@ -293,10 +299,49 @@ interface Case {
   screen: (page: Page) => Promise<Locator>;
   /** The component in the story. */
   inStory: (page: Page) => Locator;
+  /** The storefront's set-up the screen needs (`shop-screens.spec.ts`). */
+  setup?: "wholesale" | "proxied";
+  /**
+   * The screen's part is captured from the whole page, scrolled to the top,
+   * for a part the sticky header would otherwise cover when scrolled to.
+   */
+  belowHeader?: true;
 }
 
 const drawer = (page: Page) => page.locator('[data-slot="sheet-content"]');
 const toast = (page: Page) => page.locator("[data-sonner-toast]").first();
+const header = (page: Page) => page.locator("header");
+const dialog = (page: Page) => page.locator('[data-slot="dialog-content"]');
+const suggestions = (page: Page) => page.locator("#search-suggestions");
+const featuredSection = (page: Page) =>
+  page.locator("section.featured-products");
+const productCard = (page: Page) =>
+  featuredSection(page).locator(".group.relative").first();
+const wholesaleSection = (page: Page) =>
+  page.locator("section").filter({ hasText: "Buying for your business?" });
+const regionControl = (page: Page) =>
+  header(page).getByRole("button", { name: "Region and language" });
+
+async function openMenu(page: Page) {
+  await storefrontPage(page, "");
+  await page.getByRole("button", { name: "Open menu" }).click();
+  await expect(drawer(page).getByRole("link", { name: "Home" })).toBeVisible();
+}
+
+async function openMenuPanel(page: Page, name: string) {
+  await drawer(page).getByRole("button", { name, exact: true }).click();
+  await expect(
+    drawer(page).getByRole("link", { name: `View all ${name}` }),
+  ).toBeVisible();
+  // The click leaves the pointer over the next panel's first row.
+  await page.mouse.move(0, 0);
+}
+
+async function openSearch(page: Page) {
+  await storefrontPage(page, "");
+  await page.getByRole("button", { name: "Open search" }).click();
+  await expect(page.getByRole("combobox", { name: "Search..." })).toBeFocused();
+}
 
 const cases: Case[] = [
   {
@@ -635,6 +680,304 @@ const cases: Case[] = [
     },
     inStory: (page) => page.locator('[data-slot="alert-dialog-content"]'),
   },
+  // Storefront shop, part 1. The menu, the region and language dialog and
+  // the search are compared as the stories open them, inside the header.
+  {
+    id: "CMP-SF-G-06",
+    name: "header-empty-cart",
+    story: "storefront-layout-header--empty-cart",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await storefrontPage(page, "");
+      return header(page);
+    },
+    inStory: header,
+  },
+  {
+    id: "CMP-SF-G-06",
+    name: "header-cart-count",
+    story: "storefront-layout-header--cart-count",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await addToCart(page);
+      await expect(drawer(page)).toBeVisible({ timeout: 30_000 });
+      await page.keyboard.press("Escape");
+      await expect(drawer(page)).toBeHidden();
+      return header(page);
+    },
+    inStory: header,
+  },
+  {
+    id: "CMP-SF-G-06",
+    name: "footer",
+    belowHeader: true,
+    story: "storefront-layout-footer--default",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await storefrontPage(page, "");
+      return page.locator("footer");
+    },
+    inStory: (page) => page.locator("footer"),
+  },
+  {
+    id: "CMP-SF-G-06",
+    name: "mobile-menu-main-panel",
+    story: "storefront-layout-mobile-menu--main-panel",
+    modes: [desktop, mobile],
+    viewport: true,
+    screen: async (page) => {
+      await openMenu(page);
+      return drawer(page);
+    },
+    inStory: drawer,
+  },
+  {
+    id: "CMP-SF-G-06",
+    name: "mobile-menu-category-panel",
+    story: "storefront-layout-mobile-menu--category-panel",
+    modes: [desktop, mobile],
+    viewport: true,
+    screen: async (page) => {
+      await openMenu(page);
+      await openMenuPanel(page, "Kitchen");
+      return drawer(page);
+    },
+    inStory: drawer,
+  },
+  {
+    id: "CMP-SF-G-06",
+    name: "mobile-menu-subcategory-panel",
+    story: "storefront-layout-mobile-menu--subcategory-panel",
+    modes: [desktop, mobile],
+    viewport: true,
+    screen: async (page) => {
+      await openMenu(page);
+      await openMenuPanel(page, "Kitchen");
+      await openMenuPanel(page, "Coffee Machines");
+      return drawer(page);
+    },
+    inStory: drawer,
+  },
+  {
+    id: "CMP-SF-P-20",
+    name: "sheet-left",
+    story: "storefront-ui-sheet--left",
+    modes: [desktop],
+    viewport: true,
+    screen: async (page) => {
+      await openMenu(page);
+      return drawer(page);
+    },
+    inStory: drawer,
+  },
+  {
+    id: "CMP-SF-G-06",
+    name: "region-header-control",
+    story: "storefront-layout-region-preferences--header-control",
+    modes: [desktop],
+    screen: async (page) => {
+      await storefrontPage(page, "");
+      return regionControl(page);
+    },
+    inStory: (page) =>
+      page.getByRole("button", { name: "Region and language" }),
+  },
+  {
+    id: "CMP-SF-G-06",
+    name: "region-dialog",
+    story: "storefront-layout-region-preferences--dialog",
+    modes: [desktop, mobile],
+    viewport: true,
+    screen: async (page) => {
+      if (page.viewportSize()?.width === mobile.width) {
+        await openMenu(page);
+        await drawer(page)
+          .getByRole("button", { name: "Region and language" })
+          .click();
+      } else {
+        await storefrontPage(page, "");
+        await regionControl(page).click();
+      }
+      return dialog(page);
+    },
+    inStory: dialog,
+  },
+  {
+    id: "CMP-SF-G-06",
+    name: "search-open",
+    story: "storefront-layout-search-toggle--open",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await openSearch(page);
+      return header(page);
+    },
+    inStory: header,
+  },
+  {
+    id: "CMP-SF-G-11",
+    name: "search-suggestions",
+    story: "storefront-search-search-bar--suggestions",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await openSearch(page);
+      await page.keyboard.type("kettle", { delay: 50 });
+      await expect(suggestions(page).getByRole("option").first()).toBeVisible({
+        timeout: 30_000,
+      });
+      return suggestions(page);
+    },
+    inStory: suggestions,
+  },
+  {
+    id: "CMP-SF-G-11",
+    name: "search-keyboard-choice",
+    story: "storefront-search-search-bar--keyboard-choice",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await openSearch(page);
+      await page.keyboard.type("kettle", { delay: 50 });
+      await expect(suggestions(page).getByRole("option").nth(1)).toBeVisible({
+        timeout: 30_000,
+      });
+      await page.keyboard.press("ArrowDown");
+      await page.keyboard.press("ArrowDown");
+      return suggestions(page);
+    },
+    inStory: suggestions,
+  },
+  {
+    id: "CMP-SF-P-11",
+    name: "input-group-search",
+    story: "storefront-ui-input-group--focused",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await openSearch(page);
+      return page.locator('[data-slot="input-group"]').first();
+    },
+    inStory: (page) => page.locator('[data-slot="input-group"]').first(),
+  },
+  {
+    id: "CMP-SF-G-05",
+    name: "featured-products-section",
+    belowHeader: true,
+    story: "storefront-home-featured-products-section--default",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await storefrontPage(page, "");
+      return featuredSection(page);
+    },
+    inStory: featuredSection,
+  },
+  {
+    id: "CMP-SF-G-10",
+    name: "product-card",
+    story: "storefront-products-product-card--default",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await storefrontPage(page, "");
+      return productCard(page);
+    },
+    inStory: (page) => page.locator("#storybook-root .group.relative").first(),
+  },
+  {
+    id: "CMP-SF-G-05",
+    name: "wholesale-section",
+    belowHeader: true,
+    story: "storefront-home-wholesale-section--default",
+    modes: [desktop, mobile],
+    setup: "wholesale",
+    screen: async (page) => {
+      await storefrontPage(page, "");
+      return wholesaleSection(page);
+    },
+    inStory: wholesaleSection,
+  },
+  {
+    id: "CMP-SF-G-06",
+    name: "header-wholesale-link",
+    story: "storefront-layout-header--wholesale-link",
+    modes: [desktop],
+    setup: "wholesale",
+    screen: async (page) => {
+      await storefrontPage(page, "");
+      return header(page);
+    },
+    inStory: header,
+  },
+  {
+    id: "CMP-SF-G-06",
+    name: "footer-wholesale-link",
+    belowHeader: true,
+    story: "storefront-layout-footer--wholesale-link",
+    modes: [desktop, mobile],
+    setup: "wholesale",
+    screen: async (page) => {
+      await storefrontPage(page, "");
+      return page.locator("footer");
+    },
+    inStory: (page) => page.locator("footer"),
+  },
+  {
+    id: "CMP-SF-G-06",
+    name: "mobile-menu-wholesale-link",
+    story: "storefront-layout-mobile-menu--wholesale-link",
+    modes: [desktop, mobile],
+    viewport: true,
+    setup: "wholesale",
+    screen: async (page) => {
+      await openMenu(page);
+      return drawer(page);
+    },
+    inStory: drawer,
+  },
+  {
+    // The storefront caches the product list, so each visit is the first for
+    // its country and language.
+    id: "CMP-SF-G-05",
+    name: "featured-products-section-loading",
+    belowHeader: true,
+    story: "storefront-home-featured-products-section--loading",
+    modes: [desktop, mobile],
+    setup: "proxied",
+    screen: async (page) => {
+      proxy.productList = "delay";
+      const market = page.viewportSize()?.width === mobile.width ? "de" : "us";
+      await page.goto(`${STOREFRONT}/${market}/en`, { waitUntil: "commit" });
+      await expect(
+        featuredSection(page).locator(".animate-pulse").first(),
+      ).toBeVisible({ timeout: 20_000 });
+      return featuredSection(page);
+    },
+    inStory: featuredSection,
+  },
+  {
+    id: "CMP-SF-G-05",
+    name: "featured-products-section-no-products",
+    belowHeader: true,
+    story: "storefront-home-featured-products-section--no-products",
+    modes: [desktop, mobile],
+    setup: "proxied",
+    screen: async (page) => {
+      await page.goto(`${STOREFRONT}/gb/en`);
+      await page.waitForLoadState("networkidle");
+      return featuredSection(page);
+    },
+    inStory: featuredSection,
+  },
+  {
+    id: "CMP-SF-PG-13",
+    name: "global-error",
+    story: "storefront-pages-global-error--default",
+    modes: [desktop, mobile],
+    viewport: true,
+    setup: "proxied",
+    screen: async (page) => {
+      proxy.productList = "fail";
+      await storefrontPage(page, `/products?q=fidelity-${Date.now()}`);
+      return page.locator("body");
+    },
+    inStory: (page) => page.locator("body"),
+  },
 ];
 
 async function newPage(browser: Browser, mode: Mode) {
@@ -648,6 +991,12 @@ async function newPage(browser: Browser, mode: Mode) {
   return page;
 }
 
+async function partOfPage(page: Page, part: Locator) {
+  await page.evaluate(() => window.scrollTo(0, 0));
+  const clip = await part.boundingBox();
+  return page.screenshot({ fullPage: true, clip: clip ?? undefined });
+}
+
 /** The custom properties the page's root element defines: the tokens. */
 async function tokenNames(page: Page): Promise<string[]> {
   return page.evaluate(() =>
@@ -657,9 +1006,13 @@ async function tokenNames(page: Page): Promise<string[]> {
   );
 }
 
+const setup = process.env.FIDELITY_SHOP_SETUP;
+let server: Server | undefined;
+
 test("tokens on the running storefront and in Storybook", async ({
   browser,
 }) => {
+  test.skip(setup !== undefined, "Compared on the standard set-up.");
   const page = await newPage(browser, desktop);
   await storefrontPage(page, "");
   const storyPage = await newPage(browser, desktop);
@@ -696,7 +1049,19 @@ test("tokens on the running storefront and in Storybook", async ({
   await storyPage.close();
 });
 
-for (const item of cases) {
+test.beforeAll(async () => {
+  if (setup === "proxied") server = await startProxy();
+});
+
+test.afterAll(() => {
+  server?.close();
+});
+
+test.afterEach(() => {
+  proxy.productList = "pass";
+});
+
+for (const item of cases.filter((item) => item.setup === setup)) {
   for (const mode of item.modes) {
     test(`${item.id} ${item.name} ${mode.name}`, async ({ browser }) => {
       const folder = `${results}${item.name}/`;
@@ -708,7 +1073,9 @@ for (const item of cases) {
       await page.waitForTimeout(500);
       const screenImage = item.viewport
         ? await page.screenshot()
-        : await onScreen.screenshot();
+        : item.belowHeader
+          ? await partOfPage(page, onScreen)
+          : await onScreen.screenshot();
       const screenStyles = await collectStyles(onScreen);
       const screenWidth = (await onScreen.boundingBox())?.width;
 

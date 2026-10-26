@@ -9,9 +9,13 @@ import { mockServerActions } from "../stories/mocks/server-actions";
 // story gives them fixtures through mockServerActions.
 sb.mock(import("../src/lib/data/addresses.ts"));
 sb.mock(import("../src/lib/data/cart.ts"));
+sb.mock(import("../src/lib/data/checkout.ts"));
 sb.mock(import("../src/lib/data/countries.ts"));
 sb.mock(import("../src/lib/data/credit-cards.ts"));
 sb.mock(import("../src/lib/data/customer.ts"));
+sb.mock(import("../src/lib/data/products.ts"));
+sb.mock(import("../src/lib/spree/config.ts"));
+sb.mock(import("../src/lib/spree/cookies.ts"));
 sb.mock(import("next-intl/server"));
 
 // The same font loader call as DocumentShell, applied to the body as it is there.
