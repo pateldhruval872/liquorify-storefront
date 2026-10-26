@@ -5,14 +5,16 @@ import type { ActiveFilters } from "../../../src/types/filters";
 import { filterChoices, listingFilters } from "../../fixtures/shop";
 
 /**
- * Above every product list. On a desktop each filter is a dropdown, with the
- * product count and sort on the right; on a phone one Filters button opens
- * the filters drawer and sort stays beside it. Choices made here change the
- * list's address in the running storefront; in the story they only update
- * the bar. Each dropdown open has its own story under its content.
+ * `FilterBar`, the one component `ProductFilters.tsx` exports, so the stories
+ * take the file's name. Above every product list. On a desktop each filter is
+ * a dropdown, with the product count and sort on the right; on a phone one
+ * Filters button opens the filters drawer and sort stays beside it. Choices
+ * made here change the list's address in the running storefront; in the story
+ * they only update the bar. Each dropdown open has its own story under its
+ * content.
  */
 const meta = {
-  title: "Storefront/Products/Filters/Filter bar",
+  title: "Storefront/Products/Filters/Product filters",
   component: FilterBar,
   tags: ["CMP-SF-G-10"],
   args: {
