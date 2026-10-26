@@ -8,8 +8,25 @@ import {
   type Page,
   test,
 } from "@playwright/test";
-import { signIn } from "../../e2e/support";
+import { BASE_PATH, signIn, waitForHydration } from "../../e2e/support";
 import { readAccounts } from "./accounts";
+import {
+  category,
+  chooseFilter,
+  chooseOptions,
+  drawer as filtersDrawer,
+  galleryProduct,
+  main,
+  openBarMenu,
+  openDrawer,
+  openListing,
+  openProduct,
+  optionsProduct,
+  plainCategory,
+  scrollPastList,
+  scrollToEnd,
+  subcategory,
+} from "./catalog";
 import { proxy, startProxy } from "./proxy";
 
 /**
@@ -33,6 +50,7 @@ import { proxy, startProxy } from "./proxy";
  * The shop cases follow `shop-screens.spec.ts`: a case that needs the
  * storefront set up another way names the set-up, and runs only when
  * `FIDELITY_SHOP_SETUP` names it too; the other cases run when it is unset.
+ * The catalog cases need the catalog `catalog-screens.spec.ts` describes.
  *
  * Set `FIDELITY_PRODUCT` to the listed product's slug, and `FIDELITY_REVISION`
  * to the commit under test to record it in each file. For each case it saves
@@ -341,6 +359,59 @@ async function openSearch(page: Page) {
   await storefrontPage(page, "");
   await page.getByRole("button", { name: "Open search" }).click();
   await expect(page.getByRole("combobox", { name: "Search..." })).toBeFocused();
+}
+
+const isMobile = (page: Page) => page.viewportSize()?.width === mobile.width;
+
+/** The part on the storefront's page or in the story, whichever this page is. */
+const part = (page: Page, selector: string) =>
+  page.locator(`main ${selector}, #storybook-root ${selector}`).first();
+const breadcrumbs = (page: Page) =>
+  page.getByRole("navigation", { name: "Breadcrumb" });
+const categoryBanner = (page: Page) => part(page, '[class*="min-h-[350px]"]');
+const subcategoryLinks = (page: Page) => part(page, "div.flex-wrap.border-b");
+const filterBar = (page: Page) =>
+  page
+    .locator("div.mb-6", {
+      has: page.getByRole("button", { name: "Sort", exact: true }),
+    })
+    .last();
+const filterChips = (page: Page) => part(page, "div.flex-wrap.mt-3");
+const dropdownMenu = (page: Page) => page.getByRole("menu");
+const productGrid = (page: Page) => part(page, "div.grid.grid-cols-2");
+const productGridSkeleton = (page: Page) =>
+  part(page, "div.grid.grid-cols-2:has(.animate-pulse)");
+const filterBarSkeleton = (page: Page) =>
+  part(page, "div.border-b.border-gray-200:has(.animate-pulse)");
+/** Below the list: where it says it is loading more, or that nothing is left. */
+const listStatus = (page: Page) => part(page, "div.h-20.mt-8");
+const noProducts = (page: Page) => part(page, "div.text-center.py-12");
+const productDetails = (page: Page) => part(page, "div.container.py-8");
+const zoomButton = (page: Page) =>
+  page.getByRole("button", { name: "Open image zoom" }).first();
+const mediaGallery = (page: Page) => zoomButton(page).locator("xpath=..");
+const lightbox = (page: Page) =>
+  page.getByRole("dialog", { name: "Open image zoom" });
+const variantPicker = (page: Page) =>
+  part(page, "div.space-y-6:has(div.flex.flex-wrap.gap-2)");
+const quantityPicker = (page: Page) =>
+  page
+    .getByRole("button", { name: "Decrease quantity" })
+    .first()
+    .locator("xpath=..");
+const customFields = (page: Page) =>
+  page
+    .locator("div.border-t", {
+      has: page.getByRole("heading", { name: "Properties" }),
+    })
+    .last();
+
+/** A choice of each kind, as a shopper makes them at this width. */
+async function applyFilters(page: Page) {
+  await openListing(page, "/products");
+  await chooseFilter(page, "Color", /^White\s*\(/);
+  await chooseFilter(page, "Price", /^\$100 – \$200/);
+  await chooseFilter(page, "Availability", /^In Stock/);
 }
 
 const cases: Case[] = [
@@ -978,10 +1049,435 @@ const cases: Case[] = [
     },
     inStory: (page) => page.locator("body"),
   },
+  // The storefront shop batch's second part: product lists, category pages
+  // and product pages, on the catalog `catalog-screens.spec.ts` describes.
+  {
+    id: "CMP-SF-G-07",
+    name: "breadcrumbs-subcategory",
+    story: "storefront-navigation-breadcrumbs--subcategory",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await openListing(page, `/c/${subcategory}`);
+      return breadcrumbs(page);
+    },
+    inStory: breadcrumbs,
+  },
+  {
+    id: "CMP-SF-G-07",
+    name: "breadcrumbs-product-page",
+    story: "storefront-navigation-breadcrumbs--product-page",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await openProduct(page, galleryProduct);
+      return breadcrumbs(page);
+    },
+    inStory: breadcrumbs,
+  },
+  {
+    id: "CMP-SF-PG-03",
+    name: "category-banner-with-picture",
+    story: "storefront-pages-category-banner--with-picture-and-subcategories",
+    modes: [desktop, mobile],
+    belowHeader: true,
+    screen: async (page) => {
+      await openListing(page, `/c/${category}`);
+      return categoryBanner(page);
+    },
+    inStory: categoryBanner,
+  },
+  {
+    id: "CMP-SF-PG-03",
+    name: "category-subcategory-links",
+    story: "storefront-pages-category-banner--with-picture-and-subcategories",
+    modes: [desktop, mobile],
+    belowHeader: true,
+    screen: async (page) => {
+      await openListing(page, `/c/${category}`);
+      return subcategoryLinks(page);
+    },
+    inStory: subcategoryLinks,
+  },
+  {
+    id: "CMP-SF-PG-03",
+    name: "category-banner-without-picture",
+    story: "storefront-pages-category-banner--without-picture",
+    modes: [desktop, mobile],
+    belowHeader: true,
+    screen: async (page) => {
+      await openListing(page, `/c/${plainCategory}`);
+      return categoryBanner(page);
+    },
+    inStory: categoryBanner,
+  },
+  {
+    id: "CMP-SF-G-10",
+    name: "filter-bar",
+    story: "storefront-products-filters-product-filters--default",
+    modes: [desktop, mobile],
+    belowHeader: true,
+    screen: async (page) => {
+      await openListing(page, "/products");
+      return filterBar(page);
+    },
+    inStory: filterBar,
+  },
+  {
+    id: "CMP-SF-G-10",
+    name: "filter-bar-filters-applied",
+    story: "storefront-products-filters-product-filters--filters-applied",
+    modes: [desktop, mobile],
+    belowHeader: true,
+    screen: async (page) => {
+      await applyFilters(page);
+      return filterBar(page);
+    },
+    inStory: filterBar,
+  },
+  {
+    id: "CMP-SF-G-10",
+    name: "filter-chips",
+    story: "storefront-products-filters-filter-chips--one-of-each-kind",
+    modes: [desktop, mobile],
+    belowHeader: true,
+    screen: async (page) => {
+      await applyFilters(page);
+      return filterChips(page);
+    },
+    inStory: filterChips,
+  },
+  ...(
+    [
+      ["Color", "option-dropdown-colours", "option-dropdown-content--colours"],
+      ["Price", "price-dropdown-ranges", "price-dropdown-content--ranges"],
+      [
+        "Availability",
+        "availability-dropdown",
+        "availability-dropdown-content--default",
+      ],
+    ] as const
+  ).map(
+    ([button, name, story]): Case => ({
+      // The filter bar's dropdowns show from 768 pixels wide.
+      id: "CMP-SF-G-10",
+      name,
+      story: `storefront-products-filters-${story}`,
+      modes: [desktop],
+      screen: async (page) => {
+        await openListing(page, "/products");
+        return openBarMenu(page, button);
+      },
+      inStory: dropdownMenu,
+    }),
+  ),
+  {
+    id: "CMP-SF-G-10",
+    name: "sort-dropdown",
+    story: "storefront-products-filters-sort-dropdown-content--default-order",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await openListing(page, "/products");
+      return openBarMenu(page, "Sort");
+    },
+    inStory: dropdownMenu,
+  },
+  {
+    // The filters drawer opens below 768 pixels wide.
+    id: "CMP-SF-G-10",
+    name: "mobile-filter-drawer-empty",
+    story: "storefront-products-filters-mobile-filter-drawer--empty",
+    modes: [mobile],
+    viewport: true,
+    screen: async (page) => {
+      await openListing(page, "/products");
+      await openDrawer(page);
+      return filtersDrawer(page);
+    },
+    inStory: filtersDrawer,
+  },
+  {
+    id: "CMP-SF-G-10",
+    name: "mobile-filter-drawer-with-choices",
+    story: "storefront-products-filters-mobile-filter-drawer--with-choices",
+    modes: [mobile],
+    viewport: true,
+    screen: async (page) => {
+      await openListing(page, "/products");
+      await openDrawer(page);
+      await filtersDrawer(page)
+        .getByRole("button", { name: /^White\s*\(/ })
+        .click();
+      await filtersDrawer(page)
+        .getByRole("button", { name: /^In Stock/ })
+        .click();
+      return filtersDrawer(page);
+    },
+    inStory: filtersDrawer,
+  },
+  {
+    // A category page holds the listing alone, as the story's column does;
+    // the products page puts its heading in the same column.
+    id: "CMP-SF-G-10",
+    name: "product-listing-first-page",
+    story: "storefront-products-product-listing--first-page",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await openListing(page, `/c/${plainCategory}`);
+      return main(page).locator("div.container.pt-4");
+    },
+    inStory: (page) => page.locator("#storybook-root div.container").first(),
+  },
+  {
+    id: "CMP-SF-G-10",
+    name: "product-listing-no-match-for-a-word",
+    story: "storefront-products-product-listing--no-match-for-a-word",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await storefrontPage(page, "/products?q=zebrawood");
+      return noProducts(page);
+    },
+    inStory: noProducts,
+  },
+  {
+    id: "CMP-SF-G-10",
+    name: "product-listing-no-products-for-the-filters",
+    story: "storefront-products-product-listing--no-products-for-the-filters",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await openListing(page, "/products");
+      await chooseFilter(page, "Size", /^S\b/);
+      await chooseFilter(page, "Availability", /^Out of Stock/);
+      return noProducts(page);
+    },
+    inStory: noProducts,
+  },
+  {
+    id: "CMP-SF-G-10",
+    name: "product-grid",
+    story: "storefront-products-product-grid--with-products",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await openListing(page, "/products");
+      return productGrid(page);
+    },
+    inStory: productGrid,
+  },
+  {
+    id: "CMP-SF-G-10",
+    name: "infinite-product-list-end",
+    story: "storefront-products-infinite-product-list--end-of-the-list",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await openListing(page, "/products");
+      await scrollToEnd(page);
+      return listStatus(page);
+    },
+    inStory: listStatus,
+  },
+  {
+    id: "CMP-SF-PG-04",
+    name: "product-details-colour-and-size",
+    story: "storefront-pages-product-details--colour-and-size",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await chooseOptions(page, "Red", "S");
+      // Choosing the size leaves the pointer over it.
+      await page.mouse.move(0, 0);
+      return productDetails(page);
+    },
+    inStory: productDetails,
+  },
+  {
+    id: "CMP-SF-PG-04",
+    name: "product-details-sale-price",
+    story: "storefront-pages-product-details--sale-price",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await chooseOptions(page, "Red", "M");
+      // Choosing the size leaves the pointer over it.
+      await page.mouse.move(0, 0);
+      return productDetails(page);
+    },
+    inStory: productDetails,
+  },
+  {
+    id: "CMP-SF-PG-04",
+    name: "product-details-sold-out-choice",
+    story: "storefront-pages-product-details--sold-out-choice",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await chooseOptions(page, "Black", "L");
+      // Choosing the size leaves the pointer over it.
+      await page.mouse.move(0, 0);
+      return productDetails(page);
+    },
+    inStory: productDetails,
+  },
+  {
+    id: "CMP-SF-PG-04",
+    name: "product-details-quantity-chosen",
+    story: "storefront-pages-product-details--quantity-chosen",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await chooseOptions(page, "Black", "S");
+      const increase = main(page).getByRole("button", {
+        name: "Increase quantity",
+      });
+      await increase.click();
+      await increase.click();
+      await page.mouse.move(0, 0);
+      return productDetails(page);
+    },
+    inStory: productDetails,
+  },
+  {
+    id: "CMP-SF-G-10",
+    name: "media-gallery-several-pictures",
+    story: "storefront-products-media-gallery--several-pictures",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await openProduct(page, galleryProduct);
+      return mediaGallery(page);
+    },
+    inStory: mediaGallery,
+  },
+  {
+    id: "CMP-SF-G-10",
+    name: "media-lightbox-first-picture",
+    story: "storefront-products-media-lightbox--first-picture",
+    modes: [desktop, mobile],
+    viewport: true,
+    screen: async (page) => {
+      await openProduct(page, galleryProduct);
+      const zoom = zoomButton(page);
+      await waitForHydration(zoom);
+      await zoom.click();
+      return lightbox(page);
+    },
+    inStory: lightbox,
+  },
+  {
+    id: "CMP-SF-G-10",
+    name: "variant-picker-colour-and-size-chosen",
+    story: "storefront-products-variant-picker--colour-and-size-chosen",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await chooseOptions(page, "Red", "S");
+      // Choosing the size leaves the pointer over it.
+      await page.mouse.move(0, 0);
+      return variantPicker(page);
+    },
+    inStory: variantPicker,
+  },
+  {
+    id: "CMP-SF-G-10",
+    name: "variant-picker-sold-out-choice",
+    story: "storefront-products-variant-picker--sold-out-choice",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await chooseOptions(page, "Black", "L");
+      // Choosing the size leaves the pointer over it.
+      await page.mouse.move(0, 0);
+      return variantPicker(page);
+    },
+    inStory: variantPicker,
+  },
+  {
+    id: "CMP-SF-G-03",
+    name: "quantity-picker-field",
+    story: "storefront-cart-quantity-picker-field--on-the-product-page",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await openProduct(page, optionsProduct);
+      return quantityPicker(page);
+    },
+    inStory: quantityPicker,
+  },
+  {
+    id: "CMP-SF-G-10",
+    name: "product-custom-fields",
+    story: "storefront-products-product-custom-fields--one-of-each-kind",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await openProduct(page, galleryProduct);
+      return customFields(page);
+    },
+    inStory: customFields,
+  },
+  ...(
+    [
+      [
+        "product-grid-skeleton",
+        productGridSkeleton,
+        "/products",
+        "-name",
+        "-price",
+      ],
+      [
+        "filter-bar-skeleton",
+        filterBarSkeleton,
+        `/c/${plainCategory}`,
+        "-name",
+        "-price",
+      ],
+    ] as const
+  ).map(
+    ([name, part, route, desktopSort, mobileSort]): Case => ({
+      // The storefront caches each list, so each visit sorts the list its own
+      // way to be the first for its address.
+      id: "CMP-SF-G-10",
+      name,
+      story: `storefront-products-${name.startsWith("filter") ? "filters-" : ""}${name}--default`,
+      modes: [desktop, mobile],
+      setup: "proxied",
+      screen: async (page) => {
+        proxy.productList = "delay";
+        const sort = isMobile(page) ? mobileSort : desktopSort;
+        await page.goto(`${BASE_PATH}${route}?sort=${sort}`, {
+          waitUntil: "commit",
+        });
+        await expect(part(page)).toBeVisible({ timeout: 20_000 });
+        return part(page);
+      },
+      inStory: part,
+    }),
+  ),
+  {
+    id: "CMP-SF-G-10",
+    name: "infinite-product-list-loading-more",
+    story: "storefront-products-infinite-product-list--loading-more",
+    modes: [desktop, mobile],
+    setup: "proxied",
+    screen: async (page) => {
+      const sort = isMobile(page) ? "-available_on" : "name";
+      await openListing(page, `/products?sort=${sort}`);
+      proxy.productList = "delay";
+      await scrollPastList(page);
+      await expect(main(page).getByText("Loading more...")).toBeVisible();
+      return listStatus(page);
+    },
+    inStory: listStatus,
+  },
+  {
+    id: "CMP-SF-G-10",
+    name: "infinite-product-list-loading-more-failed",
+    story: "storefront-products-infinite-product-list--loading-more-failed",
+    modes: [desktop, mobile],
+    setup: "proxied",
+    screen: async (page) => {
+      const sort = isMobile(page) ? "available_on" : "price";
+      await openListing(page, `/products?sort=${sort}`);
+      proxy.productList = "fail";
+      await scrollPastList(page);
+      await page.waitForTimeout(3_000);
+      return listStatus(page);
+    },
+    inStory: listStatus,
+  },
 ];
 
 async function newPage(browser: Browser, mode: Mode) {
   const page = await browser.newPage({
+    baseURL: STOREFRONT,
     viewport: { width: mode.width, height: 800 },
   });
   await page.emulateMedia({
@@ -1059,6 +1555,7 @@ test.afterAll(() => {
 
 test.afterEach(() => {
   proxy.productList = "pass";
+  proxy.productFilters = "pass";
 });
 
 for (const item of cases.filter((item) => item.setup === setup)) {
