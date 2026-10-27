@@ -1,3 +1,4 @@
+import type { Market } from "@spree/sdk";
 import type { Decorator } from "@storybook/nextjs-vite";
 import { NextIntlClientProvider } from "next-intl";
 import messages from "../../messages/en.json";
@@ -11,6 +12,8 @@ import { unitedStates } from "../fixtures/markets";
 interface StoryNeeds {
   /** Mounts the store, auth and cart providers in the order the locale layout does. */
   storefront?: boolean;
+  /** The markets the store sells in. Defaults to the United States alone. */
+  markets?: Market[];
 }
 
 /**
@@ -31,7 +34,7 @@ export const withStorefrontProviders: Decorator = (Story, context) => {
         <StoreProvider
           initialCountry="us"
           initialLocale="en"
-          initialMarkets={[unitedStates]}
+          initialMarkets={needs.markets ?? [unitedStates]}
         >
           <AuthProvider>
             <CartProvider>

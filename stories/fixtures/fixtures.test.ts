@@ -1,12 +1,14 @@
 import {
   AddressSchema,
   CartSchema,
+  CategorySchema,
   CountrySchema,
   CreditCardSchema,
   CustomerSchema,
   GiftCardSchema,
   MarketSchema,
   OrderSchema,
+  ProductSchema,
 } from "@spree/sdk/zod";
 import { describe, expect, it } from "vitest";
 import {
@@ -30,7 +32,12 @@ import {
   visaCard,
 } from "./account";
 import { cartWithItems, emptyCart } from "./cart";
-import { unitedStates } from "./markets";
+import {
+  featuredProducts,
+  productWithHiddenPrice,
+  rootCategories,
+} from "./catalog";
+import { europe, unitedStates } from "./markets";
 
 // A fixture that no longer parses means the API changed and the mock now shows
 // something Spree would not (LIQ-010 §7.4).
@@ -40,7 +47,9 @@ interface Schema {
 
 const fixtures: [string, Schema, unknown[]][] = [
   ["carts", CartSchema, [cartWithItems, emptyCart]],
-  ["markets", MarketSchema, [unitedStates]],
+  ["markets", MarketSchema, [unitedStates, europe]],
+  ["products", ProductSchema, [...featuredProducts, productWithHiddenPrice]],
+  ["categories", CategorySchema, rootCategories],
   ["addresses", AddressSchema, [homeAddress, studioAddress, minimalAddress]],
   ["countries", CountrySchema, [unitedStatesWithStates, unitedKingdom]],
   ["customers", CustomerSchema, [customer, customerWithoutName]],

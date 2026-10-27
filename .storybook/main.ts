@@ -5,8 +5,15 @@ import { mergeConfig } from "vite";
 const config: StorybookConfig = {
   framework: "@storybook/nextjs-vite",
   stories: ["../stories/**/*.stories.@(ts|tsx)"],
-  // Product images in the fixtures are local files, so no request leaves the page.
-  staticDirs: [{ from: "../stories/fixtures/images", to: "/fixtures" }],
+  // Every image is served locally, so no request leaves the page. Next.js
+  // serves the logo resized for its slot and Storybook serves files as they
+  // are, so the logo is the copy Next.js serves to a 1x screen; the public
+  // folder is therefore not served whole (publicDir below).
+  staticDirs: [
+    { from: "../public/flags", to: "/flags" },
+    { from: "../stories/fixtures/public", to: "/" },
+    { from: "../stories/fixtures/images", to: "/fixtures" },
+  ],
   core: { disableTelemetry: true },
   // Renders async server components such as HeroSection in the browser.
   features: { experimentalRSC: true },
@@ -17,6 +24,7 @@ const config: StorybookConfig = {
   // injects Stripe's script. The import is pointed at a stand-in instead.
   viteFinal: (viteConfig) =>
     mergeConfig(viteConfig, {
+      publicDir: false,
       resolve: {
         alias: [
           {

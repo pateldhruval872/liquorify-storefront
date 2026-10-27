@@ -1,12 +1,4 @@
-import { mkdirSync, writeFileSync } from "node:fs";
-import path from "node:path";
-import {
-  type Browser,
-  type BrowserContextOptions,
-  expect,
-  type Page,
-  test,
-} from "@playwright/test";
+import { type Browser, expect, type Page, test } from "@playwright/test";
 import {
   BASE_PATH,
   formWithButton,
@@ -14,6 +6,15 @@ import {
   waitForHydration,
 } from "../../e2e/support";
 import { type OrderState, readAccounts } from "./accounts";
+import {
+  newPage as newContext,
+  open,
+  record,
+  type Capture as ScreenCapture,
+  type Session,
+  save,
+  widths,
+} from "./capture";
 
 /**
  * Captures the running storefront's account screens in each meaningful state
@@ -34,17 +35,8 @@ import { type OrderState, readAccounts } from "./accounts";
  * `generate_token_for(:password_reset)`. The reset sets the customer's password
  * to the one in the file, so the password stays the same.
  *
- * Each capture is saved as
- * `results/screens/<screen ID>/<state>/<variant>-light-<width>.png`, with a JSON
- * file that records how the state was reached. The storefront has no dark mode,
- * so captures are light only, at the two widths of its stories, of the whole
- * page unless a dialog is open.
+ * Where each capture is saved is described in `capture.ts`.
  */
-
-const STOREFRONT = "http://localhost:3001";
-const results = path.join(__dirname, "results/screens/");
-const revision = process.env.FIDELITY_REVISION ?? null;
-const widths = [390, 1280] as const;
 
 const accounts = readAccounts();
 
@@ -53,36 +45,13 @@ type Variant =
   | "customer"
   | "new-customer"
   | "another-customers-order";
-type Session = Exclude<BrowserContextOptions["storageState"], string>;
+type Capture = ScreenCapture<Variant>;
 
 const newCustomer = {
   email: `jordan.ellis+${Date.now().toString(36)}@example.com`,
   password: `fidelity-${Math.random().toString(36).slice(2, 12)}`,
 };
 const sessions: Partial<Record<Variant, Session>> = {};
-
-interface Capture {
-  screen: string;
-  state: string;
-  variant: Variant;
-  /** What the capture shows that the record must explain. */
-  note?: string;
-  /** Captures the window rather than the whole page, for an open dialog. */
-  window?: true;
-  /** Why the state cannot be captured on this run. */
-  unavailable?: string;
-  /**
-   * Opens the screen in the state; the browser is already signed in as the
-   * variant. Answers, as text, anything the browser observed that a picture
-   * cannot show.
-   */
-  reach: (page: Page) => Promise<unknown>;
-}
-
-const open = async (page: Page, route: string) => {
-  await page.goto(`${BASE_PATH}${route}`);
-  await page.waitForLoadState("networkidle");
-};
 
 const heading = (page: Page, name: string) =>
   expect(page.getByRole("heading", { level: 1, name })).toBeVisible({
@@ -641,76 +610,9 @@ const sessionOf = (variant: Variant): Variant | null =>
       ? "customer"
       : variant;
 
-async function newPage(browser: Browser, width: number, variant: Variant) {
+function newPage(browser: Browser, width: number, variant: Variant) {
   const session = sessionOf(variant);
-  const context = await browser.newContext({
-    baseURL: STOREFRONT,
-    viewport: { width, height: 844 },
-    deviceScaleFactor: 1,
-    locale: "en-US",
-    timezoneId: "UTC",
-    reducedMotion: "reduce",
-    storageState: session ? sessions[session] : undefined,
-  });
-  return { context, page: await context.newPage() };
-}
-
-async function save(
-  page: Page,
-  item: Capture,
-  width: number,
-  observed: unknown,
-) {
-  const folder = `${results}${item.screen}/${item.state}/`;
-  const file = `${folder}${item.variant}-light-${width}`;
-  mkdirSync(folder, { recursive: true });
-  // A page scrolled by the state would draw its sticky header part way down
-  // a whole-page capture.
-  if (!item.window) await page.evaluate(() => window.scrollTo(0, 0));
-  await page.mouse.move(0, 0);
-  await page.waitForTimeout(400);
-  await page.screenshot({
-    path: `${file}.png`,
-    fullPage: !item.window,
-    animations: "disabled",
-  });
-  writeFileSync(
-    `${file}.json`,
-    JSON.stringify(
-      {
-        screen: item.screen,
-        state: item.state,
-        variant: item.variant,
-        theme: "light",
-        width,
-        revision,
-        path: new URL(page.url()).pathname,
-        observed: typeof observed === "string" ? observed : null,
-        note: item.note ?? null,
-      },
-      null,
-      2,
-    ),
-  );
-}
-
-function record(item: Capture) {
-  const folder = `${results}${item.screen}/${item.state}/`;
-  mkdirSync(folder, { recursive: true });
-  writeFileSync(
-    `${folder}${item.variant}-unavailable.json`,
-    JSON.stringify(
-      {
-        screen: item.screen,
-        state: item.state,
-        variant: item.variant,
-        revision,
-        unavailable: item.unavailable,
-      },
-      null,
-      2,
-    ),
-  );
+  return newContext(browser, width, session ? sessions[session] : undefined);
 }
 
 test.describe.configure({ mode: "serial" });
