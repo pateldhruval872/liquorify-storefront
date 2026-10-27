@@ -321,7 +321,9 @@ interface Case {
   setup?: "wholesale" | "proxied";
   /**
    * The screen's part is captured from the whole page, scrolled to the top,
-   * for a part the sticky header would otherwise cover when scrolled to.
+   * for a part the sticky header would otherwise cover when scrolled to. The
+   * cases first captured this way keep it; every other part is captured with
+   * the header hidden instead (`withoutStickyElements`).
    */
   belowHeader?: true;
 }
@@ -1493,6 +1495,47 @@ async function partOfPage(page: Page, part: Locator) {
   return page.screenshot({ fullPage: true, clip: clip ?? undefined });
 }
 
+/**
+ * Captures a part with every sticky element outside it hidden. The
+ * storefront's header stays at the top of the window when the capture scrolls
+ * to a part, so it would otherwise be drawn over that part. Says, for each
+ * element hidden, whether it lay over the part at the capture's scroll position.
+ */
+async function withoutStickyElements(part: Locator) {
+  await part.evaluate((target) => {
+    for (const element of document.body.querySelectorAll("*")) {
+      if (element.contains(target) || target.contains(element)) continue;
+      if (getComputedStyle(element).position === "sticky") {
+        element.setAttribute("data-fidelity-hidden", "");
+      }
+    }
+  });
+  const image = await part.screenshot({
+    style:
+      "[data-fidelity-hidden], [data-fidelity-hidden] * { visibility: hidden !important; }",
+  });
+  const hidden = await part.evaluate((target) => {
+    const box = target.getBoundingClientRect();
+    return Array.from(
+      document.querySelectorAll("[data-fidelity-hidden]"),
+      (element) => {
+        const rect = element.getBoundingClientRect();
+        element.removeAttribute("data-fidelity-hidden");
+        return {
+          element: element.tagName.toLowerCase(),
+          overPart:
+            rect.height > 0 &&
+            rect.bottom > box.top &&
+            rect.top < box.bottom &&
+            rect.right > box.left &&
+            rect.left < box.right,
+        };
+      },
+    );
+  });
+  return { image, hidden };
+}
+
 /** The custom properties the page's root element defines: the tokens. */
 async function tokenNames(page: Page): Promise<string[]> {
   return page.evaluate(() =>
@@ -1568,11 +1611,12 @@ for (const item of cases.filter((item) => item.setup === setup)) {
       const onScreen = await item.screen(page);
       await expect(onScreen).toBeVisible({ timeout: 20_000 });
       await page.waitForTimeout(500);
-      const screenImage = item.viewport
-        ? await page.screenshot()
+      const screenCapture = item.viewport
+        ? { image: await page.screenshot(), hidden: [] }
         : item.belowHeader
-          ? await partOfPage(page, onScreen)
-          : await onScreen.screenshot();
+          ? { image: await partOfPage(page, onScreen), hidden: [] }
+          : await withoutStickyElements(onScreen);
+      const screenImage = screenCapture.image;
       const screenStyles = await collectStyles(onScreen);
       const screenWidth = (await onScreen.boundingBox())?.width;
 
@@ -1580,9 +1624,10 @@ for (const item of cases.filter((item) => item.setup === setup)) {
       await openStory(storyPage, item.story);
       const inStory = item.inStory(storyPage);
       await expect(inStory).toBeVisible();
-      const storyImage = item.viewport
-        ? await storyPage.screenshot()
-        : await inStory.screenshot();
+      const storyCapture = item.viewport
+        ? { image: await storyPage.screenshot(), hidden: [] }
+        : await withoutStickyElements(inStory);
+      const storyImage = storyCapture.image;
       const storyStyles = await collectStyles(inStory);
       const storyWidth = (await inStory.boundingBox())?.width;
 
@@ -1604,6 +1649,10 @@ for (const item of cases.filter((item) => item.setup === setup)) {
             revision,
             screenWidth,
             storyWidth,
+            hiddenWhileCaptured: {
+              screen: screenCapture.hidden,
+              story: storyCapture.hidden,
+            },
             ...compareStyles(screenStyles, storyStyles),
             styles: { screen: screenStyles, story: storyStyles },
           },
