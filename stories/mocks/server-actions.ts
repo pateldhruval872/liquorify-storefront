@@ -14,7 +14,7 @@ import {
   deleteAddress,
   updateAddress,
 } from "../../src/lib/data/addresses";
-import { getCart } from "../../src/lib/data/cart";
+import { addToCart, getCart } from "../../src/lib/data/cart";
 import { updateCartMarket } from "../../src/lib/data/checkout";
 import { getCountry } from "../../src/lib/data/countries";
 import { deleteCreditCard } from "../../src/lib/data/credit-cards";
@@ -35,9 +35,9 @@ export interface ServerActionNeeds {
   products?: Product[] | "loading";
   /** Turns the wholesale addon on, as `SPREE_WHOLESALE_CHANNEL` does. */
   wholesale?: boolean;
-  /** Makes saving, deleting and removing fail with this message, as the API's refusal would. */
+  /** Makes saving, deleting, removing and adding to the cart fail with this message, as the API's refusal would. */
   failWith?: string;
-  /** Leaves saving, deleting and removing unanswered, to show them in progress. */
+  /** Leaves saving, deleting, removing and adding to the cart unanswered, to show them in progress. */
   holdWrites?: boolean;
 }
 
@@ -103,6 +103,14 @@ export function mockServerActions(needs: ServerActionNeeds) {
     settle(refusal ?? { success: true }),
   );
   const cart = needs.cart === "loading" ? null : needs.cart;
+  mocked(addToCart).mockImplementation(() =>
+    settle(
+      refusal ??
+        (cart
+          ? { success: true, cart }
+          : { success: false, error: "The story has no cart" }),
+    ),
+  );
   mocked(updateCartMarket).mockImplementation((_id, params) =>
     settle(
       refusal ??

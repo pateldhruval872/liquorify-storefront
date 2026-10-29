@@ -1,6 +1,6 @@
 import type { Category, Price, Product } from "@spree/sdk";
 
-function usd(
+export function usd(
   id: string,
   amount: string,
   compareAt: string | null = null,
@@ -21,7 +21,7 @@ function usd(
 }
 
 /** A product as the card and search fields ask for it. Invented, never real data. */
-function product(
+export function product(
   fields: Partial<Product> & Pick<Product, "id" | "name" | "slug" | "price">,
 ): Product {
   return {
@@ -130,7 +130,7 @@ export const productWithHiddenPrice = product({
   price: { ...canvasTote.price, amount: null, display_amount: null },
 });
 
-function category(
+export function category(
   fields: Partial<Category> &
     Pick<Category, "id" | "name" | "permalink" | "depth">,
 ): Category {
