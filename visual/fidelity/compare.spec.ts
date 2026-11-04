@@ -9,6 +9,7 @@ import {
   test,
 } from "@playwright/test";
 import { BASE_PATH, signIn, waitForHydration } from "../../e2e/support";
+import { pressPointerClick } from "../pointer-click";
 import { readAccounts } from "./accounts";
 import {
   category,
@@ -27,7 +28,22 @@ import {
   scrollToEnd,
   subcategory,
 } from "./catalog";
+import {
+  addProduct,
+  applyAcceptedCode,
+  applyRefusedCode,
+  billingAddress,
+  choosePayment,
+  fillAddressForm,
+  fillGuestCheckout,
+  paymentSection,
+  products,
+  showSummary,
+  startCheckout,
+} from "./checkout-run";
 import { proxy, startProxy } from "./proxy";
+import { checkoutValues } from "./settings-values";
+import { interceptActions } from "./shop-run";
 
 /**
  * The pilot's diagnostic comparison with the running storefront (LIQ-010
@@ -209,6 +225,7 @@ async function openStory(page: Page, id: string) {
       window.__STORYBOOK_PREVIEW__?.currentRender?.phase ?? "",
     ),
   );
+  await pressPointerClick(page);
   await page.evaluate(() => document.fonts.ready);
   await page.waitForLoadState("networkidle");
 }
@@ -407,6 +424,44 @@ const customFields = (page: Page) =>
       has: page.getByRole("heading", { name: "Properties" }),
     })
     .last();
+
+/** The cart and checkout cases (FB-19 batch 9), with the checkout settings `checkout-screens.spec.ts` names. */
+const sectionOf = (page: Page, heading: string) =>
+  page.getByRole("heading", { name: heading, exact: true }).locator("xpath=..");
+const deliverySection = (page: Page) => sectionOf(page, "Shipping Method");
+const contactSection = (page: Page) =>
+  page
+    .getByRole("heading", { name: "Contact Information" })
+    .locator("xpath=../..");
+const couponCode = (page: Page) =>
+  page
+    .getByRole("textbox", { name: "Gift card or discount code" })
+    .filter({ visible: true })
+    .locator("xpath=../..");
+const orderSummary = (page: Page) =>
+  page
+    .locator("div.space-y-4.pb-6")
+    .filter({ visible: true })
+    .first()
+    .locator("xpath=..");
+/** The checkout page's main column, the same on the page and in its story. */
+const checkoutColumn = (page: Page) =>
+  page.locator("div.lg\\:col-start-2").first();
+const firstRadioGroup = (page: Page) =>
+  page.locator('[data-slot="radio-group"]').filter({ visible: true }).first();
+
+/** A guest's checkout, filled in up to the payment step. */
+async function guestCheckout(page: Page, items = [products.physical]) {
+  await startCheckout(page, { items });
+  await fillGuestCheckout(page);
+}
+
+/** Adds the product and closes the drawer the add opened. */
+async function addAndClose(page: Page, product = products.physical) {
+  await addProduct(page, product);
+  await page.keyboard.press("Escape");
+  await expect(drawer(page)).toBeHidden();
+}
 
 /** A choice of each kind, as a shopper makes them at this width. */
 async function applyFilters(page: Page) {
@@ -1474,6 +1529,413 @@ const cases: Case[] = [
       return listStatus(page);
     },
     inStory: listStatus,
+  },
+  {
+    id: "CMP-SF-G-03",
+    name: "cart-drawer-opened-with-pointer",
+    story: "storefront-cart-cart-drawer--opened-with-pointer",
+    modes: [desktop, mobile],
+    viewport: true,
+    screen: async (page) => {
+      await addAndClose(page);
+      await page.getByRole("button", { name: "Open cart" }).click();
+      return drawer(page);
+    },
+    inStory: drawer,
+  },
+  {
+    id: "CMP-SF-G-03",
+    name: "cart-drawer-loading",
+    story: "storefront-cart-cart-drawer--loading",
+    modes: [desktop, mobile],
+    viewport: true,
+    screen: async (page) => {
+      await addAndClose(page);
+      await interceptActions(page, "delay");
+      await page.goto("/us/en");
+      const button = page.getByRole("button", { name: "Open cart" });
+      await waitForHydration(button);
+      await button.click();
+      return drawer(page);
+    },
+    inStory: drawer,
+  },
+  {
+    id: "CMP-SF-G-03",
+    name: "cart-drawer-quantity-changed",
+    story: "storefront-cart-cart-drawer--quantity-changed",
+    modes: [desktop, mobile],
+    viewport: true,
+    screen: async (page) => {
+      await addProduct(page, products.physical);
+      await drawer(page)
+        .getByRole("button", { name: "Increase quantity" })
+        .click();
+      await expect(
+        drawer(page).getByRole("textbox", { name: "Quantity" }),
+      ).toHaveValue("2", { timeout: 30_000 });
+      return drawer(page);
+    },
+    inStory: drawer,
+  },
+  {
+    id: "CMP-SF-G-03",
+    name: "cart-drawer-item-removed",
+    story: "storefront-cart-cart-drawer--item-removed",
+    modes: [desktop, mobile],
+    viewport: true,
+    screen: async (page) => {
+      await addAndClose(page);
+      await addProduct(page, products.second);
+      const remove = drawer(page).getByRole("button", { name: /^Remove / });
+      await remove.first().click();
+      await expect(remove).toHaveCount(1, { timeout: 30_000 });
+      return drawer(page);
+    },
+    inStory: drawer,
+  },
+  {
+    id: "CMP-SF-G-03",
+    name: "cart-drawer-updating",
+    story: "storefront-cart-cart-drawer--updating",
+    modes: [desktop, mobile],
+    viewport: true,
+    screen: async (page) => {
+      await addProduct(page, products.physical);
+      await interceptActions(page, "hold");
+      await drawer(page)
+        .getByRole("button", { name: "Increase quantity" })
+        .click();
+      return drawer(page);
+    },
+    inStory: drawer,
+  },
+  {
+    id: "CMP-SF-G-03",
+    name: "cart-drawer-update-failed",
+    story: "storefront-cart-cart-drawer--update-failed",
+    modes: [desktop, mobile],
+    viewport: true,
+    screen: async (page) => {
+      await addProduct(page, products.physical);
+      await interceptActions(page, "fail");
+      await drawer(page)
+        .getByRole("button", { name: "Increase quantity" })
+        .click();
+      await expect(toast(page)).toBeVisible({ timeout: 15_000 });
+      return drawer(page);
+    },
+    inStory: drawer,
+  },
+  {
+    id: "CMP-SF-P-21",
+    name: "toaster-error",
+    story: "storefront-ui-toaster--error",
+    modes: [desktop, systemDark],
+    viewport: true,
+    screen: async (page) => {
+      await storefrontPage(page, `/products/${products.physical}`);
+      const add = page.getByRole("button", { name: /add to cart/i });
+      await waitForHydration(add);
+      await interceptActions(page, "fail");
+      await add.click();
+      return toast(page);
+    },
+    inStory: toast,
+  },
+  {
+    id: "CMP-SF-P-04",
+    name: "button-destructive-cart-page",
+    story: "storefront-ui-button--destructive",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await addAndClose(page);
+      await storefrontPage(page, "/cart");
+      return page.getByRole("button", { name: /^Remove / }).first();
+    },
+    inStory: (page) => page.locator('[data-slot="button"]').first(),
+  },
+  {
+    id: "CMP-SF-P-04",
+    name: "button-disabled-coupon",
+    story: "storefront-ui-button--disabled",
+    modes: [desktop],
+    screen: async (page) => {
+      await startCheckout(page);
+      return page
+        .getByRole("button", { name: "Apply" })
+        .filter({ visible: true });
+    },
+    inStory: (page) => page.locator('[data-slot="button"]').first(),
+  },
+  {
+    id: "CMP-SF-P-18",
+    name: "radio-group-delivery",
+    story: "storefront-ui-radio-group--chosen",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await guestCheckout(page);
+      return firstRadioGroup(page);
+    },
+    inStory: firstRadioGroup,
+  },
+  {
+    id: "CMP-SF-G-04",
+    name: "address-section-guest-empty",
+    story: "storefront-checkout-address-section--guest-empty",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await startCheckout(page);
+      return contactSection(page);
+    },
+    inStory: contactSection,
+  },
+  {
+    id: "CMP-SF-G-04",
+    name: "delivery-before-an-address",
+    story: "storefront-checkout-delivery-method-section--before-an-address",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await startCheckout(page);
+      return deliverySection(page);
+    },
+    inStory: deliverySection,
+  },
+  {
+    id: "CMP-SF-G-04",
+    name: "delivery-one-shipment",
+    story: "storefront-checkout-delivery-method-section--one-shipment",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await guestCheckout(page);
+      return deliverySection(page);
+    },
+    inStory: deliverySection,
+  },
+  {
+    id: "CMP-SF-G-04",
+    name: "delivery-two-shipments",
+    story: "storefront-checkout-delivery-method-section--two-shipments",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await guestCheckout(page, [products.digital, products.physical]);
+      return deliverySection(page);
+    },
+    inStory: deliverySection,
+  },
+  {
+    id: "CMP-SF-G-04",
+    name: "payment-test-gateway-and-check",
+    story: "storefront-checkout-payment-section--test-gateway-and-check",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await guestCheckout(page);
+      return paymentSection(page);
+    },
+    inStory: paymentSection,
+  },
+  {
+    id: "CMP-SF-G-04",
+    name: "payment-check-chosen",
+    story: "storefront-checkout-payment-section--check-chosen",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await guestCheckout(page);
+      await choosePayment(page, "Check");
+      return paymentSection(page);
+    },
+    inStory: paymentSection,
+  },
+  {
+    id: "CMP-SF-G-04",
+    name: "payment-separate-billing",
+    story: "storefront-checkout-payment-section--separate-billing",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await guestCheckout(page);
+      await choosePayment(page, "Check");
+      await paymentSection(page).getByText("Same as shipping address").click();
+      await fillAddressForm(paymentSection(page), billingAddress);
+      return paymentSection(page);
+    },
+    inStory: paymentSection,
+  },
+  {
+    id: "CMP-SF-G-04",
+    name: "payment-nothing-to-pay",
+    story: "storefront-checkout-payment-section--nothing-to-pay",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await guestCheckout(page);
+      await applyAcceptedCode(page, checkoutValues.giftCards[1].code);
+      await expect(paymentSection(page)).toContainText("No payment required");
+      return paymentSection(page);
+    },
+    inStory: paymentSection,
+  },
+  {
+    id: "CMP-SF-G-04",
+    name: "coupon-code-empty",
+    story: "storefront-checkout-coupon-code--empty",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await startCheckout(page);
+      await showSummary(page);
+      return couponCode(page);
+    },
+    inStory: couponCode,
+  },
+  {
+    id: "CMP-SF-G-04",
+    name: "coupon-code-coupon-applied",
+    story: "storefront-checkout-coupon-code--coupon-applied",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await guestCheckout(page);
+      await applyAcceptedCode(page, checkoutValues.promotion.code);
+      return couponCode(page);
+    },
+    inStory: couponCode,
+  },
+  {
+    id: "CMP-SF-G-04",
+    name: "coupon-code-gift-card-applied",
+    story: "storefront-checkout-coupon-code--gift-card-applied",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await guestCheckout(page);
+      await applyAcceptedCode(page, checkoutValues.giftCards[0].code);
+      return couponCode(page);
+    },
+    inStory: couponCode,
+  },
+  {
+    id: "CMP-SF-G-04",
+    name: "coupon-code-refused",
+    story: "storefront-checkout-coupon-code--refused",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await guestCheckout(page);
+      await applyRefusedCode(page, "NOT-A-CODE");
+      return couponCode(page);
+    },
+    inStory: couponCode,
+  },
+  {
+    id: "CMP-SF-G-04",
+    name: "summary-rate-chosen",
+    story: "storefront-checkout-summary--rate-chosen",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await guestCheckout(page);
+      await showSummary(page);
+      return orderSummary(page);
+    },
+    inStory: orderSummary,
+  },
+  {
+    id: "CMP-SF-G-04",
+    name: "summary-coupon-applied",
+    story: "storefront-checkout-summary--coupon-applied",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await guestCheckout(page);
+      await applyAcceptedCode(page, checkoutValues.promotion.code);
+      return orderSummary(page);
+    },
+    inStory: orderSummary,
+  },
+  {
+    id: "CMP-SF-G-04",
+    name: "summary-paid-by-gift-card",
+    story: "storefront-checkout-summary--paid-by-gift-card",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await guestCheckout(page);
+      await applyAcceptedCode(page, checkoutValues.giftCards[1].code);
+      return orderSummary(page);
+    },
+    inStory: orderSummary,
+  },
+  {
+    id: "CMP-SF-PG-01",
+    name: "checkout-guest-arriving",
+    story: "storefront-pages-checkout-page-content--guest-arriving",
+    modes: [desktop, mobile],
+    // The story's store offers no payment method, as Spree's sample data has
+    // it, so this runs while Check and the test gateway are staff-only: before
+    // the `payments-visible` step of `checkout-settings.spec.ts`, or after
+    // `payments-back`.
+    screen: async (page) => {
+      await startCheckout(page);
+      await expect(paymentSection(page)).toContainText(
+        "No payment methods available",
+      );
+      return checkoutColumn(page);
+    },
+    inStory: checkoutColumn,
+  },
+  {
+    id: "CMP-SF-PG-01",
+    name: "checkout-policy-consent-required",
+    story: "storefront-pages-checkout-page-content--policy-consent-required",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await guestCheckout(page);
+      await choosePayment(page, "Check");
+      await page.getByRole("button", { name: "Place Order" }).click();
+      await page.evaluate(() => window.scrollTo(0, 0));
+      return checkoutColumn(page);
+    },
+    inStory: checkoutColumn,
+  },
+  {
+    id: "CMP-SF-PG-01",
+    name: "checkout-empty-cart",
+    story: "storefront-pages-checkout-page-content--empty-cart",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      const added = await addProduct(page, products.physical);
+      const href = await added
+        .getByRole("link", { name: /^checkout$/i })
+        .getAttribute("href");
+      await storefrontPage(page, "/cart");
+      const remove = page.getByRole("button", { name: /^Remove / });
+      await waitForHydration(remove.first());
+      await remove.first().click();
+      await expect(remove).toHaveCount(0, { timeout: 30_000 });
+      await page.goto(href ?? "/us/en/checkout/cart_fidelity_unknown");
+      await page.waitForLoadState("networkidle");
+      return checkoutColumn(page);
+    },
+    inStory: checkoutColumn,
+  },
+  {
+    id: "CMP-SF-PG-01",
+    name: "checkout-not-found",
+    story: "storefront-pages-checkout-page-content--not-found",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await page.goto("/us/en/checkout/cart_fidelity_unknown");
+      await expect(page.getByText(/Order not found/)).toBeVisible({
+        timeout: 15_000,
+      });
+      return checkoutColumn(page);
+    },
+    inStory: checkoutColumn,
+  },
+  {
+    id: "CMP-SF-PG-01",
+    name: "checkout-loading",
+    story: "storefront-pages-checkout-page-content--loading",
+    modes: [desktop, mobile],
+    screen: async (page) => {
+      await interceptActions(page, "hold");
+      await page.goto("/us/en/checkout/cart_fidelity_unknown");
+      await page.waitForTimeout(2_000);
+      return checkoutColumn(page);
+    },
+    inStory: checkoutColumn,
   },
 ];
 

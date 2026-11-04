@@ -8,6 +8,7 @@ import {
   GiftCardSchema,
   MarketSchema,
   OrderSchema,
+  PaymentSessionSchema,
   ProductFiltersSchema,
   ProductSchema,
 } from "@spree/sdk/zod";
@@ -38,6 +39,34 @@ import {
   productWithHiddenPrice,
   rootCategories,
 } from "./catalog";
+import {
+  adyenCart,
+  adyenMethod,
+  appliedGiftCard,
+  billingAddress,
+  checkoutCountries,
+  couponAndGiftCardCart,
+  couponCart,
+  euroCart,
+  giftCardCart,
+  guestAddress,
+  newCheckoutCart,
+  noPaymentMethodsCart,
+  paidByGiftCardCart,
+  paymentSession,
+  paypalCart,
+  paypalMethod,
+  placedOrder,
+  savedStripeCards,
+  separateBillingCart,
+  storeCreditCart,
+  stripeCart,
+  stripeMethod,
+  taxAddedCart,
+  testGatewayCart,
+  twoMethodsCart,
+  twoShipmentCart,
+} from "./checkout";
 import { europe, unitedStates } from "./markets";
 import {
   drinkwareCategory,
@@ -66,6 +95,37 @@ interface Schema {
 
 const fixtures: [string, Schema, unknown[]][] = [
   ["carts", CartSchema, [cartWithItems, emptyCart]],
+  [
+    "checkout carts",
+    CartSchema,
+    [
+      newCheckoutCart,
+      twoShipmentCart,
+      noPaymentMethodsCart,
+      twoMethodsCart,
+      testGatewayCart,
+      stripeCart,
+      adyenCart,
+      paypalCart,
+      separateBillingCart,
+      couponCart,
+      giftCardCart,
+      couponAndGiftCardCart,
+      paidByGiftCardCart,
+      storeCreditCart,
+      taxAddedCart,
+      euroCart,
+    ],
+  ],
+  [
+    "payment sessions",
+    PaymentSessionSchema,
+    [
+      paymentSession(stripeMethod, { client_secret: "stand_in_secret" }),
+      paymentSession(adyenMethod, { session_data: "stand-in-session-data" }),
+      paymentSession(paypalMethod, { id: "STAND-IN-PAYPAL-ORDER" }),
+    ],
+  ],
   ["markets", MarketSchema, [unitedStates, europe]],
   ["products", ProductSchema, [...featuredProducts, productWithHiddenPrice]],
   [
@@ -97,10 +157,22 @@ const fixtures: [string, Schema, unknown[]][] = [
       shirtsCategory,
     ],
   ],
-  ["addresses", AddressSchema, [homeAddress, studioAddress, minimalAddress]],
-  ["countries", CountrySchema, [unitedStatesWithStates, unitedKingdom]],
+  [
+    "addresses",
+    AddressSchema,
+    [homeAddress, studioAddress, minimalAddress, guestAddress, billingAddress],
+  ],
+  [
+    "countries",
+    CountrySchema,
+    [unitedStatesWithStates, unitedKingdom, ...checkoutCountries],
+  ],
   ["customers", CustomerSchema, [customer, customerWithoutName]],
-  ["credit cards", CreditCardSchema, [visaCard, mastercardCard, amexCard]],
+  [
+    "credit cards",
+    CreditCardSchema,
+    [visaCard, mastercardCard, amexCard, ...savedStripeCards],
+  ],
   [
     "gift cards",
     GiftCardSchema,
@@ -110,12 +182,18 @@ const fixtures: [string, Schema, unknown[]][] = [
       redeemedGiftCard,
       canceledGiftCard,
       expiredGiftCard,
+      appliedGiftCard,
     ],
   ],
   [
     "orders",
     OrderSchema,
-    [...accountOrders, orderWithoutFulfillments, orderWithEveryTotal],
+    [
+      ...accountOrders,
+      orderWithoutFulfillments,
+      orderWithEveryTotal,
+      placedOrder,
+    ],
   ],
 ];
 

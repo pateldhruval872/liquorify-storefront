@@ -1,5 +1,13 @@
 import { expect, type Page, test } from "@playwright/test";
-import { save } from "./capture";
+import {
+  capture,
+  chooseOption,
+  dashboard,
+  openSettings,
+  pick,
+  sheet,
+  signIn,
+} from "./dashboard";
 import {
   hiddenField,
   market,
@@ -37,68 +45,9 @@ import {
  * for ten minutes, and nothing tells it the setting changed.
  */
 
-const dashboard = process.env.FIDELITY_DASHBOARD ?? "http://localhost:5174";
 const step = process.env.FIDELITY_SETTINGS_STEP;
 const optionsProduct =
   process.env.FIDELITY_OPTIONS_PRODUCT ?? "prod_oqlrKdXjaP";
-
-const sheet = (page: Page) => page.getByRole("dialog");
-
-async function signIn(page: Page) {
-  const email = process.env.FIDELITY_ADMIN_EMAIL;
-  const password = process.env.FIDELITY_ADMIN_PASSWORD;
-  if (!email || !password) {
-    throw new Error("Set FIDELITY_ADMIN_EMAIL and FIDELITY_ADMIN_PASSWORD");
-  }
-  await page.goto("/");
-  await page.getByRole("textbox", { name: "Email" }).fill(email);
-  await page.getByLabel("Password").fill(password);
-  await page.getByRole("button", { name: "Sign in" }).click();
-  await page.waitForURL(/\/store_/);
-  return new URL(page.url()).pathname.split("/")[1];
-}
-
-async function openSettings(page: Page, store: string, path: string) {
-  await page.goto(`/${store}/settings/${path}`);
-  await page.waitForLoadState("networkidle");
-}
-
-async function chooseOption(page: Page, field: string, option: RegExp) {
-  await sheet(page).getByRole("combobox", { name: field }).click();
-  await page.getByRole("option", { name: option }).first().click();
-}
-
-/** Picks from a searchable list: types, then chooses the matching option, which closes the list. */
-async function pick(page: Page, field: string, text: string, option: RegExp) {
-  await sheet(page).getByRole("combobox", { name: field }).fill(text);
-  await page.getByRole("option", { name: option }).first().click();
-}
-
-const toast = (page: Page) =>
-  page.locator("[data-sonner-toast], [role=status]");
-
-async function capture(
-  page: Page,
-  screen: string,
-  state: string,
-  note: string,
-) {
-  await save(
-    page,
-    {
-      screen,
-      state,
-      variant: "admin",
-      window: true,
-      note,
-      reach: async () => undefined,
-    },
-    1280,
-    (await toast(page).count())
-      ? `The screen said: "${(await toast(page).first().innerText()).replace(/\s+/g, " ")}".`
-      : null,
-  );
-}
 
 async function saveStorefrontAccess(page: Page, store: string, label: RegExp) {
   await openSettings(page, store, "store");
