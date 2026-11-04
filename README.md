@@ -173,6 +173,8 @@ pnpm run test:e2e
 pnpm run e2e:down    # stops the backend
 ```
 
+`pnpm run e2e:down` keeps the database, and seeding again is safe. For a fresh start, drop it as well (`dropdb storefront_e2e` with the default `DATABASE_URL`).
+
 The backend's gems are installed exactly as `e2e-backend/Gemfile.lock` records them, so starting it fails if the backend or the host app now needs different gems. When changing a recorded revision changes the gems, run `./scripts/e2e/liquorify-backend.sh lock`, review the lockfile's changes, and commit it with the revision. Spree's [Testing guide](https://spreecommerce.org/docs/developer/storefront/nextjs/testing) explains the Stripe test keys; its Docker setup does not apply to this repository.
 
 ## Multi-Region
