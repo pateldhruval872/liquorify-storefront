@@ -145,7 +145,6 @@ jobs:
           # in other steps never see the secret.
           STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
           STRIPE_PUBLISHABLE_KEY: ${{ vars.STRIPE_PUBLISHABLE_KEY }}
-          SPREE_BACKEND: liquorify
         run: ./scripts/e2e/bootstrap-spree.sh
       - name: Run Playwright tests
         run: pnpm run test:e2e

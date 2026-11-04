@@ -163,7 +163,17 @@ pnpm start
 
 ### Testing
 
-Unit and integration tests run through Vitest (`pnpm test`); end-to-end tests run through Playwright against a real Spree backend in Docker (`pnpm run e2e:up && pnpm run test:e2e`). See the [Testing guide](https://spreecommerce.org/docs/developer/storefront/nextjs/testing) for the full E2E setup, Stripe test keys, CI, and running against your own backend.
+Unit and integration tests run through Vitest (`pnpm test`). End-to-end tests run through Playwright against Liquorify's backend, built from the revision recorded in `e2e-backend/liquorify-backend.env` and hosted in Spree's starter app at the commit recorded beside it. CI runs them against the same backend.
+
+To run them locally you need Git, the Ruby version in the host app's `.ruby-version` (4.0.5 at the recorded commit), a PostgreSQL server (`DATABASE_URL` defaults to `postgres://postgres@localhost:5432/storefront_e2e`), and a test-mode key pair from your own Stripe sandbox in `STRIPE_PUBLISHABLE_KEY` and `STRIPE_SECRET_KEY`:
+
+```bash
+pnpm run e2e:up      # builds, starts and seeds the backend on http://localhost:4000
+pnpm run test:e2e
+pnpm run e2e:down    # stops the backend
+```
+
+The backend's gems are installed exactly as `e2e-backend/Gemfile.lock` records them, so starting it fails if the backend or the host app now needs different gems. When changing a recorded revision changes the gems, run `./scripts/e2e/liquorify-backend.sh lock`, review the lockfile's changes, and commit it with the revision. Spree's [Testing guide](https://spreecommerce.org/docs/developer/storefront/nextjs/testing) explains the Stripe test keys; its Docker setup does not apply to this repository.
 
 ## Multi-Region
 

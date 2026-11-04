@@ -7,7 +7,8 @@ import { expect, type FrameLocator, type Page, test } from "@playwright/test";
  * fills the shipping address, selects a delivery rate, pays with a Stripe
  * test card, and confirms the order-placed page renders.
  *
- * Backend: e2e-backend/docker-compose.yml (Spree 5.4.3.1 with sample data).
+ * Backend: the Liquorify backend recorded in e2e-backend/liquorify-backend.env,
+ * with sample data.
  * Payments: real Stripe test mode (pk_test_...) — card 4242 4242 4242 4242.
  *
  * Run with: pnpm run e2e:up && pnpm run test:e2e
