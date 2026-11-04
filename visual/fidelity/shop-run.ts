@@ -54,20 +54,37 @@ export async function visit(page: Page, address: string) {
 }
 
 /**
- * Leaves the storefront's server actions unanswered, or fails them, from now
- * on. They post to the page's own address with a `Next-Action` header.
+ * Leaves the storefront's server actions unanswered, fails them, or answers
+ * them eight seconds late, from now on. They post to the page's own address
+ * with a `Next-Action` header. A page held from its first request never
+ * finishes hydrating, so a state the page shows while it starts is delayed.
  */
-export async function interceptActions(page: Page, answer: "hold" | "fail") {
-  await page.route("**/*", (route) => {
+export async function interceptActions(
+  page: Page,
+  answer: "hold" | "fail" | "delay",
+) {
+  await page.route("**/*", async (route) => {
     const request = route.request();
     if (request.method() !== "POST" || !request.headers()["next-action"]) {
       return route.fallback();
     }
-    return answer === "fail" ? route.abort() : undefined;
+    if (answer === "fail") return route.abort();
+    if (answer === "delay") {
+      await new Promise((resolve) => setTimeout(resolve, 8_000));
+      return route.fallback();
+    }
   });
 }
 
-export function runCaptures(captures: Capture[]) {
+/**
+ * Runs the captures this set-up has. `prepareCustomer` runs once the customer
+ * is registered, in the same browser, for captures that need more than an
+ * account, such as saved addresses.
+ */
+export function runCaptures(
+  captures: Capture[],
+  prepareCustomer?: (page: Page) => Promise<void>,
+) {
   const thisRun = captures.filter(
     (item) => (item.setup ?? "standard") === setup,
   );
@@ -79,6 +96,7 @@ export function runCaptures(captures: Capture[]) {
     if (!thisRun.some((item) => item.variant === "customer")) return;
     const { context, page } = await newPage(browser, widths[1]);
     await signUp(page, { firstName: "Jordan", lastName: "Ellis" });
+    await prepareCustomer?.(page);
     sessions.customer = await context.storageState();
     await context.close();
   });

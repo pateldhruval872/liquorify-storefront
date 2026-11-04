@@ -3,6 +3,7 @@ import path from "node:path";
 import { expect, type Locator, type Page, test } from "@playwright/test";
 import { FIXTURE_NOW } from "../stories/fixtures/clock";
 import { modes, systemDarkMode } from "./modes";
+import { pressPointerClick } from "./pointer-click";
 
 interface IndexEntry {
   id: string;
@@ -134,6 +135,7 @@ for (const story of stories) {
           layout: parameters?.layout,
         };
       });
+      await pressPointerClick(page);
       // A focus ring or shadow paints past the root, so the root is captured
       // with room around it, taken from the padded layout's own padding
       // without moving the story.

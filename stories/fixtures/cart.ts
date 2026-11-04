@@ -38,7 +38,8 @@ export function lineItem(
   };
 }
 
-function cart(items: LineItem[]): Cart {
+/** A cart holding these items, with nothing else chosen yet. */
+export function cart(items: LineItem[]): Cart {
   const itemTotal = items
     .reduce((sum, item) => sum + Number(item.total), 0)
     .toFixed(2);

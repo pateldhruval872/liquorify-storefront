@@ -20,7 +20,10 @@ No Spree server is needed: the server actions the providers call are replaced wi
 - **Story needs** go in `parameters.liquorify`:
   - `storefront: true` mounts the store, auth and cart providers;
   - `cart` is what the cart server action returns, or `"loading"`;
-  - `capture: 'viewport'` captures the whole page, for drawers and popups that render outside the story.
+  - `capture: 'viewport'` captures the whole page, for drawers and popups that render outside the story;
+  - `pointerClick` names a button the visual check presses with the mouse before capturing, and the role of what it opens, for a state a mouse click leaves behind;
+  - checkout's needs, such as `checkoutCart`, `codes` and `providers`, are listed with their types in `stories/mocks/server-actions.ts`.
+- **Payment providers** never load in a story. Stripe's, Adyen's and PayPal's libraries are pointed at labelled stand-ins in `stories/mocks/` (`.storybook/main.ts`), and a story that shows one has "mocked" in its name. Nothing a stand-in shows is a claim about a provider.
 - **Tags that change the capture:** `system-dark` also captures the story with the system dark setting, for the parts that follow it (the toaster); `desktop-only` captures it at the desktop width only, for reference pages.
 
 ## Commands
