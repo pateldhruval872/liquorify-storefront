@@ -14,6 +14,10 @@
 #
 # Output: writes `.env.e2e` at the repo root with SPREE_API_URL +
 # SPREE_PUBLISHABLE_KEY for the storefront to consume.
+#
+# SPREE_BACKEND picks where the backend runs: `docker` (the default, the
+# compose stack in e2e-backend/) or `liquorify`, the Rails app that
+# scripts/e2e/liquorify-backend.sh starts from the recorded Liquorify revision.
 
 set -euo pipefail
 
@@ -21,6 +25,32 @@ readonly REPO_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 readonly BACKEND_DIR="$REPO_ROOT/e2e-backend"
 readonly ENV_FILE="$REPO_ROOT/.env.e2e"
 readonly SPREE_URL="http://localhost:4000"
+readonly SPREE_BACKEND="${SPREE_BACKEND:-docker}"
+
+# Runs a Ruby script read from stdin in the backend's Rails app, passing the
+# Stripe keys through the environment rather than the script text.
+rails_runner() {
+  if [[ "$SPREE_BACKEND" == "liquorify" ]]; then
+    (cd "$E2E_BACKEND_DIR/server" && bin/rails runner -)
+  else
+    docker compose exec -T -e STRIPE_PUBLISHABLE_KEY -e STRIPE_SECRET_KEY web bin/rails runner -
+  fi
+}
+
+# Runs a rake task in the backend's Rails app; the compose stack runs it
+# through the matching @spree/cli command.
+rails_task() {
+  if [[ "$SPREE_BACKEND" == "liquorify" ]]; then
+    (cd "$E2E_BACKEND_DIR/server" && bin/rails "$1")
+  else
+    npx @spree/cli "$2"
+  fi
+}
+
+if [[ "$SPREE_BACKEND" == "liquorify" ]]; then
+  # shellcheck source=liquorify-backend.sh
+  source "$REPO_ROOT/scripts/e2e/liquorify-backend.sh"
+fi
 
 # Stripe test-mode API keys. Both must come from the SAME Stripe sandbox
 # account — a mismatched pair makes Stripe.js fail to confirm the
@@ -67,15 +97,15 @@ cd "$BACKEND_DIR"
 # script standalone against a still-booting stack.
 echo "==> Waiting for Spree to accept HTTP requests at $SPREE_URL/up"
 if ! curl -fsS --retry 60 --retry-delay 2 --retry-all-errors "$SPREE_URL/up" >/dev/null 2>&1; then
-  echo "Spree never came up. Check 'docker compose -f $BACKEND_DIR/docker-compose.yml logs web'." >&2
+  echo "Spree never came up. Check the backend's log." >&2
   exit 1
 fi
 
-echo "==> Seeding default Spree data (spree seed)"
-npx @spree/cli seed
+echo "==> Seeding default Spree data (db:seed)"
+rails_task db:seed seed
 
-echo "==> Loading sample products and categories (spree sample-data)"
-npx @spree/cli sample-data
+echo "==> Loading sample products and categories (spree:load_sample_data)"
+rails_task spree:load_sample_data sample-data
 
 # The official Spree image bundles the Stripe integration (spree_stripe), so
 # SpreeStripe::Gateway is available — but no gateway row is seeded, since that
@@ -88,7 +118,7 @@ npx @spree/cli sample-data
 # this script's env) rather than heredoc interpolation, so the Ruby source
 # never embeds them — the heredoc delimiter is quoted on purpose.
 echo "==> Configuring Stripe payment gateway on the default store"
-docker compose exec -T -e STRIPE_PUBLISHABLE_KEY -e STRIPE_SECRET_KEY web bin/rails runner - <<'RUBY'
+rails_runner <<'RUBY'
 store = Spree::Store.default
 gateway = Spree::PaymentMethod.where(type: 'SpreeStripe::Gateway', name: 'E2E Stripe', store: store).first_or_initialize
 gateway.assign_attributes(
@@ -112,7 +142,7 @@ RUBY
 # full price, so the product page tests for picking a color and a size, a
 # discounted variant and a sold-out one need a product of their own.
 echo "==> Creating a product with color and size options"
-docker compose exec -T web bin/rails runner - <<'RUBY'
+rails_runner <<'RUBY'
 store = Spree::Store.default
 color = Spree::OptionType.for_store(store).find_by!(name: 'color')
 size = Spree::OptionType.for_store(store).find_or_create_by!(name: 'size') do |option_type|
@@ -164,7 +194,7 @@ RUBY
 # key is created"), so an existing E2E key bound to the wrong channel is revoked
 # and replaced rather than updated.
 echo "==> Creating publishable API key bound to a public channel"
-api_key_output=$(docker compose exec -T web bin/rails runner - <<'RUBY'
+api_key_output=$(rails_runner <<'RUBY'
 store = Spree::Store.default
 channel = store.channels.detect { |c| c.resolved_storefront_access == 'public' }
 raise 'No public channel found on the default store.' if channel.nil?

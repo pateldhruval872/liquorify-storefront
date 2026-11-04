@@ -17,6 +17,8 @@
     "test:e2e:ui": "playwright test --ui",
     "e2e:up": "docker compose -f e2e-backend/docker-compose.yml up -d --wait && ./scripts/e2e/bootstrap-spree.sh",
     "e2e:down": "docker compose -f e2e-backend/docker-compose.yml down -v",
+    "e2e:up:liquorify": "./scripts/e2e/liquorify-backend.sh start && SPREE_BACKEND=liquorify ./scripts/e2e/bootstrap-spree.sh",
+    "e2e:down:liquorify": "./scripts/e2e/liquorify-backend.sh stop",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build --output-dir storybook-static",
     "tokens": "node stories/scripts/tokens.mjs stories/tokens.config.json",
