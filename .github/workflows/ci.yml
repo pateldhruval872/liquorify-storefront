@@ -123,7 +123,7 @@ jobs:
         run: pnpm exec playwright install-deps chromium
       # The backend is built from the liquorify revision recorded in
       # e2e-backend/liquorify-backend.env, hosted by the Rails app recorded
-      # beside it, rather than pulled as a published image.
+      # beside it, with the gems in e2e-backend/Gemfile.lock.
       - name: Check out the Liquorify backend
         run: ./scripts/e2e/liquorify-backend.sh fetch
       - uses: ruby/setup-ruby@7f797815d8adceb1c412e7abefdd1ab4abc47a5f # v1.335.0
@@ -133,7 +133,7 @@ jobs:
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: .e2e-backend/bundle
-          key: liquorify-backend-gems-${{ runner.os }}-${{ hashFiles('.e2e-backend/server/.ruby-version', '.e2e-backend/server/Gemfile.lock', '.e2e-backend/liquorify/spree/**/*.gemspec', '.e2e-backend/liquorify/spree/common_spree_dependencies.rb') }}
+          key: liquorify-backend-gems-${{ runner.os }}-${{ hashFiles('.e2e-backend/server/.ruby-version', 'e2e-backend/Gemfile.lock') }}
           restore-keys: liquorify-backend-gems-${{ runner.os }}-
       - name: Start the Liquorify backend
         run: ./scripts/e2e/liquorify-backend.sh start

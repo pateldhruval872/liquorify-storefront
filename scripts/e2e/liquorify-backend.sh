@@ -6,6 +6,8 @@
 #   liquorify-backend.sh start   fetch, install gems, prepare the database and
 #                                start Rails on http://localhost:4000
 #   liquorify-backend.sh stop    stop that Rails server
+#   liquorify-backend.sh lock    re-resolve e2e-backend/Gemfile.lock after a
+#                                revision change that alters the gems
 #
 # Everything lives in E2E_BACKEND_DIR (default .e2e-backend/, gitignored).
 # Needs Git, the host app's Ruby (its .ruby-version) and a PostgreSQL server;
@@ -16,6 +18,9 @@ set -euo pipefail
 
 readonly E2E_REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 readonly E2E_BACKEND_DIR="${E2E_BACKEND_DIR:-$E2E_REPO_ROOT/.e2e-backend}"
+readonly LIQUORIFY_DIR="$E2E_BACKEND_DIR/liquorify"
+readonly HOST_APP_DIR="$E2E_BACKEND_DIR/server"
+readonly LOCKFILE="$E2E_REPO_ROOT/e2e-backend/Gemfile.lock"
 
 # Exports the recorded settings and the paths derived from E2E_BACKEND_DIR.
 liquorify_backend_env() {
@@ -23,7 +28,8 @@ liquorify_backend_env() {
   # shellcheck disable=SC1091
   source "$E2E_REPO_ROOT/e2e-backend/liquorify-backend.env"
   set +a
-  export SPREE_PATH="$E2E_BACKEND_DIR/liquorify"
+  # Relative to the host app, so the lockfile records no machine's path.
+  export SPREE_PATH="../liquorify"
   export BUNDLE_PATH="${BUNDLE_PATH:-$E2E_BACKEND_DIR/bundle}"
   export BUNDLE_WITHOUT="development:test"
   export DATABASE_URL="${DATABASE_URL:-postgres://postgres@localhost:5432/storefront_e2e}"
@@ -44,17 +50,26 @@ checkout_revision() {
 
 fetch() {
   echo "==> Checking out liquorify at $LIQUORIFY_REVISION"
-  checkout_revision "$SPREE_PATH" "$LIQUORIFY_REPOSITORY" "$LIQUORIFY_REVISION"
+  checkout_revision "$LIQUORIFY_DIR" "$LIQUORIFY_REPOSITORY" "$LIQUORIFY_REVISION"
   echo "==> Checking out the host app at $HOST_APP_REVISION"
-  checkout_revision "$E2E_BACKEND_DIR/server" "$HOST_APP_REPOSITORY" "$HOST_APP_REVISION"
+  checkout_revision "$HOST_APP_DIR" "$HOST_APP_REPOSITORY" "$HOST_APP_REVISION"
+  cp "$LOCKFILE" "$HOST_APP_DIR/Gemfile.lock"
 }
 
 start() {
   fetch
-  cd "$E2E_BACKEND_DIR/server"
+  cd "$HOST_APP_DIR"
 
+  # Frozen, so Bundler installs exactly the recorded lockfile and stops if
+  # the backend or the host app now needs different gems.
   echo "==> Installing gems"
-  bundle install --jobs 4 --quiet
+  if ! BUNDLE_FROZEN=true bundle install --jobs 4 --quiet; then
+    echo "Installing the backend's gems failed. If Bundler says the lockfile can't be" >&2
+    echo "updated, the gems no longer match e2e-backend/Gemfile.lock: run" >&2
+    echo "'./scripts/e2e/liquorify-backend.sh lock' and commit the lockfile with the" >&2
+    echo "revision change." >&2
+    exit 1
+  fi
 
   # The host app's committed migrations predate any the backend has added
   # since; this copies those in before the database is prepared.
@@ -86,6 +101,18 @@ start() {
   exit 1
 }
 
+# Starts from the host app's own lockfile, so the third-party versions it
+# fixes stay as they are and only what the backend adds or changes is
+# resolved. Review the lockfile's diff before committing it.
+lock() {
+  fetch
+  cd "$HOST_APP_DIR"
+  git checkout --quiet -- Gemfile.lock
+  BUNDLE_FROZEN=false bundle lock
+  cp Gemfile.lock "$LOCKFILE"
+  echo "==> Wrote e2e-backend/Gemfile.lock"
+}
+
 stop() {
   if [[ -f "$E2E_BACKEND_DIR/server.pid" ]]; then
     kill "$(cat "$E2E_BACKEND_DIR/server.pid")" 2>/dev/null || true
@@ -97,9 +124,9 @@ liquorify_backend_env
 
 if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
   case "${1:-}" in
-    fetch | start | stop) "$1" ;;
+    fetch | start | stop | lock) "$1" ;;
     *)
-      echo "Usage: $0 fetch|start|stop" >&2
+      echo "Usage: $0 fetch|start|stop|lock" >&2
       exit 1
       ;;
   esac
