@@ -1,14 +1,15 @@
 #!/usr/bin/env bash
-# Bootstrap the E2E Spree backend using @spree/cli.
+# Bootstrap the E2E Spree backend that scripts/e2e/liquorify-backend.sh
+# starts from the recorded Liquorify revision.
 #
 # Steps:
-#   1. `spree seed` — seed the default store, roles, countries.
-#   2. `spree sample-data` — load sample products, categories, images.
+#   1. `db:seed` — seed the default store, roles, countries.
+#   2. `spree:load_sample_data` — load sample products, categories, images.
 #   3. add a product that has both color and size options.
 #   4. mint a publishable API key bound to a public channel, and capture
 #      its pk_… token.
 #
-# Idempotent: the CLI's seed/sample-data tasks are no-ops on already-seeded
+# Idempotent: the seed and sample-data tasks are no-ops on already-seeded
 # databases, and the API key step reuses a correctly-bound "E2E" key when one
 # already exists.
 #
@@ -18,9 +19,21 @@
 set -euo pipefail
 
 readonly REPO_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
-readonly BACKEND_DIR="$REPO_ROOT/e2e-backend"
 readonly ENV_FILE="$REPO_ROOT/.env.e2e"
 readonly SPREE_URL="http://localhost:4000"
+
+# shellcheck source=liquorify-backend.sh
+source "$REPO_ROOT/scripts/e2e/liquorify-backend.sh"
+
+# Runs a Ruby script read from stdin in the backend's Rails app, passing the
+# Stripe keys through the environment rather than the script text.
+rails_runner() {
+  (cd "$HOST_APP_DIR" && bin/rails runner -)
+}
+
+rails_task() {
+  (cd "$HOST_APP_DIR" && bin/rails "$1")
+}
 
 # Stripe test-mode API keys. Both must come from the SAME Stripe sandbox
 # account — a mismatched pair makes Stripe.js fail to confirm the
@@ -58,37 +71,32 @@ if [[ ! "$STRIPE_SECRET_KEY" =~ ^sk_test_[A-Za-z0-9_]+$ ]]; then
   exit 1
 fi
 
-# @spree/cli looks for docker-compose.yml in the cwd, so all CLI calls
-# happen from the backend dir.
-cd "$BACKEND_DIR"
-
-# Both callers (`pnpm run e2e:up` and CI) already gate on the compose
-# healthcheck via `up -d --wait`; this guard only covers running the
-# script standalone against a still-booting stack.
+# Both callers (`pnpm run e2e:up` and CI) start the backend and wait for
+# it first; this guard only covers running the script standalone against a
+# still-booting backend.
 echo "==> Waiting for Spree to accept HTTP requests at $SPREE_URL/up"
 if ! curl -fsS --retry 60 --retry-delay 2 --retry-all-errors "$SPREE_URL/up" >/dev/null 2>&1; then
-  echo "Spree never came up. Check 'docker compose -f $BACKEND_DIR/docker-compose.yml logs web'." >&2
+  echo "Spree never came up. Check the backend's log." >&2
   exit 1
 fi
 
-echo "==> Seeding default Spree data (spree seed)"
-npx @spree/cli seed
+echo "==> Seeding default Spree data (db:seed)"
+rails_task db:seed
 
-echo "==> Loading sample products and categories (spree sample-data)"
-npx @spree/cli sample-data
+echo "==> Loading sample products and categories (spree:load_sample_data)"
+rails_task spree:load_sample_data
 
-# The official Spree image bundles the Stripe integration (spree_stripe), so
+# The backend includes the Stripe integration (spree_stripe), so
 # SpreeStripe::Gateway is available — but no gateway row is seeded, since that
 # carries account-specific API keys. We create one with a `bin/rails runner`
-# snippet that writes the row directly with the E2E test keys — version-agnostic,
-# so it works whichever Spree image is pinned. The script is idempotent:
-# re-running matches the existing row by name (where(...).first_or_initialize)
-# and reapplies the same attributes.
-# The keys reach Ruby via the container environment (-e pass-through from
-# this script's env) rather than heredoc interpolation, so the Ruby source
-# never embeds them — the heredoc delimiter is quoted on purpose.
+# snippet that writes the row directly with the E2E test keys. The script is
+# idempotent: re-running matches the existing row by name
+# (where(...).first_or_initialize) and reapplies the same attributes.
+# The keys reach Ruby through this script's environment rather than heredoc
+# interpolation, so the Ruby source never embeds them — the heredoc
+# delimiter is quoted on purpose.
 echo "==> Configuring Stripe payment gateway on the default store"
-docker compose exec -T -e STRIPE_PUBLISHABLE_KEY -e STRIPE_SECRET_KEY web bin/rails runner - <<'RUBY'
+rails_runner <<'RUBY'
 store = Spree::Store.default
 gateway = Spree::PaymentMethod.where(type: 'SpreeStripe::Gateway', name: 'E2E Stripe', store: store).first_or_initialize
 gateway.assign_attributes(
@@ -112,7 +120,7 @@ RUBY
 # full price, so the product page tests for picking a color and a size, a
 # discounted variant and a sold-out one need a product of their own.
 echo "==> Creating a product with color and size options"
-docker compose exec -T web bin/rails runner - <<'RUBY'
+rails_runner <<'RUBY'
 store = Spree::Store.default
 color = Spree::OptionType.for_store(store).find_by!(name: 'color')
 size = Spree::OptionType.for_store(store).find_or_create_by!(name: 'size') do |option_type|
@@ -164,7 +172,7 @@ RUBY
 # key is created"), so an existing E2E key bound to the wrong channel is revoked
 # and replaced rather than updated.
 echo "==> Creating publishable API key bound to a public channel"
-api_key_output=$(docker compose exec -T web bin/rails runner - <<'RUBY'
+api_key_output=$(rails_runner <<'RUBY'
 store = Spree::Store.default
 channel = store.channels.detect { |c| c.resolved_storefront_access == 'public' }
 raise 'No public channel found on the default store.' if channel.nil?

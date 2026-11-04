@@ -4,7 +4,7 @@ import { defineConfig, devices } from "@playwright/test";
  * Playwright config for the storefront E2E suite.
  *
  * Prerequisites (run once before `pnpm run test:e2e`):
- *   pnpm run e2e:up     # boots Docker + bootstraps Spree via @spree/cli
+ *   pnpm run e2e:up     # builds and starts the Liquorify backend, then seeds it
  *
  * That seeds Spree with sample data and writes `.env.e2e` with the
  * publishable key the storefront needs.
@@ -15,7 +15,7 @@ import { defineConfig, devices } from "@playwright/test";
 export default defineConfig({
   testDir: "./e2e",
   // The guest checkout walks home → PDP → cart → checkout → Stripe against
-  // dev-mode Next.js + dockerized Spree, which blows well past Playwright's
+  // dev-mode Next.js + a production-mode Spree, which blows well past Playwright's
   // 30s default on CI runners — each retry was dying mid-flow wherever it
   // happened to be standing.
   timeout: 120_000,

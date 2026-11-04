@@ -70,6 +70,20 @@ jobs:
       github.event.pull_request.head.repo.full_name == github.repository)
     runs-on: ubuntu-latest
     timeout-minutes: 25
+    # The Liquorify backend's database. Trust authentication suits a
+    # disposable service reachable only from this runner.
+    services:
+      postgres:
+        image: postgres:18-alpine
+        env:
+          POSTGRES_HOST_AUTH_METHOD: trust
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
     steps:
       - name: Fail if Stripe keys are not configured
         env:
@@ -107,8 +121,22 @@ jobs:
       - name: Install Playwright system deps only
         if: steps.playwright-cache.outputs.cache-hit == 'true'
         run: pnpm exec playwright install-deps chromium
-      - name: Boot Spree backend (Postgres + Redis + latest Spree)
-        run: docker compose -f e2e-backend/docker-compose.yml up -d --wait
+      # The backend is built from the liquorify revision recorded in
+      # e2e-backend/liquorify-backend.env, hosted by the Rails app recorded
+      # beside it, with the gems in e2e-backend/Gemfile.lock.
+      - name: Check out the Liquorify backend
+        run: ./scripts/e2e/liquorify-backend.sh fetch
+      - uses: ruby/setup-ruby@7f797815d8adceb1c412e7abefdd1ab4abc47a5f # v1.335.0
+        with:
+          working-directory: .e2e-backend/server
+      - name: Cache the backend's gems
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: .e2e-backend/bundle
+          key: liquorify-backend-gems-${{ runner.os }}-${{ hashFiles('.e2e-backend/server/.ruby-version', 'e2e-backend/Gemfile.lock') }}
+          restore-keys: liquorify-backend-gems-${{ runner.os }}-
+      - name: Start the Liquorify backend
+        run: ./scripts/e2e/liquorify-backend.sh start
       - name: Seed Spree and issue API key
         env:
           # Test-mode Stripe key pair from one sandbox account, consumed by
@@ -122,7 +150,7 @@ jobs:
         run: pnpm run test:e2e
       - name: Dump Spree logs on failure
         if: failure()
-        run: docker compose -f e2e-backend/docker-compose.yml logs --no-color web > spree.log || true
+        run: cp .e2e-backend/server.log spree.log || true
       - name: Upload failure artifacts
         if: failure()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
@@ -135,4 +163,4 @@ jobs:
           retention-days: 7
       - name: Tear down
         if: always()
-        run: docker compose -f e2e-backend/docker-compose.yml down -v
+        run: ./scripts/e2e/liquorify-backend.sh stop

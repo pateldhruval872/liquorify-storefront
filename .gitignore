@@ -56,3 +56,6 @@ next-env.d.ts
 /visual/report/
 /visual/results/
 /visual/fidelity/results/
+
+# Liquorify backend for the browser tests
+/.e2e-backend/
