@@ -8,7 +8,9 @@ import { defineConfig } from "@playwright/test";
  * first. `settings.spec.ts` saves the settings the shop's captures look for
  * through the dashboard. `mail.spec.ts` follows the storefront's password
  * reset email, and runs only against a storefront set up to write its email
- * to a folder (see that file).
+ * to a folder (see that file). `checkout-screens.spec.ts` captures the cart
+ * and checkout screens, and `checkout-settings.spec.ts` saves the store's
+ * checkout settings through the dashboard and looks for them at checkout.
  */
 export default defineConfig({
   testDir: ".",
@@ -19,6 +21,8 @@ export default defineConfig({
     "catalog-screens.spec.ts",
     "settings.spec.ts",
     "mail.spec.ts",
+    "checkout-screens.spec.ts",
+    "checkout-settings.spec.ts",
   ],
   outputDir: "./results/test-output",
   workers: 1,

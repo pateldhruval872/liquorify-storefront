@@ -39,3 +39,38 @@ export const renamedProduct = {
   newName: "Standing Fan 40cm",
   newSlug: "standing-fan",
 };
+
+/**
+ * What `checkout-settings.spec.ts` saves for the storefront cart and checkout
+ * batch. The codes are invented and say what they are for.
+ */
+export const checkoutValues = {
+  promotion: {
+    name: "Fidelity welcome coupon",
+    code: "WELCOME10",
+    amount: "10.00",
+  },
+  giftCards: [
+    { code: "FIDELITY-PART-25", amount: "25.00" },
+    { code: "FIDELITY-WHOLE-500", amount: "500.00" },
+  ],
+  expressCondition: { minimum: "200.00" },
+  freight: { markup: "10" },
+  digital: {
+    profile: process.env.FIDELITY_DIGITAL_PROFILE ?? "fp_gbHJdmfrXB",
+    name: "Digital Delivery",
+    renamed: "Instant download",
+  },
+  euroAmount: { method: "International Shipping", amount: "18.00" },
+  taxRate: { name: "Fidelity sales tax", rate: "8" },
+  customerAddress: {
+    country: "United States",
+    firstName: "Jordan",
+    lastName: "Ellis",
+    address: "55 Water Street",
+    city: "Brooklyn",
+    state: "New York",
+    zip: "11201",
+    phone: "718-555-0155",
+  },
+};
