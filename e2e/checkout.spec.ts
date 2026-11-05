@@ -1,4 +1,5 @@
-import { expect, type FrameLocator, type Page, test } from "@playwright/test";
+import { expect, type FrameLocator, test } from "@playwright/test";
+import { fillCheckoutAddress } from "./support";
 
 /**
  * Checkout golden-path E2E.
@@ -93,7 +94,7 @@ test("guest can complete a checkout with a Stripe test card", async ({
   const email = page.getByPlaceholder(/email address/i);
   await expect(email).toHaveCount(1, { timeout: 20_000 });
   await email.fill(TEST_EMAIL);
-  await fillAddress(page);
+  await fillCheckoutAddress(page);
 
   // Trigger the address auto-save by blurring the form. Clicking the
   // page heading takes focus out of the AddressFormFields container,
@@ -189,37 +190,3 @@ test("guest can complete a checkout with a Stripe test card", async ({
   // 7. Confirm the order summary rendered.
   await expect(page.getByText(/order #/i)).toBeVisible();
 });
-
-async function fillAddress(page: Page) {
-  // The Country dropdown defaults alphabetically (Canada before US) — pick
-  // United States explicitly so the rest of the test data (NY state, ZIP
-  // 10001, US phone) is valid for the selected country.
-  await page.getByLabel(/country/i).selectOption({ label: "United States" });
-
-  await page
-    .getByLabel(/first name/i)
-    .first()
-    .fill("Test");
-  await page
-    .getByLabel(/last name/i)
-    .first()
-    .fill("Buyer");
-  await page
-    .getByLabel(/^address$/i)
-    .first()
-    .fill("123 Test St");
-  await page.getByLabel(/city/i).first().fill("New York");
-  await page
-    .getByLabel(/zip|postal code/i)
-    .first()
-    .fill("10001");
-  await page.getByLabel(/phone/i).first().fill("5555550100");
-
-  // With the country pinned to US the state field is always a <select>
-  // (disabled while the states list loads). selectOption auto-waits for
-  // the control to enable and for the option to be present.
-  await page
-    .getByLabel(/state|province/i)
-    .first()
-    .selectOption({ label: "New York" });
-}

@@ -174,3 +174,78 @@ export async function signIn(
     .fill(password);
   await page.getByRole("button", { name: "Sign In" }).click();
 }
+
+/**
+ * Saves a United States address in the signed-in customer's address book,
+ * starting from an account page, and waits for the book to list it.
+ */
+export async function addSavedAddress(
+  page: Page,
+  address1: string,
+): Promise<void> {
+  await page
+    .getByRole("complementary")
+    .getByRole("link", { name: "Addresses" })
+    .click();
+  const addFirst = page.getByRole("button", {
+    name: "Add Your First Address",
+  });
+  await waitForHydration(addFirst);
+  await addFirst.click();
+
+  const dialog = page.getByRole("dialog", { name: "Add New Address" });
+  await dialog
+    .getByRole("combobox", { name: "Country" })
+    .selectOption({ label: "United States" });
+  await dialog
+    .getByRole("textbox", { name: "Address", exact: true })
+    .fill(address1);
+  await dialog.getByRole("textbox", { name: "City" }).fill("New York");
+  await dialog
+    .getByRole("textbox", { name: "ZIP / Postal code" })
+    .fill("10001");
+  // With the United States selected the state becomes a list, enabled once
+  // the country's states have loaded.
+  await dialog
+    .getByRole("combobox", { name: /state/i })
+    .selectOption({ label: "New York" });
+  await dialog.getByRole("button", { name: "Save Address" }).click();
+
+  await expect(dialog).toBeHidden({ timeout: 30_000 });
+  await expect(page.getByText(address1)).toBeVisible();
+}
+
+/** Fills checkout's shipping address form with a New York address. */
+export async function fillCheckoutAddress(page: Page): Promise<void> {
+  // The Country dropdown defaults alphabetically (Canada before US) — pick
+  // United States explicitly so the rest of the test data (NY state, ZIP
+  // 10001, US phone) is valid for the selected country.
+  await page.getByLabel(/country/i).selectOption({ label: "United States" });
+
+  await page
+    .getByLabel(/first name/i)
+    .first()
+    .fill("Test");
+  await page
+    .getByLabel(/last name/i)
+    .first()
+    .fill("Buyer");
+  await page
+    .getByLabel(/^address$/i)
+    .first()
+    .fill("123 Test St");
+  await page.getByLabel(/city/i).first().fill("New York");
+  await page
+    .getByLabel(/zip|postal code/i)
+    .first()
+    .fill("10001");
+  await page.getByLabel(/phone/i).first().fill("5555550100");
+
+  // With the country pinned to US the state field is always a <select>
+  // (disabled while the states list loads). selectOption auto-waits for
+  // the control to enable and for the option to be present.
+  await page
+    .getByLabel(/state|province/i)
+    .first()
+    .selectOption({ label: "New York" });
+}

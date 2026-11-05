@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { signUp, waitForHydration } from "./support";
+import { addSavedAddress, signUp, waitForHydration } from "./support";
 
 test.describe("customer account", () => {
   test.beforeEach(async ({ page }) => {
@@ -33,36 +33,7 @@ test.describe("customer account", () => {
   });
 
   test("a customer adds and deletes an address", async ({ page }) => {
-    await page
-      .getByRole("complementary")
-      .getByRole("link", { name: "Addresses" })
-      .click();
-    const addFirst = page.getByRole("button", {
-      name: "Add Your First Address",
-    });
-    await waitForHydration(addFirst);
-    await addFirst.click();
-
-    const dialog = page.getByRole("dialog", { name: "Add New Address" });
-    await dialog
-      .getByRole("combobox", { name: "Country" })
-      .selectOption({ label: "United States" });
-    await dialog
-      .getByRole("textbox", { name: "Address", exact: true })
-      .fill("42 Analytical Engine Way");
-    await dialog.getByRole("textbox", { name: "City" }).fill("New York");
-    await dialog
-      .getByRole("textbox", { name: "ZIP / Postal code" })
-      .fill("10001");
-    // With the United States selected the state becomes a list, enabled once
-    // the country's states have loaded.
-    await dialog
-      .getByRole("combobox", { name: /state/i })
-      .selectOption({ label: "New York" });
-    await dialog.getByRole("button", { name: "Save Address" }).click();
-
-    await expect(dialog).toBeHidden({ timeout: 30_000 });
-    await expect(page.getByText("42 Analytical Engine Way")).toBeVisible();
+    await addSavedAddress(page, "42 Analytical Engine Way");
 
     // The list refreshes once more after the save, and that closes a confirm
     // dialog opened just before it.

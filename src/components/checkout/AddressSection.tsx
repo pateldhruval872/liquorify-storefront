@@ -103,13 +103,21 @@ export function AddressSection({
       ? initialSavedAddresses[0]
       : undefined;
 
-  const [email, setEmail] = useState(cart.email || user?.email || "");
+  const [enteredEmail, setEnteredEmail] = useState(
+    cart.email || user?.email || "",
+  );
   // Lock the email field only once the account email is actually loaded. The
   // server-derived `isAuthenticated` can be true while the AuthContext `user` is
   // still null — during hydration, or after a transient sync is preserved as
   // `stale` — so keying off `isAuthenticated` alone would leave the field
   // disabled and blank, blocking checkout. Gate on the account email instead.
-  const hasAccountEmail = isAuthenticated && !!user?.email;
+  const accountEmail = isAuthenticated ? user?.email : undefined;
+  const hasAccountEmail = !!accountEmail;
+  // Read the account email on every render rather than copying it into state:
+  // the account usually loads after checkout first renders, and a cart made
+  // while signed in has no email of its own, so a copy taken at mount stays
+  // empty while the field locks (SD-21).
+  const email = accountEmail || enteredEmail;
   const defaultCountryIso = countries[0]?.iso ?? "";
 
   const [shipAddress, setShipAddress] = useState<AddressFormData>(() => {
@@ -289,7 +297,7 @@ export function AddressSection({
           id="email"
           required
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => setEnteredEmail(e.target.value)}
           onBlur={handleEmailBlur}
           disabled={hasAccountEmail}
           placeholder={t("emailAddress")}

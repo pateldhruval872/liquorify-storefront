@@ -5,8 +5,9 @@
 # Steps:
 #   1. `db:seed` — seed the default store, roles, countries.
 #   2. `spree:load_sample_data` — load sample products, categories, images.
-#   3. add a product that has both color and size options.
-#   4. mint a publishable API key bound to a public channel, and capture
+#   3. show Spree's Check payment method at checkout, after Stripe.
+#   4. add a product that has both color and size options.
+#   5. mint a publishable API key bound to a public channel, and capture
 #      its pk_… token.
 #
 # Idempotent: the seed and sample-data tasks are no-ops on already-seeded
@@ -114,6 +115,18 @@ gateway.assign_attributes(
 # when checkout creates a PaymentIntent.
 gateway.save!(validate: false)
 puts "OK: gateway #{gateway.id} (#{gateway.name})"
+RUBY
+
+# The signed-in checkout tests pay with Spree's Check method, which needs no
+# payment provider. Sample data adds it hidden from the storefront. It is shown
+# after the Stripe gateway, so a guest's checkout still opens on Stripe's form.
+echo "==> Showing the Check payment method at checkout, after Stripe"
+rails_runner <<'RUBY'
+store = Spree::Store.default
+check = store.payment_methods.find_by!(type: 'Spree::PaymentMethod::Check')
+check.update!(active: true, storefront_visible: true)
+check.move_to_bottom
+puts "OK: #{check.name} at position #{check.reload.position}"
 RUBY
 
 # The sample catalog's products vary by color only and are all in stock at
