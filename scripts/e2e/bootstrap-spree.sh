@@ -7,7 +7,9 @@
 #   2. `spree:load_sample_data` — load sample products, categories, images.
 #   3. show Spree's Check payment method at checkout, after Stripe.
 #   4. add a product that has both color and size options.
-#   5. mint a publishable API key bound to a public channel, and capture
+#   5. add checkout's test data: two gift cards, a taxed product and a
+#      market in euros.
+#   6. mint a publishable API key bound to a public channel, and capture
 #      its pk_… token.
 #
 # Idempotent: the seed and sample-data tasks are no-ops on already-seeded
@@ -172,6 +174,46 @@ end
 product.variants.reject { |variant| variant.option_values.any? }.each(&:destroy!)
 store.channels.each { |channel| product.product_publications.find_or_create_by!(channel: channel) }
 puts "OK: #{product.slug} (#{product.variants.count} variants)"
+RUBY
+
+# Checkout's browser tests apply gift cards, see tax on a product of their own,
+# and see a second market's prices in euros. Each gift card serves one test:
+# a card applied to a cart stays on hold for that cart until it is applied to
+# another, so two tests sharing one could refuse each other's.
+echo "==> Creating checkout test data: gift cards, a taxed product, a market in euros"
+rails_runner <<'RUBY'
+store = Spree::Store.default
+# Spree keeps a card's code in lower case and matches what a shopper types
+# against it in lower case.
+{ 'e2e-gift-part' => 25, 'e2e-gift-whole' => 100_000 }.each do |code, amount|
+  store.gift_cards.find_or_create_by!(code: code) do |gift_card|
+    gift_card.amount = amount
+    gift_card.currency = 'USD'
+  end
+end
+
+taxable = store.tax_categories.find_or_create_by!(name: 'E2E taxable')
+store.tax_rates.find_or_create_by!(name: 'E2E 8% in the United States') do |rate|
+  rate.tax_category = taxable
+  rate.amount = BigDecimal('0.08')
+  rate.country_code = 'US'
+end
+mug = store.products.find_or_initialize_by(slug: 'e2e-taxed-mug')
+mug.assign_attributes(name: 'E2E Taxed Mug', status: 'active', description: 'A product taxed at 8% in the United States.', tax_category: taxable)
+mug.save!
+mug.default_variant.set_price('USD', 20)
+mug.default_variant.save!
+mug_stock = mug.default_variant.stock_items.find_or_create_by!(stock_location: Spree::StockLocation.order_default.first)
+mug_stock.update!(backorderable: false)
+mug_stock.set_count_on_hand(1000)
+store.channels.each { |channel| mug.product_publications.find_or_create_by!(channel: channel) }
+
+spain = store.markets.find_or_initialize_by(name: 'E2E Spain')
+spain.assign_attributes(currency: 'EUR', default_locale: 'en', country_codes: ['ES'])
+spain.save!
+international = store.delivery_methods.find_by!(name: 'International Shipping')
+international.calculator.update!(preferred_amounts: international.calculator.preferred_amounts.merge('EUR' => '18.00'))
+puts "OK: gift cards, #{mug.slug}, the #{spain.name} market in #{spain.currency}"
 RUBY
 
 # Created via `bin/rails runner` rather than `spree api-key create`, because the

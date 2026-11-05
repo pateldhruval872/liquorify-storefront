@@ -1,9 +1,10 @@
-import { expect, type Page, test } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 import {
   addSavedAddress,
-  BASE_PATH,
+  checkoutLinkFromCartDrawer,
+  expectInOrderHistory,
   fillCheckoutAddress,
-  openFirstProduct,
+  placeOrderWithCheck,
   signUp,
   waitForHydration,
 } from "./support";
@@ -104,56 +105,3 @@ test.describe("signed-in checkout", () => {
     await expectInOrderHistory(page, orderNumber);
   });
 });
-
-/** Adds the first listed product to the cart and returns the drawer's checkout link. */
-async function checkoutLinkFromCartDrawer(page: Page): Promise<string> {
-  await openFirstProduct(page, `${BASE_PATH}/products`);
-  const addButton = page.getByRole("button", { name: /add to cart/i });
-  await waitForHydration(addButton);
-  await expect(addButton).toBeEnabled({ timeout: 10_000 });
-  await addButton.click();
-
-  const checkoutLink = page
-    .getByRole("dialog", { name: /^cart/i })
-    .getByRole("link", { name: /^checkout$/i });
-  await expect(checkoutLink).toBeVisible({ timeout: 30_000 });
-  const href = await checkoutLink.getAttribute("href");
-  if (!href) throw new Error("The cart drawer's checkout link has no address");
-  return href;
-}
-
-/**
- * Waits for the delivery rates that a saved shipping address brings, keeps
- * the one Spree chose, pays with Check and places the order. Returns the
- * order number the order placed page shows.
- */
-async function placeOrderWithCheck(page: Page): Promise<string> {
-  const chosenRate = page
-    .locator("#checkout-section-shipping")
-    .getByRole("radio", { checked: true });
-  await expect(chosenRate).toBeVisible({ timeout: 30_000 });
-
-  const check = page.getByRole("radio", { name: "Check", exact: true });
-  await expect(check).toBeVisible({ timeout: 30_000 });
-  await check.check();
-  await expect(check).toBeChecked();
-
-  await page.getByRole("button", { name: "Place Order" }).click();
-  await page.waitForURL(/\/order-placed\//, { timeout: 60_000 });
-
-  const orderLine = page.getByText(/^Order #\S+$/);
-  await expect(orderLine).toBeVisible({ timeout: 30_000 });
-  return ((await orderLine.textContent()) ?? "").replace("Order #", "").trim();
-}
-
-/** Expects the signed-in customer's order history to list the order. */
-async function expectInOrderHistory(
-  page: Page,
-  orderNumber: string,
-): Promise<void> {
-  await page.goto(`${BASE_PATH}/account/orders`);
-  await expect(
-    page.getByRole("heading", { level: 1, name: "Order History" }),
-  ).toBeVisible({ timeout: 30_000 });
-  await expect(page.getByText(`#${orderNumber}`)).toBeVisible();
-}
