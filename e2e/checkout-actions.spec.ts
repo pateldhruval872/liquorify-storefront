@@ -55,11 +55,13 @@ const SPANISH_ADDRESS: CheckoutAddress = {
 };
 
 test.describe("checkout actions", () => {
-  test.beforeEach(() => {
+  test.beforeEach(({ page, baseURL }) => {
     test.fail(
       sabotaged,
       "Sabotaged: the change this test looks for is undone in the browser",
     );
+    if (!baseURL) throw new Error("The tests need Playwright's baseURL");
+    trackStorefrontRequests(page, new URL(baseURL).origin);
   });
 
   test("a guest applies a coupon", async ({ page }) => {
@@ -154,7 +156,7 @@ test.describe("checkout actions", () => {
     await expect(chosenRate(page)).toBeVisible({ timeout: 30_000 });
     // Checkout saves the address it opens with; wait for that to settle so
     // only the choice below is sent from here on.
-    await page.waitForLoadState("networkidle");
+    await storefrontSettled(page);
 
     const choosesAddress = (body: string) =>
       body.includes("shipping_address_id");
@@ -300,7 +302,7 @@ async function guestCheckout(
   // Moving focus out of the address form saves it.
   await page.getByRole("heading", { name: /shipping method/i }).click();
   await expect(chosenRate(page)).toBeVisible({ timeout: 30_000 });
-  await page.waitForLoadState("networkidle");
+  await storefrontSettled(page);
 }
 
 /** Opens checkout and waits for its one copy of the contact form. */
@@ -437,6 +439,40 @@ function actionSettled(
 }
 
 /**
+ * The storefront's own requests that have not been answered yet, for each
+ * page. Waiting for the whole network to fall quiet never ends once Stripe's
+ * script is talking to Stripe, so the tests wait for the storefront alone.
+ */
+const pendingStorefrontRequests = new WeakMap<Page, Set<Request>>();
+
+function trackStorefrontRequests(page: Page, origin: string): void {
+  const pending = new Set<Request>();
+  pendingStorefrontRequests.set(page, pending);
+  page.on("request", (request) => {
+    if (new URL(request.url()).origin === origin) pending.add(request);
+  });
+  const answered = (request: Request) => pending.delete(request);
+  page.on("requestfinished", answered);
+  page.on("requestfailed", answered);
+}
+
+/** Waits until the storefront has had no request in flight for half a second. */
+async function storefrontSettled(page: Page): Promise<void> {
+  const pending = pendingStorefrontRequests.get(page);
+  if (!pending) throw new Error("The page's requests are not tracked");
+  let quietSince = Date.now();
+  await expect
+    .poll(
+      () => {
+        if (pending.size > 0) quietSince = Date.now();
+        return Date.now() - quietSince;
+      },
+      { timeout: 30_000, intervals: [100] },
+    )
+    .toBeGreaterThanOrEqual(500);
+}
+
+/**
  * Sabotage: aborts the page's server action requests whose arguments `match`,
  * so the change they carry never reaches Spree.
  */
@@ -464,7 +500,7 @@ async function dropActionsFromNowOn(
 ): Promise<void> {
   if (afterRate) {
     await expect(chosenRate(page)).toBeVisible({ timeout: 30_000 });
-    await page.waitForLoadState("networkidle");
+    await storefrontSettled(page);
   }
   await dropActions(page, () => true);
 }
