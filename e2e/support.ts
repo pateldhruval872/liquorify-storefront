@@ -187,11 +187,12 @@ export async function addSavedAddress(
     .getByRole("complementary")
     .getByRole("link", { name: "Addresses" })
     .click();
-  const addFirst = page.getByRole("button", {
-    name: "Add Your First Address",
+  // The book's button reads differently once it holds an address.
+  const add = page.getByRole("button", {
+    name: /^(Add Your First Address|Add Address)$/,
   });
-  await waitForHydration(addFirst);
-  await addFirst.click();
+  await waitForHydration(add);
+  await add.click();
 
   const dialog = page.getByRole("dialog", { name: "Add New Address" });
   await dialog
@@ -215,37 +216,142 @@ export async function addSavedAddress(
   await expect(page.getByText(address1)).toBeVisible();
 }
 
-/** Fills checkout's shipping address form with a New York address. */
-export async function fillCheckoutAddress(page: Page): Promise<void> {
+export interface CheckoutAddress {
+  country: string;
+  firstName: string;
+  lastName: string;
+  address1: string;
+  city: string;
+  zip: string;
+  phone: string;
+  state: string;
+}
+
+export const NEW_YORK_ADDRESS: CheckoutAddress = {
+  country: "United States",
+  firstName: "Test",
+  lastName: "Buyer",
+  address1: "123 Test St",
+  city: "New York",
+  zip: "10001",
+  phone: "5555550100",
+  state: "New York",
+};
+
+/** Fills checkout's shipping address form, with a New York address unless told otherwise. */
+export async function fillCheckoutAddress(
+  page: Page,
+  address: CheckoutAddress = NEW_YORK_ADDRESS,
+): Promise<void> {
   // The Country dropdown defaults alphabetically (Canada before US) — pick
-  // United States explicitly so the rest of the test data (NY state, ZIP
-  // 10001, US phone) is valid for the selected country.
-  await page.getByLabel(/country/i).selectOption({ label: "United States" });
+  // the country explicitly so the rest of the address is valid for it.
+  await page.getByLabel(/country/i).selectOption({ label: address.country });
 
   await page
     .getByLabel(/first name/i)
     .first()
-    .fill("Test");
+    .fill(address.firstName);
   await page
     .getByLabel(/last name/i)
     .first()
-    .fill("Buyer");
+    .fill(address.lastName);
   await page
     .getByLabel(/^address$/i)
     .first()
-    .fill("123 Test St");
-  await page.getByLabel(/city/i).first().fill("New York");
+    .fill(address.address1);
+  await page.getByLabel(/city/i).first().fill(address.city);
   await page
     .getByLabel(/zip|postal code/i)
     .first()
-    .fill("10001");
-  await page.getByLabel(/phone/i).first().fill("5555550100");
+    .fill(address.zip);
+  await page.getByLabel(/phone/i).first().fill(address.phone);
 
-  // With the country pinned to US the state field is always a <select>
-  // (disabled while the states list loads). selectOption auto-waits for
-  // the control to enable and for the option to be present.
+  // For a country with states the state field is a <select>, disabled while
+  // the states list loads. selectOption auto-waits for the control to enable
+  // and for the option to be present.
   await page
     .getByLabel(/state|province/i)
     .first()
-    .selectOption({ label: "New York" });
+    .selectOption({ label: address.state });
+}
+
+/**
+ * Adds a product to the cart from its page, or the first listed product, and
+ * returns the cart drawer's checkout link.
+ */
+export async function checkoutLinkFromCartDrawer(
+  page: Page,
+  productPath?: string,
+): Promise<string> {
+  if (productPath) {
+    await page.goto(productPath);
+  } else {
+    await openFirstProduct(page, `${BASE_PATH}/products`);
+  }
+  const addButton = page.getByRole("button", { name: /add to cart/i });
+  await waitForHydration(addButton);
+  await expect(addButton).toBeEnabled({ timeout: 10_000 });
+  await addButton.click();
+
+  const checkoutLink = page
+    .getByRole("dialog", { name: /^cart/i })
+    .getByRole("link", { name: /^checkout$/i });
+  await expect(checkoutLink).toBeVisible({ timeout: 30_000 });
+  const href = await checkoutLink.getAttribute("href");
+  if (!href) throw new Error("The cart drawer's checkout link has no address");
+  return href;
+}
+
+/**
+ * Waits for the delivery rates that a saved shipping address brings, keeps
+ * the one Spree chose, pays with Check and places the order. A guest agrees
+ * to the store's policies first; a customer agreed when registering. Returns
+ * the order number the order placed page shows.
+ */
+export async function placeOrderWithCheck(
+  page: Page,
+  { guest = false } = {},
+): Promise<string> {
+  const chosenRate = page
+    .locator("#checkout-section-shipping")
+    .getByRole("radio", { checked: true });
+  await expect(chosenRate).toBeVisible({ timeout: 30_000 });
+
+  const check = page.getByRole("radio", { name: "Check", exact: true });
+  await expect(check).toBeVisible({ timeout: 30_000 });
+  await check.check();
+  await expect(check).toBeChecked();
+
+  return placeOrder(page, { guest });
+}
+
+/**
+ * Presses "Place Order", after agreeing to the store's policies for a guest,
+ * and returns the order number the order placed page shows.
+ */
+export async function placeOrder(
+  page: Page,
+  { guest = false } = {},
+): Promise<string> {
+  if (guest) {
+    await page.getByRole("checkbox", { name: /i agree/i }).check();
+  }
+  await page.getByRole("button", { name: "Place Order" }).click();
+  await page.waitForURL(/\/order-placed\//, { timeout: 60_000 });
+
+  const orderLine = page.getByText(/^Order #\S+$/);
+  await expect(orderLine).toBeVisible({ timeout: 30_000 });
+  return ((await orderLine.textContent()) ?? "").replace("Order #", "").trim();
+}
+
+/** Expects the signed-in customer's order history to list the order. */
+export async function expectInOrderHistory(
+  page: Page,
+  orderNumber: string,
+): Promise<void> {
+  await page.goto(`${BASE_PATH}/account/orders`);
+  await expect(
+    page.getByRole("heading", { level: 1, name: "Order History" }),
+  ).toBeVisible({ timeout: 30_000 });
+  await expect(page.getByText(`#${orderNumber}`)).toBeVisible();
 }
